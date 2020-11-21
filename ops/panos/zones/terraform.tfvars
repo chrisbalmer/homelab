@@ -13,6 +13,12 @@ zones = {
     name               = "management"
     management_profile = "Default L3 Profile"
   },
+  "dmz" = {
+    interface          = "ethernet1/3"
+    ips                = ["172.20.50.1/24"]
+    comment            = "dmz"
+    name               = "dmz"
+  },
   "identity" = {
     interface = "ethernet1/5"
     ips       = ["172.21.128.1/24"]
