@@ -19,6 +19,12 @@ zones = {
     comment            = "dmz"
     name               = "dmz"
   },
+  "guest" = {
+    interface          = "ethernet1/4"
+    ips                = ["172.23.2.1/24"]
+    comment            = "guest"
+    name               = "guest"
+  },
   "identity" = {
     interface = "ethernet1/5"
     ips       = ["172.21.128.1/24"]
