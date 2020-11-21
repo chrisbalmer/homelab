@@ -4,3 +4,5 @@ terraform-provider-*
 terraform.tfstate*
 rke_config_cluster.yml
 kube_config_cluster.yml
+backend.tf
+provider.tf
