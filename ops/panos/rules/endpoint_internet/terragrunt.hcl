@@ -8,6 +8,8 @@ locals {
 }
 
 terraform {
+  source = "../../../../modules/panos/applied_rules"
+
   after_hook "commit" {
     commands     = ["destroy", "apply"]
     execute      = ["bash", "${get_parent_terragrunt_dir()}/scripts/commit.sh"]

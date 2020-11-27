@@ -32,7 +32,7 @@ data "onepassword_item_login" "edgefw" {
 }
 
 module "rules" {
-  source             = "../../../../modules/panos/rules"
+  source             = "github.com/chrisbalmer/terraform-panos-rules?ref=v0.1.0"
   position_keyword   = var.position_keyword
   position_reference = var.position_reference
   rules              = var.rules

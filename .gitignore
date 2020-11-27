@@ -1,5 +1,6 @@
 .terraform/
 .terraform*
+.terragrunt*
 terraform-provider-*
 terraform.tfstate*
 rke_config_cluster.yml

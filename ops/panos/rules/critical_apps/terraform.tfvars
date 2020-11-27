@@ -8,15 +8,21 @@ position_reference = "Block High Risk Applications"
 
 rules = [
     {
-      name        = "Outbound Critical App Access"
-      action      = "allow"
-      description = "Allow all devices access to critical services on the internet."
+    name        = "Outbound Critical App Access"
+    action      = "allow"
+    description = "Allow all devices access to critical services on the internet."
 
-      destination_zones  = ["edge"]
-      applications       = ["ntp", "icmp"]
+    destination_zones  = ["edge"]
+    applications       = [
+        "ntp",
+        "icmp",
+        "whois",
+        "apple-push-notifications",
+        "ssh"
+    ]
 
-      log_setting = "Log Everything to Splunk Lab"
-      log_start   = true
-      log_end     = true
+    log_setting = "Log Everything to Splunk Lab"
+    log_start   = true
+    log_end     = true
     }
 ]
