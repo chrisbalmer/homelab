@@ -45,7 +45,7 @@ zones = {
   },
   "endpoints" = {
     interface = "ethernet1/8"
-    ips       = ["172.21.131.1/24"]
+    ips       = ["172.21.21.1/24"]
     comment   = "endpoints"
     name      = "endpoints"
   }
