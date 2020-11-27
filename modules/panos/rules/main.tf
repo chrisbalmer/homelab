@@ -1,5 +1,5 @@
 locals {
-  rules = { for rule in var.rules : rule.name => merge(var.default_rules, rule) }
+  rules = { for rule in var.rules : rule.name => merge(var.default_rule, rule) }
 }
 
 resource "panos_security_rule_group" "rules" {
@@ -33,6 +33,10 @@ resource "panos_security_rule_group" "rules" {
       file_blocking     = rule.value.profile_file_blocking
       wildfire_analysis = rule.value.profile_wildfire_analysis
       data_filtering    = rule.value.profile_data_filtering
+
+      log_setting = rule.value.log_setting
+      log_start   = rule.value.log_start
+      log_end     = rule.value.log_end
     }
   }
 }

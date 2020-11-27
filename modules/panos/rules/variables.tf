@@ -7,12 +7,12 @@ variable "position_keyword" {
 variable "position_reference" {
   description = "Required if position_keyword is one of the `above` or `below` variants, this is the name of a non-group rule to use as a reference to place this group."
   type        = string
-  default = null
+  default     = null
 }
 
 variable "rules" {}
 
-variable "default_rules" {
+variable "default_rule" {
   type = object(
     {
       name        = string
