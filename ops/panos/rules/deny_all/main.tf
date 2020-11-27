@@ -32,11 +32,14 @@ data "onepassword_item_login" "edgefw" {
 }
 
 module "rules" {
-  source   = "../../../../modules/panos/rules"
+  source           = "../../../../modules/panos/rules"
   position_keyword = "bottom"
   rules = [
     {
-      name = "log and deny all"
+      name        = "log and deny all"
+      log_setting = "Log Everything to Splunk Lab"
+      log_start   = true
+      log_end     = true
     }
   ]
 }
