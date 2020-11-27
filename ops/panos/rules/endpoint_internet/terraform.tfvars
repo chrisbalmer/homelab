@@ -12,7 +12,11 @@ rules = [
       action      = "allow"
       description = "Allow endpoints outbound access to the internet"
 
-      applications          = ["http", "ssl", "ntp"]
+      applications          = [
+        "web-browsing",
+        "ssl",
+        "ntp"
+      ]
       source_zones          = ["endpoints"]
       destination_zones     = ["edge"]
 
