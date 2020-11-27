@@ -42,6 +42,12 @@ zones = {
     ips       = ["172.21.130.1/24"]
     comment   = "loadbalancers"
     name      = "loadbalancers"
+  },
+  "endpoints" = {
+    interface = "ethernet1/8"
+    ips       = ["172.21.131.1/24"]
+    comment   = "endpoints"
+    name      = "endpoints"
   }
 }
 
