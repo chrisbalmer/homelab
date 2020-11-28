@@ -14,16 +14,16 @@ zones = {
     management_profile = "Default L3 Profile"
   },
   "dmz" = {
-    interface          = "ethernet1/3"
-    ips                = ["172.20.50.1/24"]
-    comment            = "dmz"
-    name               = "dmz"
+    interface = "ethernet1/3"
+    ips       = ["172.20.50.1/24"]
+    comment   = "dmz"
+    name      = "dmz"
   },
   "guest" = {
-    interface          = "ethernet1/4"
-    ips                = ["172.23.2.1/24"]
-    comment            = "guest"
-    name               = "guest"
+    interface = "ethernet1/4"
+    ips       = ["172.23.2.1/24"]
+    comment   = "guest"
+    name      = "guest"
   },
   "identity" = {
     interface = "ethernet1/5"
