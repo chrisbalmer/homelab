@@ -12,9 +12,11 @@ rules = [
         action      = "deny"
         description = "Block the high risk applications before allowing outbound internet for endpoints."
 
-        applications          = ["high risk applications"]
-        source_zones          = ["endpoints"]
-        destination_zones     = ["edge"]
+        applications      = ["high risk applications"]
+        source_zones      = ["endpoints"]
+        destination_zones = ["edge"]
+
+        profile_group = "balmer family farm default"
 
         log_setting = "Log Everything to Splunk Lab"
         log_start   = true
@@ -25,9 +27,11 @@ rules = [
         action      = "allow"
         description = "Allow endpoints outbound access to the internet"
 
-        source_zones          = ["endpoints"]
-        destination_zones     = ["edge"]
-        services              = ["service-http","service-https"]
+        source_zones      = ["endpoints"]
+        destination_zones = ["edge"]
+        services          = ["service-http","service-https"]
+
+        profile_group = "balmer family farm default"
 
         log_setting = "Log Everything to Splunk Lab"
         log_start   = true
