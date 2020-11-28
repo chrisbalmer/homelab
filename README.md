@@ -18,10 +18,20 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
 - [ ] Determine how to handle relay on PanOS
 - [ ] Move in Zeek build to this repo
 
+## Setup
+
+To avoid connectivity issues with the PANOS API, set this environment variable:
+
+```bash
+export TERRAGRUNT_PARALLELISM=1
+```
+
 ## Related GitHub Repositories
 
 - Terraform
   - [PanOS Zone Module](https://github.com/chrisbalmer/terraform-panos-zone)
+  - [PanOS Rules Module](https://github.com/chrisbalmer/terraform-panos-rules)
+  - [PanOS Objects Module](https://github.com/chrisbalmer/terraform-panos-objects)
   - [vSphere VM Module](https://github.com/chrisbalmer/terraform-vsphere-vm)
 
 ## License
