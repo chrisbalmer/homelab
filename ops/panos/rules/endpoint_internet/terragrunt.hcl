@@ -16,3 +16,13 @@ terraform {
     run_on_error = false
   }
 }
+
+dependency "objects" {
+  config_path = "${get_parent_terragrunt_dir()}/ops/panos/objects"
+  skip_outputs = true
+}
+
+dependency "objects" {
+  config_path = "${get_parent_terragrunt_dir()}/ops/panos/objects"
+  skip_outputs = true
+}
