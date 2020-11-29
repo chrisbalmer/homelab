@@ -32,8 +32,9 @@ data "onepassword_item_login" "edgefw" {
 }
 
 module "objects" {
-  source = "github.com/chrisbalmer/terraform-panos-objects?ref=v0.1.0"
+  source = "github.com/chrisbalmer/terraform-panos-objects?ref=v0.2.4"
 
-  tags      = var.tags
-  addresses = var.addresses
+  tags           = var.tags
+  addresses      = var.addresses
+  address_groups = var.address_groups
 }
