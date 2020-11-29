@@ -4,20 +4,21 @@ op_vault        = "homelab"
 op_edgefw_login = "edge-firewall-1-terraform"
 
 position_keyword   = "before"
-position_reference = "Block High Risk Applications"
+position_reference = "Outbound Critical App Access"
 
 rules = [
   {
-    name        = "Outbound Critical App Access"
+    name        = "PANOS App Access"
     action      = "allow"
-    description = "Allow all devices access to critical services on the internet."
+    description = "Allow PANOS devices access to required apps like updates and wildfire."
 
+    source_addresses  = ["palo alto firewalls"]
     destination_zones = ["edge"]
     applications = [
-      "ntp",
-      "icmp",
-      "whois",
-      "ssh"
+      "paloalto-dns-security",
+      "paloalto-updates",
+      "paloalto-wildfire-cloud",
+      "pan-db-cloud"
     ]
 
     profile_group = "balmer family farm default"

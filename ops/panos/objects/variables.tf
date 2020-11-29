@@ -18,3 +18,5 @@ variable "op_edgefw_login" {
 variable "tags" {}
 
 variable "addresses" {}
+
+variable "address_groups" {}

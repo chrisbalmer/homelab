@@ -23,6 +23,28 @@ rules = [
     log_end     = true
   },
   {
+    name        = "Outbound Non HTTP or HTTPS Endpoint Applications"
+    action      = "allow"
+    description = "Allow specific endpoint applications"
+
+    applications      = [
+      "discord",
+      "rtp",
+      "rtcp",
+      "quic",
+      "apple-push-notifications",
+      "facetime"
+    ]
+    source_zones      = ["endpoints"]
+    destination_zones = ["edge"]
+
+    profile_group = "balmer family farm default"
+
+    log_setting = "Log Everything to Splunk Lab"
+    log_start   = true
+    log_end     = true
+  },
+  {
     name        = "Endpoint Internet Access"
     action      = "allow"
     description = "Allow endpoints outbound access to the internet"
