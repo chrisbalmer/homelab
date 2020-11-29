@@ -4,20 +4,24 @@ tags = [
     comment = "Firewalls made by Palo Alto"
   },
   {
-    name = "external syslog source"
+    name    = "external syslog source"
     comment = "Systems from the outside sending syslog in"
   },
   {
-    name = "syslog server"
+    name    = "syslog server"
     comment = "Server for receiving syslog data"
   },
   {
-    name = "centos server"
+    name    = "centos server"
     comment = "Server running the CentOS operating system"
   },
   {
-    name = "black box"
+    name    = "black box"
     comment = "System that runs a black box operating system (i.e. we don't control it)"
+  },
+  {
+    name = "service group"
+    comment = "PanOS provider may have a bug requiring a tag for a service group"
   }
 ]
 
@@ -28,14 +32,14 @@ addresses = [
     tags  = ["palo alto firewall", "black box"]
   },
   {
-    name = "edgerouter1"
+    name  = "edgerouter1"
     value = "172.20.20.253"
-    tags = ["external syslog source", "black box"]
+    tags  = ["external syslog source", "black box"]
   },
   {
-    name = "opscriblmgr1"
+    name  = "opscriblmgr1"
     value = "172.21.14.161"
-    tags = ["syslog server", "centos server"]
+    tags  = ["syslog server", "centos server"]
   }
 
 ]
@@ -46,12 +50,35 @@ address_groups = [
     dynamic_match = "'palo alto firewall'"
   },
   {
-    name = "external syslog sources"
+    name          = "external syslog sources"
     dynamic_match = "'external syslog source'"
   },
   {
-    name = "syslog servers"
+    name          = "syslog servers"
     dynamic_match = "'syslog server'"
+  }
+]
+
+services = [
+  {
+    name = "syslog-tcp-514"
+    protocol = "tcp"
+    destination_port = "514"
+  },
+  {
+    name = "syslog-udp-514"
+    protocol = "udp"
+    destination_port = "514"
+  }
+]
+
+service_groups = [
+  {
+    name = "syslog"
+    services = [
+      "syslog-tcp-514",
+      "syslog-udp-514"
+    ]
   }
 ]
 

@@ -20,3 +20,7 @@ variable "tags" {}
 variable "addresses" {}
 
 variable "address_groups" {}
+
+variable "services" {}
+
+variable "service_groups" {}
