@@ -27,12 +27,14 @@ rules = [
     action      = "allow"
     description = "Allow specific endpoint applications"
 
-    applications      = [
+    applications = [
       "discord",
       "rtp",
       "rtcp",
       "quic",
+      "zoom-meeting",
       "apple-push-notifications",
+      "stun",
       "facetime"
     ]
     source_zones      = ["endpoints"]
