@@ -20,8 +20,12 @@ tags = [
     comment = "System that runs a black box operating system (i.e. we don't control it)"
   },
   {
-    name = "service group"
+    name    = "service group"
     comment = "PanOS provider may have a bug requiring a tag for a service group"
+  },
+  {
+    name    = "cribl site"
+    comment = "Sites that Cribl may need to connect to"
   }
 ]
 
@@ -40,8 +44,13 @@ addresses = [
     name  = "opscriblmgr1"
     value = "172.21.14.161"
     tags  = ["syslog server", "centos server"]
+  },
+  {
+    name  = "cdn.cribl.io"
+    value = "cdn.cribl.io"
+    type  = "fqdn"
+    tags  = ["cribl site"]
   }
-
 ]
 
 address_groups = [
@@ -56,18 +65,23 @@ address_groups = [
   {
     name          = "syslog servers"
     dynamic_match = "'syslog server'"
+  },
+  {
+    name          = "cribl sites"
+    dynamic_match = "'cribl site'"
+    description   = "Sites Cribl has to connect to in order to function"
   }
 ]
 
 services = [
   {
-    name = "syslog-tcp-514"
-    protocol = "tcp"
+    name             = "syslog-tcp-514"
+    protocol         = "tcp"
     destination_port = "514"
   },
   {
-    name = "syslog-udp-514"
-    protocol = "udp"
+    name             = "syslog-udp-514"
+    protocol         = "udp"
     destination_port = "514"
   }
 ]
