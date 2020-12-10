@@ -26,10 +26,19 @@ tags = [
   {
     name    = "cribl site"
     comment = "Sites that Cribl may need to connect to"
+  },
+  {
+    name    = "edge"
+    comment = "Devices in the edge network"
   }
 ]
 
 addresses = [
+  {
+    name  = "edge network"
+    value = "172.20.20.0/24"
+    tags  = ["edge"]
+  },
   {
     name  = "edgefw1"
     value = "172.21.7.4"
