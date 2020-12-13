@@ -34,6 +34,10 @@ export TERRAGRUNT_PARALLELISM=1
   - [PanOS Objects Module](https://github.com/chrisbalmer/terraform-panos-objects)
   - [vSphere VM Module](https://github.com/chrisbalmer/terraform-vsphere-vm)
 
+## Random Notes
+
+- Port forwarding for vCenter: `sudo ssh -L 127.0.0.1:443:172.21.7.50:443 chrisbalmer@lsasensor.local`
+
 ## License
 
 MIT
