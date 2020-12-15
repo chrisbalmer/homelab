@@ -14,11 +14,28 @@ variable "op_vcenter_login" {
   type = string
 }
 
-variable "distributed_switches" {}
+variable "name" {
+  type = string
+}
 variable "port_groups" {}
 variable "datacenter" {
   type = string
 }
 variable "hosts" {
-  type = list(string)
+  type = list(object(
+    {
+      name    = string
+      devices = list(string)
+    }
+  ))
+}
+
+variable "nioc" {
+  type    = bool
+  default = true
+}
+
+variable "ldo" {
+  type    = string
+  default = "both"
 }
