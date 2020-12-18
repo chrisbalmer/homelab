@@ -30,6 +30,14 @@ tags = [
   {
     name    = "edge"
     comment = "Devices in the edge network"
+  },
+  {
+    name = "dns server"
+    comment = "Serves DNS for the network"
+  },
+  {
+    name = "domain controller"
+    comment = "Provides Active Directory services for the network"
   }
 ]
 
@@ -59,6 +67,11 @@ addresses = [
     value = "cdn.cribl.io"
     type  = "fqdn"
     tags  = ["cribl site"]
+  },
+  {
+    name = "opsad1"
+    value = "172.21.7.254"
+    tags = ["domain controller", "dns server"]
   }
 ]
 
@@ -79,6 +92,14 @@ address_groups = [
     name          = "cribl sites"
     dynamic_match = "'cribl site'"
     description   = "Sites Cribl has to connect to in order to function"
+  },
+  {
+    name = "dns servers"
+    dynamic_match = "'dns server'"
+  },
+  {
+    name = "domain controllers"
+    dynamic_match = "'domain controller'"
   }
 ]
 
