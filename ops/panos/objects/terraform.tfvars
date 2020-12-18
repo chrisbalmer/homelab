@@ -38,6 +38,14 @@ tags = [
   {
     name = "domain controller"
     comment = "Provides Active Directory services for the network"
+  },
+  {
+    name = "vcenter"
+    comment = "vCenter Server"
+  },
+  {
+    name = "vcenter update domain"
+    comment = "Domain used for updating vCenter"
   }
 ]
 
@@ -72,6 +80,23 @@ addresses = [
     name = "opsad1"
     value = "172.21.7.254"
     tags = ["domain controller", "dns server"]
+  },
+  {
+    name = "opsvcenter1"
+    value = "172.21.7.50"
+    tags = ["vcenter"]
+  },
+  {
+    name  = "vapp-updates.vmware.com"
+    value = "vapp-updates.vmware.com"
+    type  = "fqdn"
+    tags  = ["vcenter update domain"]
+  },
+  {
+    name  = "hostupdate.vmware.com"
+    value = "hostupdate.vmware.com"
+    type  = "fqdn"
+    tags  = ["vcenter update domain"]
   }
 ]
 
@@ -100,6 +125,15 @@ address_groups = [
   {
     name = "domain controllers"
     dynamic_match = "'domain controller'"
+  },
+  {
+    name = "vcenter servers"
+    dynamic_match = "'vcenter'"
+  },
+  {
+    name          = "vcenter update domains"
+    dynamic_match = "'vcenter update domain'"
+    description   = "Domains vCenter has to connect to in order to update"
   }
 ]
 
