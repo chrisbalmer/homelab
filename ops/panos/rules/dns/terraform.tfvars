@@ -8,6 +8,23 @@ position_reference = "Outbound Cribl Telemetry"
 
 rules = [
   {
+    name        = "Internal DNS"
+    action      = "allow"
+    description = "Allow internal systems access to the DNS servers."
+
+    source_addresses = ["internal network systems"]
+    destination_addresses = ["dns servers"]
+    applications = [
+      "dns"
+    ]
+
+    profile_group = "balmer family farm default"
+
+    log_setting = "Log Everything to Splunk Lab"
+    log_start   = true
+    log_end     = true
+  },
+  {
     name        = "Outbound DNS"
     action      = "allow"
     description = "Allow DNS outbound for DNS servers."

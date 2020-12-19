@@ -32,20 +32,36 @@ tags = [
     comment = "Devices in the edge network"
   },
   {
-    name = "dns server"
+    name    = "dns server"
     comment = "Serves DNS for the network"
   },
   {
-    name = "domain controller"
+    name    = "domain controller"
     comment = "Provides Active Directory services for the network"
   },
   {
-    name = "vcenter"
+    name    = "vcenter"
     comment = "vCenter Server"
   },
   {
-    name = "vcenter update domain"
+    name    = "vcenter update domain"
     comment = "Domain used for updating vCenter"
+  },
+  {
+    name    = "truenas server"
+    comment = "TrueNAS/FreeNAS server"
+  },
+  {
+    name    = "nas"
+    comment = "NAS system"
+  },
+  {
+    name    = "truenas update domain"
+    comment = "Domain used for updating TrueNAS and FreeNAS"
+  },
+  {
+    name    = "internal network"
+    comment = "Items part of the internal network"
   }
 ]
 
@@ -77,14 +93,14 @@ addresses = [
     tags  = ["cribl site"]
   },
   {
-    name = "opsad1"
+    name  = "opsad1"
     value = "172.21.7.254"
-    tags = ["domain controller", "dns server"]
+    tags  = ["domain controller", "dns server"]
   },
   {
-    name = "opsvcenter1"
+    name  = "opsvcenter1"
     value = "172.21.7.50"
-    tags = ["vcenter"]
+    tags  = ["vcenter"]
   },
   {
     name  = "vapp-updates.vmware.com"
@@ -97,6 +113,27 @@ addresses = [
     value = "hostupdate.vmware.com"
     type  = "fqdn"
     tags  = ["vcenter update domain"]
+  },
+  {
+    name  = "opsnas1 legacy address"
+    value = "172.21.14.36"
+    tags  = ["nas", "truenas server"]
+  },
+  {
+    name  = "opsnas1 management address"
+    value = "172.21.7.36"
+    tags  = ["nas", "truenas server"]
+  },
+  {
+    name  = "update-master.ixsystems.com"
+    value = "update-master.ixsystems.com"
+    type  = "fqdn"
+    tags  = ["truenas update domain"]
+  },
+  {
+    name  = "internal network"
+    value = "172.21.0.0/16"
+    tags  = ["internal network"]
   }
 ]
 
@@ -119,21 +156,40 @@ address_groups = [
     description   = "Sites Cribl has to connect to in order to function"
   },
   {
-    name = "dns servers"
+    name          = "dns servers"
     dynamic_match = "'dns server'"
   },
   {
-    name = "domain controllers"
+    name          = "domain controllers"
     dynamic_match = "'domain controller'"
   },
   {
-    name = "vcenter servers"
+    name          = "vcenter servers"
     dynamic_match = "'vcenter'"
   },
   {
     name          = "vcenter update domains"
     dynamic_match = "'vcenter update domain'"
     description   = "Domains vCenter has to connect to in order to update"
+  },
+  {
+    name          = "truenas servers"
+    dynamic_match = "'truenas server'"
+  },
+  {
+    name          = "nas servers"
+    dynamic_match = "'nas'"
+    description   = "NAS servers"
+  },
+  {
+    name          = "truenas update domains"
+    dynamic_match = "'truenas update domain'"
+    description   = "Domains TrueNAS/FreeNAS has to connect to in order to update"
+  },
+  {
+    name          = "internal network systems"
+    dynamic_match = "'internal network'"
+    description   = "Systems on the internal network"
   }
 ]
 
