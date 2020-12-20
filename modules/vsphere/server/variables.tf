@@ -1,6 +1,27 @@
+variable "name" {
+  type = string
+}
+
+variable "vm_count" {
+  type    = number
+  default = 1
+}
+
+variable "prefix" {
+  type    = string
+  default = "ops"
+}
+
 variable "vm" {}
 
-variable "cluster_settings" {}
+variable "cluster_settings" {
+
+  default = {
+    datacenter = "farm"
+    cluster    = "operations"
+    pool       = "operations/Resources"
+  }
+}
 
 variable "op_subdomain" {
   description = "The subdomain for your 1Password account."
