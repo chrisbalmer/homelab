@@ -26,6 +26,28 @@ To avoid connectivity issues with the PANOS API, set this environment variable:
 export TERRAGRUNT_PARALLELISM=1
 ```
 
+## Dependency Order
+
+- Manual steps (to be futher automated...)
+  - Physical switches
+  - ESXi
+  - vCenter deployment
+  - Firewall deployment
+  - Firewall basic config for management (can this be bootstrapped, cloud-init or?)
+  - NAS deployment
+- Automated steps
+  - PanOS
+    - Objects
+    - Zones
+    - Rules
+  - vSphere
+    - Switching
+  - Servers
+    - Linux Repo
+    - DHCP
+    - AWX
+    - PacketFence
+
 ## Related GitHub Repositories
 
 - Terraform

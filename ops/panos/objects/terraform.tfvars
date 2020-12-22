@@ -62,6 +62,14 @@ tags = [
   {
     name    = "internal network"
     comment = "Items part of the internal network"
+  },
+  {
+    name = "linux repo domain"
+    comment = "Domains used for updating Linux systems"
+  },
+  {
+    name = "linux repo server"
+    comment = "Server used for updating Linux systems"
   }
 ]
 
@@ -134,6 +142,23 @@ addresses = [
     name  = "internal network"
     value = "172.21.0.0/16"
     tags  = ["internal network"]
+  },
+  {
+    name = "opsrepo1"
+    value = "172.21.129.4"
+    tags = ["linux repo server"]
+  },
+  {
+    name = "mirror.liquidtelecom.com"
+    value = "mirror.liquidtelecom.com"
+    type = "fqdn"
+    tags = ["linux repo domain"]
+  },
+  {
+    name = "mirrors.liquidweb.com"
+    value = "mirrors.liquidweb.com"
+    type = "fqdn"
+    tags = ["linux repo domain"]
   }
 ]
 
@@ -190,6 +215,16 @@ address_groups = [
     name          = "internal network systems"
     dynamic_match = "'internal network'"
     description   = "Systems on the internal network"
+  },
+  {
+    name = "linux repo servers"
+    dynamic_match = "'linux repo server'"
+    description = "Servers used to update Linux systems"
+  },
+  {
+    name = "linux repo domains"
+    dynamic_match = "'linux repo domain'"
+    description = "Domains used by the Linux repo servers to pull down updates for their repos"
   }
 ]
 
