@@ -17,7 +17,8 @@ rules = [
     destination_addresses = ["linux repo domains"]
     applications = [
       "yum",
-      "ssl"
+      "ssl",
+      "rsync"
     ]
 
     profile_group = "balmer family farm default"
@@ -35,7 +36,6 @@ rules = [
     destination_zones     = ["servers"]
     destination_addresses = ["linux repo servers"]
     applications = [
-      "rsync",
       "ssl",
       "yum"
     ]
