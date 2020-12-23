@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -f /var/lock/subsys/rsync_updates ]; then
+    echo "Updates via rsync already running."
+    exit 0
+fi
+
+touch /var/lock/subsys/rsync_updates
+
+{% for repo in repositories %}
+rsync  -avSHP --delete rsync://{{ repo.url }} "{{ repository_root }}/{{ repo.directory}}/"
+{% endfor %}
+{% for key in keys %}
+rsync  -avSHP --delete rsync://{{ key.url }}  "{{ repository_root }}/{{ key.directory}}/"
+{% endfor %}
+
+rm -rf /var/lock/subsys/rsync_updates
