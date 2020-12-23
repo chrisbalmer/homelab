@@ -95,3 +95,17 @@
         owner: nginx
         group: nginx
         mode: 0500
+
+    - name: Cronjob to run sync
+      cron:
+        name: "sync repos"
+        minute: "00"
+        hour: "01"
+        job: "{{ repository_root }}/sync.sh > /tmp/sync.log"
+        user: nginx
+
+    - name: Open firewall port for http
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        state: enabled
