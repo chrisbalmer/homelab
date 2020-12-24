@@ -24,5 +24,10 @@ networks = [
 
 vm = {
   gateway = "172.21.129.1"
-  disks = [{ template = true }]
+  disks   = [{ template = true }]
 }
+
+ansible_groups = [
+  { name = "dhcp" }
+]
+ansible_host_key_check = false

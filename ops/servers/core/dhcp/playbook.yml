@@ -1,0 +1,46 @@
+- name: Install DHCP Servers
+  hosts: dhcp
+  gather_facts: yes
+  become: yes
+  pre_tasks:
+   # Setup local repos so we can download files
+    - name: Find default repo configs
+      find:
+        paths: 
+          - /etc/yum.repos.d/
+        patterns:
+          - "CentOS-*"
+          - "epel*"
+      register: files_to_delete
+
+    - name: Remove default repo configs
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ files_to_delete.files }}"
+    - name: "Add YUM repos"
+      yum_repository:
+        name: "{{ item.name }}"
+        baseurl: "{{ item.protocol }}://{{ item.url }}"
+        description: "{{ item.description }}"
+        enabled: yes
+        ip_resolve: IPv4
+      with_items: "{{ mirrors }}"
+    - name: Open dhcp service ports
+      ansible.posix.firewalld:
+        service: dhcp
+        permanent: true
+        state: enabled
+        immediate: yes
+    - name: Open failover ports
+      ansible.posix.firewalld:
+        port: "{{ item }}/tcp"
+        permanent: true
+        state: enabled
+        immediate: yes
+      with_items:
+        - 647
+        - 847
+  roles:
+    - chrisbalmer.ansible-isc-dhcp
+    
