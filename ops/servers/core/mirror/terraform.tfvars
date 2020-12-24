@@ -1,7 +1,7 @@
-name        = "repo"
+name        = "mirror"
 vm_count    = 1
 prefix      = "ops"
-op_vm_login = "Repository Instances"
+op_vm_login = "Mirror Instances"
 
 vm = {
   gateway = "172.21.129.1"
@@ -23,5 +23,5 @@ vm = {
 }
 
 ansible_groups = [
-  { name = "repo" }
+  { name = "mirrors" }
 ]

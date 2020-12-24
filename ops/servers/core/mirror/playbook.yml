@@ -1,18 +1,15 @@
-- name: Install Repo Servers
-  hosts: all
+- name: Install Mirror Servers
+  hosts: mirrors
   gather_facts: yes
   become: yes
   vars:
-    repository_root: /var/repositories
-    repository_directories:
-      - centos
-      - epel
+    mirror_root: /usr/share/nginx/html
     repositories:
       - name: ansible_base
         description: CentOS-7 - Base
         protocol: https
         url: "mirror.liquidtelecom.com/centos/7/os/x86_64/"
-        directory: centos/7/base/x86_64
+        directory: centos/7/os/x86_64
       - name: ansible_updates
         description: CentOS-7 - Updates
         protocol: https
@@ -55,7 +52,7 @@
         state: absent
       with_items: "{{ files_to_delete.files }}"
 
-    - name: "CentOS: core"
+    - name: "YUM Repos"
       yum_repository:
         name: "{{ item.name }}"
         baseurl: "{{ item.protocol }}://{{ item.url }}"
@@ -65,33 +62,32 @@
       with_items: "{{ repositories }}"
 
     # Setup web hosting
-    - name: Install nginx to host repo
+    - name: Install nginx to host mirror
       package:
         name: nginx
         state: latest
+    
+    - name: Turn on nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
 
     # Setup directory for files
-    - name: Repo directories
+    - name: Mirror directories
       file:
-        path: "{{ repository_root }}/{{ item.directory }}"
+        path: "{{ mirror_root }}/{{ item.directory }}"
         state: directory
         recurse: yes
         owner: nginx
         group: nginx
       with_items: "{{ repositories }}"
 
-    - name: Link repository directory to nginx root
-      file:
-        path: "/usr/share/nginx/html/{{ item }}"
-        src: "{{ repository_root }}/{{ item }}"
-        state: link
-      with_items: "{{ repository_directories }}"
-
     # Setup downloads
     - name: Sync script
       template:
         src: templates/sync.sh.j2
-        dest: "{{ repository_root }}/sync.sh"
+        dest: "{{ mirror_root }}/sync.sh"
         owner: nginx
         group: nginx
         mode: 0500
@@ -101,7 +97,7 @@
         name: "sync repos"
         minute: "00"
         hour: "01"
-        job: "{{ repository_root }}/sync.sh > /tmp/sync.log"
+        job: "{{ mirror_root }}/sync.sh > /tmp/sync.log"
         user: nginx
 
     - name: Open firewall port for http
@@ -109,3 +105,4 @@
         service: http
         permanent: true
         state: enabled
+        immediate: yes
