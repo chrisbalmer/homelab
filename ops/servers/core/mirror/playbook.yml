@@ -52,7 +52,7 @@
         state: absent
       with_items: "{{ files_to_delete.files }}"
 
-    - name: "YUM Repos"
+    - name: "Add YUM repos"
       yum_repository:
         name: "{{ item.name }}"
         baseurl: "{{ item.protocol }}://{{ item.url }}"

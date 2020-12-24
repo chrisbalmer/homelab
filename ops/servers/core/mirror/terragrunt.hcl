@@ -8,5 +8,5 @@ locals {
 }
 
 terraform {
-  source = "github.com/chrisbalmer/terraform-vsphere-server//?ref=v0.3.2"
+  source = "github.com/chrisbalmer/terraform-vsphere-server//?ref=v0.4.0"
 }
