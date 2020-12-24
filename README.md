@@ -31,6 +31,8 @@ export TERRAGRUNT_PARALLELISM=1
 - Manual steps (to be futher automated...)
   - Physical switches
   - ESXi
+  - Initial DNS server
+  - Initial AD server
   - vCenter deployment
   - Firewall deployment
   - Firewall basic config for management (can this be bootstrapped, cloud-init or?)
