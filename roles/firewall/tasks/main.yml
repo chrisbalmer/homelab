@@ -1,0 +1,15 @@
+---
+- name: Open firewall services
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+    immediate: yes
+  with_items: "{{ firewall_services }}"
+- name: Open firewall portss
+  ansible.posix.firewalld:
+    port: "{{ item }}"
+    permanent: true
+    state: enabled
+    immediate: yes
+  with_items: "{{ firewall_ports }}"

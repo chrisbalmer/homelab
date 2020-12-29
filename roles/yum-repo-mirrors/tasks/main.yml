@@ -1,0 +1,38 @@
+---
+- name: Install nginx to host mirror
+  package:
+    name: nginx
+    state: latest
+  
+- name: Turn on nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+# Setup directory for files
+- name: Mirror directories
+  file:
+    path: "{{ mirror_root }}/{{ item.directory }}"
+    state: directory
+    recurse: yes
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
+  with_items: "{{ repositories }}"
+
+# Setup downloads
+- name: Sync script
+  template:
+    src: templates/sync.sh.j2
+    dest: "{{ mirror_root }}/sync.sh"
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
+    mode: 0500
+
+- name: Cronjob to run sync
+  cron:
+    name: "sync repos"
+    minute: "00"
+    hour: "01"
+    job: "{{ mirror_root }}/sync.sh > /tmp/sync.log"
+    user: "{{ nginx_user }}"

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ -f /tmp/rsync_updates ]; then
+    echo "Updates via rsync already running."
+    exit 0
+fi
+
+touch /tmp/rsync_updates
+
+{% for repo in repositories %}
+rsync  -avSHP --delete rsync://{{ repo.url }} "{{ mirror_root }}/{{ repo.directory}}/"
+{% endfor %}
+{% for key in keys %}
+rsync  -avSHP --delete rsync://{{ key.url }}  "{{ mirror_root }}/{{ key.directory}}/"
+{% endfor %}
+
+rm -rf /tmp/rsync_updates
