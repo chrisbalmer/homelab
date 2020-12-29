@@ -16,6 +16,7 @@ rules = [
     applications = [
       "ntp",
       "icmp",
+      "ping",
       "whois",
       "ssh"
     ]
