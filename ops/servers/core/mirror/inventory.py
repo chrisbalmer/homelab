@@ -1,1 +1,0 @@
-../../../../scripts/terragrunt-inventory.py
