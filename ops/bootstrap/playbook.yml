@@ -1,0 +1,6 @@
+- name: Install bootstrap configs
+  hosts: bootstrap
+  gather_facts: yes
+  become: yes
+  roles:
+    - ../../roles/yum-repo-mirrors
