@@ -3,7 +3,6 @@ isc_dhcp_authoritative: yes
 isc_dhcp_enable_dhcp_failover: yes
 isc_dhcp_name_servers:
   - 172.21.7.254
-  - 172.21.128.254
 isc_dhcp_domain_name: ad.balmerfamilyfarm.com
 isc_dhcp_pri_domain_name: ad.balmerfamilyfarm.com
 isc_dhcp_failover_info:

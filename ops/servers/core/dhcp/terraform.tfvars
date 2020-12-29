@@ -9,6 +9,7 @@ networks = [
       interface    = "ens160"
       port_group   = "vlan129-servers"
       ipv4_address = "172.21.129.2/24"
+      gateway      = "172.21.129.1"
       nameservers  = "172.21.7.254,172.21.128.254"
     }
   ],
@@ -17,6 +18,7 @@ networks = [
       interface    = "ens160"
       port_group   = "vlan129-servers"
       ipv4_address = "172.21.129.3/24"
+      gateway      = "172.21.129.1"
       nameservers  = "172.21.7.254,172.21.128.254"
     }
   ]
@@ -25,6 +27,7 @@ networks = [
 vm = {
   gateway = "172.21.129.1"
   disks   = [{ template = true }]
+  memory  = 2048
 }
 
 ansible_groups = [
