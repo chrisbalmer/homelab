@@ -422,9 +422,9 @@ def _check_terragrunt():
         tg_command = [TERRAGRUNT_PATH, 'terragrunt-info']
         proc_tg_cmd = Popen(tg_command, cwd=working_directory,
                             stdout=PIPE, stderr=PIPE, universal_newlines=True)
-        out_cmd, err_cmd = proc_tg_cmd.communicate()
+        out_cmd, _ = proc_tg_cmd.communicate()
         tg_config = json.loads(out_cmd)
-        return tg_config['WorkingDir']
+        return tg_config['WorkingDir'] 
     else:
         return working_directory
             
