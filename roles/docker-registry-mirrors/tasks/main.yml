@@ -1,0 +1,26 @@
+---
+- name: Install required packages for mirroring
+  package:
+    name: "{{ mirror_packages }}"
+    state: latest
+
+- name: Log into private registry
+  community.general.docker_login:
+    registry_url: "{{ registry_server }}:{{ registry_port }}"
+    username: "{{ registry_username }}"
+    password: "{{ registry_password }}"
+
+- name: Pull needed images
+  community.general.docker_image:
+    name: "{{ item.name }}:{{ item.tag }}"
+    source: pull
+  with_items: "{{ docker_images }}"
+
+- name: Tag and push images to local registry
+  community.general.docker_image:
+    name: "{{ item.name }}"
+    repository: "{{ registry_server }}:{{ registry_port }}/{{ item.name }}"
+    tag: "{{ item.tag }}"
+    push: yes
+    source: local
+  with_items: "{{ docker_images }}"

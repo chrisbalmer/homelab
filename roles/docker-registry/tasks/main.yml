@@ -1,2 +1,29 @@
 ---
-# tasks file for ansible-docker-registry
+- name: Install docker-registry packages
+  package:
+    name: "{{ registry_packages }}"
+    state: latest
+
+- name: Configure docker-registry
+  template:
+    src: config.yml.j2
+    dest: "{{ registry_config_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart docker-registry
+
+- name: Add a user to a password file and ensure permissions are set
+  community.general.htpasswd:
+    path: "{{ htpasswd_path }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    crypt_scheme: bcrypt
+  with_items: "{{ registry_users }}"
+
+- name: Enable docker-registry
+  service:
+    name: docker-registry
+    state: started
+    enabled: yes

@@ -1,0 +1,15 @@
+---
+mirror_packages:
+  - docker
+
+registry_server: mirror.balmerfamilyfarm.com
+registry_port: 5000
+registry_username: chrisbalmer
+registry_password: lookup('community.general.onepassword', 'mirror.balmerfamilyfarm.com - docker')
+
+docker_images:
+  - name: pihole/pihole
+    tag: v5.3.4
+  - name: cloudflare/cloudflared
+    tag: 2020.12.0
+
