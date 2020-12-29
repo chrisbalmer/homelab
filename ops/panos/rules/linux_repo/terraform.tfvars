@@ -18,7 +18,9 @@ rules = [
     applications = [
       "yum",
       "ssl",
-      "rsync"
+      "rsync",
+      "apt-get",
+      "web-browsing"
     ]
 
     profile_group = "balmer family farm default"
@@ -33,11 +35,12 @@ rules = [
     description = "Allow Linux servers access to internal repo servers."
 
     source_addresses = ["internal network systems"]
-    destination_zones     = ["servers"]
+    destination_zones     = ["management"]
     destination_addresses = ["linux repo servers"]
     applications = [
       "ssl",
-      "yum"
+      "yum",
+      "apt-get"
     ]
 
     profile_group = "balmer family farm default"

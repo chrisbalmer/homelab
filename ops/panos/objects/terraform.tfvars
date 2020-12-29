@@ -106,6 +106,16 @@ addresses = [
     tags  = ["domain controller", "dns server"]
   },
   {
+    name  = "opsdns1"
+    value = "172.21.7.253"
+    tags  = ["dns server"]
+  },
+  {
+    name  = "opsdns2"
+    value = "172.21.129.253"
+    tags  = ["dns server"]
+  },
+  {
     name  = "opsvcenter1"
     value = "172.21.7.50"
     tags  = ["vcenter"]
@@ -159,6 +169,56 @@ addresses = [
     value = "mirrors.liquidweb.com"
     type = "fqdn"
     tags = ["linux repo domain"]
+  },
+  {
+    name = "download.docker.com"
+    value = "download.docker.com"
+    type = "fqdn"
+    tags = ["linux repo domain"]
+  },
+  {
+    name = "registry-1.docker.io"
+    value = "registry-1.docker.io"
+    type = "fqdn"
+    tags = ["linux repo domain"]
+  },
+  {
+    name = "production.cloudflare.docker.com"
+    value = "production.cloudflare.docker.com"
+    type = "fqdn"
+    tags = ["linux repo domain"]
+  },
+  {
+    name = "ubuntu.com"
+    value = "ubuntu.com"
+    type = "fqdn"
+    tags = ["linux repo domain"]
+  },
+  {
+    name = "security.ubuntu.com"
+    value = "security.ubuntu.com"
+    type = "fqdn"
+    tags = ["linux repo domain"]
+  },
+  {
+    name = "ca.archive.ubuntu.com"
+    value = "ca.archive.ubuntu.com"
+    type = "fqdn"
+    tags = ["linux repo domain"]
+  },
+  {
+    name = "changelogs.ubuntu.com"
+    value = "changelogs.ubuntu.com"
+    type = "fqdn"
+    tags = ["linux repo domain"]
+  },
+  {
+    name = "bootstrap"
+    value = "172.21.7.211"
+    tags = [
+      "linux repo server",
+      "dns server"
+    ]
   }
 ]
 
