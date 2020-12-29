@@ -1,3 +1,9 @@
+firewall_services:
+  - dhcp
+firewall_ports:
+  - 647/tcp
+  - 847/tcp
+
 isc_dhcp_config_dhcp: yes
 isc_dhcp_authoritative: yes
 isc_dhcp_enable_dhcp_failover: yes

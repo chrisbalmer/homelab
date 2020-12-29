@@ -1,8 +1,7 @@
-- name: Install DHCP Servers
-  hosts: dhcp
+- name: Setup PiHole
+  hosts: dns
   gather_facts: yes
   become: yes
   roles:
     - ../../../../roles/firewall
     - ../../../../roles/yum-repos
-    - chrisbalmer.ansible-isc-dhcp
