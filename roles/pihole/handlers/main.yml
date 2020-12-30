@@ -1,2 +1,7 @@
 ---
-# handlers file for pihole
+- name: Restart PiHole
+  community.general.docker_container:
+    name: "{{ pihole_name }}"
+    state: started
+    restart: yes
+    container_default_behavior: no_defaults
