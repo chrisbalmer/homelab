@@ -11,6 +11,8 @@
     path: "{{ item.path }}"
     state: absent
   with_items: "{{ files_to_delete.files }}"
+  loop_control:
+    label: "{{ item.path }}"
 
 - name: "Add YUM repos"
   yum_repository:
@@ -20,3 +22,5 @@
     enabled: yes
     ip_resolve: IPv4
   with_items: "{{ mirrors }}"
+  loop_control:
+    label: "{{ item.description }}"

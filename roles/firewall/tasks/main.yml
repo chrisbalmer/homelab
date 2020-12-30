@@ -5,11 +5,12 @@
     permanent: true
     state: enabled
     immediate: yes
-  with_items: "{{ firewall_services }}"
+  with_items: "{{ firewall_services | default([]) }}"
+
 - name: Open firewall portss
   ansible.posix.firewalld:
     port: "{{ item }}"
     permanent: true
     state: enabled
     immediate: yes
-  with_items: "{{ firewall_ports }}"
+  with_items: "{{ firewall_ports | default([]) }}"
