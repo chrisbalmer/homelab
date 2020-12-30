@@ -6,3 +6,4 @@
     - ../../roles/yum-repo-mirrors
     - ../../roles/docker-registry
     - ../../roles/docker-registry-mirrors
+    - ../../roles/pihole

@@ -70,6 +70,18 @@ tags = [
   {
     name = "linux repo server"
     comment = "Server used for updating Linux systems"
+  },
+  {
+    name = "pihole server"
+    comment = "Server used for DNS with domain block lists"
+  },
+  {
+    name = "doh ip"
+    comment = "IPs used for DNS over HTTPS"
+  },
+  {
+    name = "doh server"
+    comment = "Server used to communicate with DNS over HTTPS"
   }
 ]
 
@@ -213,11 +225,23 @@ addresses = [
     tags = ["linux repo domain"]
   },
   {
+    name = "1.1.1.3"
+    value = "1.1.1.3"
+    tags = ["doh ip"]
+  },
+  {
+    name = "1.0.0.3"
+    value = "1.0.0.3"
+    tags = ["doh ip"]
+  },
+  {
     name = "bootstrap"
     value = "172.21.7.211"
     tags = [
       "linux repo server",
-      "dns server"
+      "dns server",
+      "pihole server",
+      "doh server"
     ]
   }
 ]
@@ -285,6 +309,21 @@ address_groups = [
     name = "linux repo domains"
     dynamic_match = "'linux repo domain'"
     description = "Domains used by the Linux repo servers to pull down updates for their repos"
+  },
+  {
+    name = "pihole servers"
+    dynamic_match = "'pihole server'"
+    description = "DNS servers with blocklists"
+  },
+  {
+    name = "doh servers"
+    dynamic_match = "'doh server'"
+    description = "DNS servers perfroming DNS over HTTPS"
+  },
+  {
+    name = "doh ips"
+    dynamic_match = "'doh ip'"
+    description = "IPs used by the doh servers to perform DNS lookups"
   }
 ]
 

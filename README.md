@@ -4,19 +4,27 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
 
 ## Tasks
 
-- [ ] Write PanOS rule module
-  - [X] Base module
-  - [ ] Add address groups to base module
-  - [X] ~~Add tags to base module~~ Add tags to an objects module
-  - [X] `ops/panos/rules/deny_all` which builds the bottom deny all rule
-  - [ ] `ops/panos/rules/$purpose` which builds a rule around the specified purpose, including tags and address groups
-- [ ] Rewrite vSphere VM module
-  - [ ] Add tags for PanOS
-  - [ ] Add IPs from servers to PanOS with tags
-- [ ] Build new DHCP server
-  - [ ] Write Ansible role for isc-dhcp-server
-- [ ] Determine how to handle relay on PanOS
-- [ ] Move in Zeek build to this repo
+- Ansible
+  - [X] Setup docker registry on ~~mirror~~bootstrap system with ansible role
+  - [X] Move Yum Repo ansible setup to role
+  - [X] Move yum mirror ansible setup to role
+  - [ ] Adapt pihole/docker roles for CentOS (bootstrap server is Ubuntu)
+- Terraform
+  - [X] Write PanOS rule module
+    - [X] Base module
+    - [X] Add address groups to base module
+    - [X] ~~Add tags to base module~~ Add tags to an objects module
+    - [X] `ops/panos/rules/deny_all` which builds the bottom deny all rule
+    - [X] `ops/panos/rules/$purpose` which builds a rule around the specified purpose, including tags and address groups
+  - [X] Rewrite vSphere VM module
+    - [X] Add tags for PanOS (added to objects module)
+    - [X] Add IPs from servers to PanOS with tags
+  - [X] Build new DHCP server
+    - [X] ~~Write~~Find Ansible role for isc-dhcp-server
+  - [ ] Determine how to handle relay on PanOS
+  - [ ] Finish DNS server setups
+- Misc
+  - [ ] Move in Zeek build to this repo
 
 ## Setup
 
