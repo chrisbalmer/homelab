@@ -20,14 +20,14 @@
             dns:
               ipv4_address: 172.16.238.11 
           ports:
-            - "{{ ansible_default_ipv4.address }}:53:53/tcp"
-            - "{{ ansible_default_ipv4.address }}:53:53/udp"
-            - "{{ ansible_default_ipv4.address }}:67:67/udp"
-            - "{{ ansible_default_ipv4.address }}:8080:80/tcp"
-            - "{{ ansible_default_ipv4.address }}:8443:443/tcp"
+            - "{{ ansible_default_ipv4.address }}:{{ pihole_dns_tcp_port }}:53/tcp"
+            - "{{ ansible_default_ipv4.address }}:{{ pihole_dns_udp_port }}:53/udp"
+            - "{{ ansible_default_ipv4.address }}:{{ pihole_dhcp_port }}:67/udp"
+            - "{{ ansible_default_ipv4.address }}:{{ pihole_http_port }}:80/tcp"
+            - "{{ ansible_default_ipv4.address }}:{{ pihole_https_port }}:443/tcp"
           environment:
             TZ: 'America/Detroit'
-            DNS1: 172.16.238.12#5053
+            DNS1: "172.16.238.12#{{ cloudflared_port }}"
             WEBPASSWORD: "{{ pihole_password }}"
           volumes:
             - "{{ pihole_path }}/etc/pihole/:/etc/pihole/"
@@ -45,11 +45,11 @@
           networks:
             dns:
               ipv4_address: 172.16.238.12
-          ports:
-            - 5053:5053/udp
+          # ports:
+          #   - 5053:5053/udp
           environment:
             TZ: 'America/Detroit'
-          command: proxy-dns --port 5053 --upstream https://1.0.0.3/dns-query --upstream https://1.1.1.3/dns-query --address=0.0.0.0
+          command: "proxy-dns --port {{ cloudflared_port }} --upstream https://1.0.0.3/dns-query --upstream https://1.1.1.3/dns-query --address=0.0.0.0"
           restart: always
 
 - name: Wait for PiHole HTTP service
