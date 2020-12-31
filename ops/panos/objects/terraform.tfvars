@@ -82,6 +82,10 @@ tags = [
   {
     name = "doh server"
     comment = "Server used to communicate with DNS over HTTPS"
+  },
+  {
+    name = "acme client"
+    comment = "Client that reaches out to an ACME server like Let's Encrypt"
   }
 ]
 
@@ -120,12 +124,22 @@ addresses = [
   {
     name  = "opsdns1"
     value = "172.21.7.253"
-    tags  = ["dns server"]
+    tags  = [
+      "dns server",
+      "pihole server",
+      "doh server",
+      "acme client"
+    ]
   },
   {
     name  = "opsdns2"
     value = "172.21.129.253"
-    tags  = ["dns server"]
+    tags  = [
+      "dns server",
+      "pihole server",
+      "doh server",
+      "acme client"
+    ]
   },
   {
     name  = "opsvcenter1"
@@ -241,7 +255,8 @@ addresses = [
       "linux repo server",
       "dns server",
       "pihole server",
-      "doh server"
+      "doh server",
+      "acme client"
     ]
   }
 ]
@@ -324,6 +339,11 @@ address_groups = [
     name = "doh ips"
     dynamic_match = "'doh ip'"
     description = "IPs used by the doh servers to perform DNS lookups"
+  },
+  {
+    name = "ACME clients"
+    dynamic_match = "'ACME client'"
+    description = "Clients that will connect to ACME servers to pull down certs"
   }
 ]
 

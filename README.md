@@ -8,7 +8,18 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
   - [X] Setup docker registry on ~~mirror~~bootstrap system with ansible role
   - [X] Move Yum Repo ansible setup to role
   - [X] Move yum mirror ansible setup to role
+  - [X] Move pihole to docker-compose role
+  - [X] Update docker registry password name to be docker-registry.balmerfamilyfarm.com
+  - [X] Fix docker-compose image version issue in the template for traefik. Set it specific for now, check old copy and compare.
+  - [ ] Expand docker-compose role to work with config files
+  - [ ] Move all http/https services on bootstrap to traefik
+  - [ ] Fix bootstrap nginx to not use port 80 to free it up for traefik
+  - [ ] Fix traefik 80 -> 443 redirect
   - [ ] Adapt pihole/docker roles for CentOS (bootstrap server is Ubuntu)
+  - [ ] Fix loop labels
+  - [ ] Fix loop format to use newer style
+  - [ ] Look into moving docker-composes pre tasks from playbook to role
+  - [ ] Clean up docker-compose role firewall
 - Terraform
   - [X] Write PanOS rule module
     - [X] Base module
@@ -24,7 +35,9 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
   - [ ] Determine how to handle relay on PanOS
   - [ ] Finish DNS server setups
 - Misc
+  - [ ] Figure out pypi mirroring or method to maintain needed packages locally
   - [ ] Move in Zeek build to this repo
+  - [ ] Clean up url lists in PanOS. One for bootstrap and one for DNS servers.
 
 ## Setup
 
