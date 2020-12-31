@@ -341,8 +341,8 @@ address_groups = [
     description = "IPs used by the doh servers to perform DNS lookups"
   },
   {
-    name = "ACME clients"
-    dynamic_match = "'ACME client'"
+    name = "acme clients"
+    dynamic_match = "'acme client'"
     description = "Clients that will connect to ACME servers to pull down certs"
   }
 ]
