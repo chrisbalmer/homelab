@@ -1,1 +1,5 @@
 ---
+firewall_services:
+  - dns
+  - http
+  - https

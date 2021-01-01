@@ -1,0 +1,10 @@
+---
+collections:
+  - ansible.posix
+  - community.general
+
+roles:
+  - name: chrisbalmer.docker-compose
+    scm: git
+    src: git+https://github.com/chrisbalmer/ansible-role-docker-compose.git
+    version: v1.2.0

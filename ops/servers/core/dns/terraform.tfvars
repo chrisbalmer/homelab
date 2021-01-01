@@ -7,9 +7,9 @@ networks = [
   [
     {
       interface    = "ens160"
-      port_group   = "vlan7-management"
-      ipv4_address = "172.21.7.253/24"
-      gateway      = "172.21.7.1"
+      port_group   = "vlan129-servers"
+      ipv4_address = "172.21.129.251/24"
+      gateway      = "172.21.129.1"
       nameservers  = "127.0.0.1,172.21.129.253,172.21.7.211"
     }
   ],
@@ -17,7 +17,7 @@ networks = [
     {
       interface    = "ens160"
       port_group   = "vlan129-servers"
-      ipv4_address = "172.21.129.253/24"
+      ipv4_address = "172.21.129.252/24"
       gateway      = "172.21.129.1"
       nameservers  = "127.0.0.1,172.21.7.253,172.21.7.211"
     }
@@ -30,6 +30,8 @@ vm = {
 }
 
 ansible_groups = [
-  { name = "dns" }
+  { name = "dns" },
+  { name = "pihole" },
+  { name = "traefik" }
 ]
 ansible_host_key_check = false
