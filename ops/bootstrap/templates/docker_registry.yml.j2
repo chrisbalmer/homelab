@@ -1,0 +1,27 @@
+version: '2'
+
+networks:
+  traefik:
+    external:
+      name: "{{ traefik_network }}"
+
+services:
+  traefik:
+    container_name: "{{ composes.docker_registry.name }}"
+    image: "{{ composes.docker_registry.image }}:{{ composes.docker_registry.version }}"
+    networks:
+      - traefik
+    environment:
+      - REGISTRY_STORAGE_DELETE_ENABLED=true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_network }}"
+      - "traefik.http.routers.docker_registry.rule=Host(`{{ composes.docker_registry.domain }}`)"
+      - "traefik.http.routers.docker_registry.tls=true"
+      - "traefik.http.routers.docker_registry.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.docker_registry.middlewares=docker_registry"
+      - "traefik.http.services.docker_registry.loadbalancer.server.port={{ composes.docker_registry.http_port }}"
+      - "traefik.http.middlewares.docker_registry.basicauth.users={{ composes.docker_registry.user }}"
+    volumes:
+      - "{{ composes.docker_registry.mounts.registry.local }}/var/lib/registry/:/var/lib/registry"
+    restart: always

@@ -1,6 +1,9 @@
 [bootstrap]
 172.21.7.211
 
+[docker_registry]
+172.21.7.211
+
 [traefik]
 172.21.7.211
 

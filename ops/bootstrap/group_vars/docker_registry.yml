@@ -1,0 +1,12 @@
+---
+compose_docker_registry:
+  docker_registry:
+    name: docker-registry
+    version: 2.7.1
+    mounts:
+      registry:
+        local: /mnt/docker_registry
+    image: registry
+    user: "{{ lookup('community.general.onepassword', 'docker-registry.balmerfamilyfarm.com - chrisbalmer', field='htpasswd') }}"
+    domain: docker-registry.balmerfamilyfarm.com
+    http_port: 5000

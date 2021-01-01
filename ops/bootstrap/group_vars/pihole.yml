@@ -17,8 +17,8 @@ compose_pihole:
       dns:
         local: "{{ pihole_path }}"
     images:
-      dns: docker-registry.balmerfamilyfarm.com:5000/pihole/pihole
-      doh: docker-registry.balmerfamilyfarm.com:5000/cloudflare/cloudflared
+      dns: pihole/pihole
+      doh: cloudflare/cloudflared
     ports:
       dns_tcp:
         protocol: tcp

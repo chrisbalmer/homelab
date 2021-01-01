@@ -5,8 +5,9 @@ compose_traefik:
     mounts:
       app:
         local: /mnt/traefik
+        container: /etc/traefik
     images:
-      app: docker-registry.balmerfamilyfarm.com:5000/traefik:2.2.0
+      app: traefik:2.2.0
     ports:
       https:
         protocol: tcp
@@ -20,3 +21,4 @@ compose_traefik:
     le_email: acme@balmerfamilyfarm.com
     resolver1: 1.1.1.3:53 # TODO: To move these to the internal DoH, need to add traefik to that network somehow
     resolver2: 1.0.0.3:53
+    provider_file: rules.toml

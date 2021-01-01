@@ -9,7 +9,6 @@
       loop: "{{ group_names }}"
   roles:
     - ../../roles/yum-repo-mirrors
-    - ../../roles/docker-registry
-    - ../../roles/docker-registry-mirrors
     - chrisbalmer.docker-compose
     - ../../roles/pihole
+    - ../../roles/docker-registry-mirrors
