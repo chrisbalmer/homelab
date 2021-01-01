@@ -1,4 +1,16 @@
 ---
+- name: Build repository details with port
+  set_fact:
+    registry_url: "{{ registry_protocol }}://{{ registry_server }}:{{ registry_port }}"
+    repository_name: "{{ registry_server }}:{{ registry_port }}"
+  when: registry_port is defined
+
+- name: Build repository details without port
+  set_fact:
+    registry_url: "{{ registry_protocol }}://{{ registry_server }}"
+    repository_name: "{{ registry_server }}"
+  when: registry_port is not defined
+
 - name: Install required packages for mirroring
   package:
     name: "{{ mirror_packages }}"
@@ -6,7 +18,7 @@
 
 - name: Log into private registry
   community.general.docker_login:
-    registry_url: "{{ registry_server }}:{{ registry_port }}"
+    registry_url: "{{ registry_url }}"
     username: "{{ registry_username }}"
     password: "{{ registry_password }}"
 
@@ -19,7 +31,7 @@
 - name: Tag and push images to local registry
   community.general.docker_image:
     name: "{{ item.name }}"
-    repository: "{{ registry_server }}:{{ registry_port }}/{{ item.name }}"
+    repository: "{{ repository_name }}/{{ item.name }}"
     tag: "{{ item.tag }}"
     push: yes
     source: local

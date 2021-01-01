@@ -2,10 +2,10 @@
 mirror_packages:
   - docker
 
+registry_protocol: https
 registry_server: docker-registry.balmerfamilyfarm.com
-registry_port: 5000
-registry_username: chrisbalmer
-registry_password: lookup('community.general.onepassword', 'mirror.balmerfamilyfarm.com - docker')
+registry_username: "{{ lookup('community.general.onepassword', 'docker-registry.balmerfamilyfarm.com - chrisbalmer', field='username') }}"
+registry_password: "{{ lookup('community.general.onepassword', 'docker-registry.balmerfamilyfarm.com - chrisbalmer') }}"
 
 docker_images:
   - name: pihole/pihole
