@@ -48,5 +48,29 @@ rules = [
     log_setting = "Log Everything to Splunk Lab"
     log_start   = true
     log_end     = true
+  },
+  {
+    name        = "Internal Docker Registry"
+    action      = "allow"
+    description = "Allow Docker clients access to internal docker registries."
+
+    source_addresses = ["internal network systems"]
+    destination_zones     = ["management"]
+    destination_addresses = ["docker registries"]
+    applications = [
+      "ssl",
+      "web-browsing"
+    ]
+    services = [
+      "docker-registry-tcp-5000",
+      "service-http",
+      "service-https"
+    ]
+
+    profile_group = "balmer family farm default"
+
+    log_setting = "Log Everything to Splunk Lab"
+    log_start   = true
+    log_end     = true
   }
 ]
