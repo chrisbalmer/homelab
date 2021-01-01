@@ -86,6 +86,10 @@ tags = [
   {
     name = "acme client"
     comment = "Client that reaches out to an ACME server like Let's Encrypt"
+  },
+  {
+    name = "docker registry"
+    comment = "Server that provides docker images"
   }
 ]
 
@@ -123,7 +127,7 @@ addresses = [
   },
   {
     name  = "opsdns1"
-    value = "172.21.7.253"
+    value = "172.21.129.251"
     tags  = [
       "dns server",
       "pihole server",
@@ -133,7 +137,7 @@ addresses = [
   },
   {
     name  = "opsdns2"
-    value = "172.21.129.253"
+    value = "172.21.129.252"
     tags  = [
       "dns server",
       "pihole server",
@@ -256,7 +260,8 @@ addresses = [
       "dns server",
       "pihole server",
       "doh server",
-      "acme client"
+      "acme client",
+      "docker registry"
     ]
   }
 ]
@@ -344,6 +349,11 @@ address_groups = [
     name = "acme clients"
     dynamic_match = "'acme client'"
     description = "Clients that will connect to ACME servers to pull down certs"
+  },
+  {
+    name = "docker registries"
+    dynamic_match = "'docker registry'"
+    description = "Servers that provide docker images"
   }
 ]
 
@@ -357,6 +367,11 @@ services = [
     name             = "syslog-udp-514"
     protocol         = "udp"
     destination_port = "514"
+  },
+  {
+    name             = "docker-registry-tcp-5000"
+    protocol         = "tcp"
+    destination_port = "5000"
   }
 ]
 
