@@ -1,61 +1,13 @@
 ---
-- name: Deploy docker containers
-  community.general.docker_compose:
-    project_name: pihole
-    definition:
-      version: '2'
-      networks:
-        dns:
-          driver: bridge
-          ipam:
-            driver: default
-            config:
-              - subnet: 172.16.238.0/24
-                gateway: 172.16.238.1
-      services:
-        pihole:
-          container_name: "{{ pihole_name }}"
-          image: "{{ pihole_image }}"
-          networks:
-            dns:
-              ipv4_address: 172.16.238.11 
-          ports:
-            - "{{ ansible_default_ipv4.address }}:{{ pihole_dns_tcp_port }}:53/tcp"
-            - "{{ ansible_default_ipv4.address }}:{{ pihole_dns_udp_port }}:53/udp"
-            - "{{ ansible_default_ipv4.address }}:{{ pihole_dhcp_port }}:67/udp"
-            - "{{ ansible_default_ipv4.address }}:{{ pihole_http_port }}:80/tcp"
-            - "{{ ansible_default_ipv4.address }}:{{ pihole_https_port }}:443/tcp"
-          environment:
-            TZ: 'America/Detroit'
-            DNS1: "172.16.238.12#{{ cloudflared_port }}"
-            WEBPASSWORD: "{{ pihole_password }}"
-          volumes:
-            - "{{ pihole_path }}/etc/pihole/:/etc/pihole/"
-            - "{{ pihole_path }}/etc/dnsmasq.d/:/etc/dnsmasq.d/"
-          cap_add:
-            - NET_ADMIN
-          dns:
-            - 127.0.0.1
-          depends_on:
-            - "{{ cloudflared_name }}"
-          restart: always
-        cloudflared:
-          container_name: "{{ cloudflared_name }}"
-          image: "{{ cloudflared_image }}"
-          networks:
-            dns:
-              ipv4_address: 172.16.238.12
-          # ports:
-          #   - 5053:5053/udp
-          environment:
-            TZ: 'America/Detroit'
-          command: "proxy-dns --port {{ cloudflared_port }} --upstream https://1.0.0.3/dns-query --upstream https://1.1.1.3/dns-query --address=0.0.0.0"
-          restart: always
+- name: Get information on PiHole container
+  docker_container_info:
+    name: "{{ pihole_name }}"
+  register: pihole_container
 
 - name: Wait for PiHole HTTP service
   wait_for:
-    host: "{{ ansible_default_ipv4.address }}"
-    port: 8080
+    host: "{{ pihole_container.container.NetworkSettings.Networks[pihole_network].IPAddress }}"
+    port: "{{ pihole_test_port }}"
     state: started
     delay: 5
     connect_timeout: 15

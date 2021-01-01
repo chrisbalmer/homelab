@@ -11,7 +11,8 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
   - [X] Move pihole to docker-compose role
   - [X] Update docker registry password name to be docker-registry.balmerfamilyfarm.com
   - [X] Fix docker-compose image version issue in the template for traefik. Set it specific for now, check old copy and compare.
-  - [ ] Expand docker-compose role to work with config files
+  - [X] ~~Expand docker-compose role to work with config files~~ Using separate roles for now to perform further configuration
+  - [ ] Move remaining pihole configs to variables from the compose yaml file
   - [ ] Move all http/https services on bootstrap to traefik
   - [ ] Fix bootstrap nginx to not use port 80 to free it up for traefik
   - [ ] Fix traefik 80 -> 443 redirect
@@ -32,7 +33,7 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
     - [X] Add IPs from servers to PanOS with tags
   - [X] Build new DHCP server
     - [X] ~~Write~~Find Ansible role for isc-dhcp-server
-  - [ ] Determine how to handle relay on PanOS
+  - [X] ~~Determine how to handle relay on PanOS~~ DHCP relay is not available in terraform yet, continuing to configure manually
   - [ ] Finish DNS server setups
 - Misc
   - [ ] Figure out pypi mirroring or method to maintain needed packages locally
@@ -82,6 +83,7 @@ export TERRAGRUNT_PARALLELISM=1
 ## Random Notes
 
 - Port forwarding for vCenter: `sudo ssh -L 127.0.0.1:443:172.21.7.50:443 chrisbalmer@lsasensor.local`
+- Required external DNS to do initial configuration of the bootstrap server
 
 ## License
 

@@ -1,18 +1,6 @@
 ---
 pihole_name: pihole
-pihole_image: docker-registry.balmerfamilyfarm.com:5000/pihole/pihole:v5.3.4
 pihole_path: /var/pihole
-pihole_password: lookup('community.general.onepassword', 'pihole login')
-pihole_dns_tcp_port: 53
-pihole_dns_udp_port: 53
-pihole_dhcp_port: 67
-pihole_http_port: 80
-pihole_https_port: 443
-
-
-cloudflared_name: cloudflared
-cloudflared_image: docker-registry.balmerfamilyfarm.com:5000/cloudflare/cloudflared:2020.12.0
-cloudflared_port: 5053
 
 conditional_forwards:
   - domain: oakops.io

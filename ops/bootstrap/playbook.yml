@@ -2,8 +2,14 @@
   hosts: bootstrap
   gather_facts: yes
   become: yes
+  pre_tasks:
+    - name: Combine composes
+      set_fact:
+        composes: "{{ composes|default({}) | combine(hostvars[inventory_hostname]['compose_' + item]|default({})) }}"
+      loop: "{{ group_names }}"
   roles:
     - ../../roles/yum-repo-mirrors
     - ../../roles/docker-registry
     - ../../roles/docker-registry-mirrors
+    - chrisbalmer.docker-compose
     - ../../roles/pihole
