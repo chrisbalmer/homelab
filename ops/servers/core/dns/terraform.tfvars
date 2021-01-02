@@ -30,8 +30,10 @@ vm = {
 }
 
 ansible_groups = [
-  { name = "dns" },
-  { name = "pihole" },
-  { name = "traefik" }
+  [
+    "dns",
+    "pihole",
+    "traefik"
+  ]
 ]
 ansible_host_key_check = false

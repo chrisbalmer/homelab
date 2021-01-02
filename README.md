@@ -12,15 +12,21 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
   - [X] Update docker registry password name to be docker-registry.balmerfamilyfarm.com
   - [X] Fix docker-compose image version issue in the template for traefik. Set it specific for now, check old copy and compare.
   - [X] ~~Expand docker-compose role to work with config files~~ Using separate roles for now to perform further configuration
-  - [ ] Move remaining pihole configs to variables from the compose yaml file
+  - [X] Move remaining pihole configs to variables from the compose yaml file
+  - [X] Adapt pihole/docker roles for CentOS (bootstrap server is Ubuntu)
+  - [ ] Enable bootstrap firewall
+  - [ ] Change traefik setup to use dynamic toml files so the docker socket mount can be removed along with privileged mode on SELinux systems
+  - [ ] Change traefik containers to use non root user
+  - [ ] Change pihole containers to use non root user
   - [ ] Move all http/https services on bootstrap to traefik
   - [ ] Fix bootstrap nginx to not use port 80 to free it up for traefik
   - [ ] Fix traefik 80 -> 443 redirect
-  - [ ] Adapt pihole/docker roles for CentOS (bootstrap server is Ubuntu)
   - [ ] Fix loop labels
   - [ ] Fix loop format to use newer style
   - [ ] Look into moving docker-composes pre tasks from playbook to role
   - [ ] Clean up docker-compose role firewall
+  - [ ] Add docker registry proxy to pull through
+  - [ ] Block private IP lookups forwarding to upstream servers on pihole
 - Terraform
   - [X] Write PanOS rule module
     - [X] Base module
@@ -35,6 +41,9 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
     - [X] ~~Write~~Find Ansible role for isc-dhcp-server
   - [X] ~~Determine how to handle relay on PanOS~~ DHCP relay is not available in terraform yet, continuing to configure manually
   - [ ] Finish DNS server setups
+  - [ ] Move PanOS object creation for server IPs to the server creation, avoids placing IP info into multiple spots
+  - [ ] Add VM affinity rules to keep specific VMs separate (like dns1 and dns2)
+  - [ ] Rebuild the vsphere server module to support better inheritance
 - Misc
   - [ ] Figure out pypi mirroring or method to maintain needed packages locally
   - [ ] Move in Zeek build to this repo

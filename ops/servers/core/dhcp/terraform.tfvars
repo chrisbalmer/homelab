@@ -31,6 +31,8 @@ vm = {
 }
 
 ansible_groups = [
-  { name = "dhcp" }
+  [
+    "dhcp"
+  ]
 ]
 ansible_host_key_check = false
