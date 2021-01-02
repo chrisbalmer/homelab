@@ -90,6 +90,14 @@ tags = [
   {
     name = "docker registry"
     comment = "Server that provides docker images"
+  },
+  {
+    name = "docker system"
+    comment = "System running docker containers"
+  },
+  {
+    name = "acme dns server"
+    comment = "External DNS server used to solve ACME DNS challenges"
   }
 ]
 
@@ -245,12 +253,36 @@ addresses = [
   {
     name = "1.1.1.3"
     value = "1.1.1.3"
-    tags = ["doh ip"]
+    tags = [
+      "doh ip",
+      "acme dns server"
+    ]
   },
   {
     name = "1.0.0.3"
     value = "1.0.0.3"
-    tags = ["doh ip"]
+    tags = [
+      "doh ip",
+      "acme dns server"
+    ]
+  },
+  {
+    name = "ns1.digitalocean.com"
+    value = "ns1.digitalocean.com"
+    type = "fqdn"
+    tags = ["acme dns server"]
+  },
+  {
+    name = "ns2.digitalocean.com"
+    value = "ns2.digitalocean.com"
+    type = "fqdn"
+    tags = ["acme dns server"]
+  },
+  {
+    name = "ns3.digitalocean.com"
+    value = "ns3.digitalocean.com"
+    type = "fqdn"
+    tags = ["acme dns server"]
   },
   {
     name = "bootstrap"
@@ -262,6 +294,14 @@ addresses = [
       "doh server",
       "acme client",
       "docker registry"
+    ]
+  },
+  {
+    name = "opsdocker1"
+    value = "172.21.129.12"
+    tags = [
+      "docker system",
+      "acme client"
     ]
   }
 ]
@@ -354,6 +394,16 @@ address_groups = [
     name = "docker registries"
     dynamic_match = "'docker registry'"
     description = "Servers that provide docker images"
+  },
+  {
+    name = "docker systems"
+    dynamic_match = "'docker system'"
+    description = "Systems that run docker containers"
+  },
+  {
+    name = "acme dns servers"
+    dynamic_match = "'acme dns server'"
+    description = "External DNS servers used to solve ACME DNS challenges"
   }
 ]
 

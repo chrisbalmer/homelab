@@ -1,0 +1,27 @@
+---
+compose_gitea:
+  gitea:
+    mounts:
+      app:
+        local: /mnt/gitea/app
+        remote: 172.21.129.36:/mnt/POOL_A/docker/gitea/app
+      db:
+        local: /mnt/gitea/db
+        remote: 172.21.129.36:/mnt/POOL_A/docker/gitea/db
+    images:
+      app: "{{ docker_registry }}/gitea/gitea:1.8.0"
+      db: "{{ docker_registry }}/postgres:11.2"
+    ports:
+      ssh:
+        protocol: tcp
+        host: 222
+        container: 22
+    version: 1.8.0
+    user: 1012
+    group: 1014
+    http_port: 3000
+    domain: git.balmerfamilyfarm.com
+    postgres_version: 11.2
+    db_user: "{{ lookup('onepassword', 'ops-gitea-1', section='db', field='username', vault='homelab') }}"
+    db_pass: "{{ lookup('onepassword', 'ops-gitea-1', section='db', field='password', vault='homelab') }}"
+    db_name: gitea

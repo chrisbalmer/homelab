@@ -1,0 +1,65 @@
+version: '3.3'
+networks:
+    traefik:
+        external:
+            name: "{{ traefik_network }}"
+    gitea:
+        external: false
+services:
+    db:
+        image: "{{ composes.gitea.images.db }}"
+        user: "{{ composes.gitea.user }}:{{ composes.gitea.group }}"
+        restart: always
+        environment:
+            - "POSTGRES_USER={{ composes.gitea.db_user }}"
+            - "POSTGRES_PASSWORD={{ composes.gitea.db_pass }}"
+            - "POSTGRES_DB={{ composes.gitea.db_name }}"
+        networks:
+            - gitea
+        volumes:
+            - "{{ composes.gitea.mounts.db.local }}:/var/lib/postgresql/data"
+{% if splunk.hec_endpoint is defined %}
+        logging:
+            driver: splunk
+            options:
+                splunk-url: "{{ splunk.hec_endpoint }}"
+                splunk-token: "{{ splunk.hec_token }}"
+                splunk-insecureskipverify: "{{ splunk.hec_skip_verify }}"
+                splunk-format: "{{ splunk.hec_format }}"
+{% endif %}
+    app:
+        image: "{{ composes.gitea.images.app }}"
+        environment:
+            - "USER_UID={{ composes.gitea.user }}"
+            - "USER_GID={{ composes.gitea.group }}"
+            - DB_TYPE=postgres
+            - DB_HOST=db:5432
+            - "DB_NAME={{ composes.gitea.db_name }}"
+            - "DB_USER={{ composes.gitea.db_user }}"
+            - "DB_PASSWD={{ composes.gitea.db_pass }}"
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.gitea.rule=Host(`{{ composes.gitea.domain }}`)"
+            - "traefik.http.routers.gitea.tls=true"
+            - "traefik.http.routers.gitea.tls.certresolver=letsencrypt"
+            - "traefik.http.services.gitea.loadbalancer.server.port={{ composes.gitea.http_port }}"
+            - "traefik.docker.network={{ traefik_network }}"
+        networks:
+            - gitea
+            - traefik
+        volumes:
+            - "{{ composes.gitea.mounts.app.local }}:/data"
+{% if splunk.hec_endpoint is defined %}
+        logging:
+            driver: splunk
+            options:
+                splunk-url: "{{ splunk.hec_endpoint }}"
+                splunk-token: "{{ splunk.hec_token }}"
+                splunk-insecureskipverify: "{{ splunk.hec_skip_verify }}"
+                splunk-format: "{{ splunk.hec_format }}"
+{% endif %}
+        ports:
+            - "{{ composes.gitea.ports.ssh.host }}:22"
+        depends_on:
+            - db

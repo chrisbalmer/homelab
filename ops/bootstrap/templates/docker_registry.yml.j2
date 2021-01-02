@@ -13,6 +13,10 @@ services:
       - traefik
     environment:
       - REGISTRY_STORAGE_DELETE_ENABLED=true
+{% if composes.docker_registry.proxy_url is defined %}
+      - "REGISTRY_PROXY_REMOTEURL={{ composes.docker_registry.proxy_url }}"
+      - REGISTRY_COMPATIBILITY_SCHEMA1_ENABLED=true
+{% endif %}
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network={{ traefik_network }}"

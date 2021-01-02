@@ -14,6 +14,7 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
   - [X] ~~Expand docker-compose role to work with config files~~ Using separate roles for now to perform further configuration
   - [X] Move remaining pihole configs to variables from the compose yaml file
   - [X] Adapt pihole/docker roles for CentOS (bootstrap server is Ubuntu)
+  - [X] Add docker registry proxy to pull through - option added but not in use due to how this works (can't do both proxy and private registry)
   - [ ] Enable bootstrap firewall
   - [ ] Change traefik setup to use dynamic toml files so the docker socket mount can be removed along with privileged mode on SELinux systems
   - [ ] Change traefik containers to use non root user
@@ -25,7 +26,6 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
   - [ ] Fix loop format to use newer style
   - [ ] Look into moving docker-composes pre tasks from playbook to role
   - [ ] Clean up docker-compose role firewall
-  - [ ] Add docker registry proxy to pull through
   - [ ] Block private IP lookups forwarding to upstream servers on pihole
 - Terraform
   - [X] Write PanOS rule module

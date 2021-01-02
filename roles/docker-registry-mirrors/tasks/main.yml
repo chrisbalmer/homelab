@@ -27,6 +27,8 @@
     name: "{{ item.name }}:{{ item.tag }}"
     source: pull
   with_items: "{{ docker_images }}"
+  loop_control:
+    label: "{{ item.name }}:{{ item.tag }}"
 
 - name: Tag and push images to local registry
   community.general.docker_image:
@@ -36,3 +38,5 @@
     push: yes
     source: local
   with_items: "{{ docker_images }}"
+  loop_control:
+    label: "{{ item.name }}:{{ item.tag }}"
