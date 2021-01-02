@@ -1,0 +1,22 @@
+---
+compose_confluence:
+  confluence:
+    version: 7.3.5
+    domain: confluence.balmerfamilyfarm.com
+    http_port: 8090
+    mounts:
+      app:
+        local: /mnt/confluence
+        remote: "{{ nfs_server }}:/mnt/POOL_A/docker/confluence"
+      db:
+        local: /mnt/confluence_db
+        remote: "{{ nfs_server }}:/mnt/POOL_A/docker/confluence_db"
+    images:
+      app: "{{ docker_registry }}/atlassian/confluence-server:7.3.5"
+      db: "{{ docker_registry }}/postgres:11.2"
+    user: 1012
+    group: 1014
+    postgres_version: 11.2
+    db_user: "{{ lookup('onepassword', 'Confluence Server', section='db', field='username', vault='homelab') }}"
+    db_pass: "{{ lookup('onepassword', 'Confluence Server', section='db', field='password', vault='homelab') }}"
+    db_name: confluence

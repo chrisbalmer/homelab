@@ -19,6 +19,8 @@
     owner: "{{ nginx_user }}"
     group: "{{ nginx_group }}"
   with_items: "{{ repositories }}"
+  loop_control:
+    label: "{{ item.description }}"
 
 # Setup downloads
 - name: Sync script

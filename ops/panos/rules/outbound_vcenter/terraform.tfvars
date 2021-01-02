@@ -1,7 +1,7 @@
-panos_host      = "edge-firewall-1.farm.oakops.io"
+panos_host      = "firewall.balmerfamilyfarm.com"
 op_subdomain    = "my"
 op_vault        = "homelab"
-op_edgefw_login = "edge-firewall-1-terraform"
+op_edgefw_login = "firewall.balmerfamilyfarm.com - terraform"
 
 position_keyword   = "before"
 position_reference = "Outbound Critical App Access"

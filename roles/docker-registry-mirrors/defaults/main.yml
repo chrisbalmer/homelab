@@ -18,3 +18,7 @@ docker_images:
     tag: 1.8.0
   - name: postgres
     tag: 11.2
+  - name: atlassian/confluence-server
+    tag: 7.3.5
+  - name: atlassian/jira-software
+    tag: 8.8.0

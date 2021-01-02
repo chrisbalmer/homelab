@@ -1,0 +1,59 @@
+version: "3.3"
+networks:
+  traefik:
+    external:
+      name: "{{ traefik_network }}"
+  confluence:
+    external: false
+services:
+  db:
+    image: "{{ composes.confluence.images.db }}"
+    user: "{{ composes.confluence.user }}:{{ composes.confluence.group }}"
+    restart: always
+    environment:
+      - "POSTGRES_USER={{ composes.confluence.db_user }}"
+      - "POSTGRES_PASSWORD={{ composes.confluence.db_pass }}"
+      - "POSTGRES_DB={{ composes.confluence.db_name }}"
+    networks:
+      - confluence
+    volumes:
+      - "{{ composes.confluence.mounts.db.local }}:/var/lib/postgresql/data"
+{% if splunk.hec_endpoint is defined %}
+    logging:
+      driver: splunk
+      options:
+        splunk-url: "{{ splunk.hec_endpoint }}"
+        splunk-token: "{{ splunk.hec_token }}"
+        splunk-insecureskipverify: "{{ splunk.hec_skip_verify }}"
+        splunk-format: "{{ splunk.hec_format }}"
+{% endif %}
+  app:
+    image: "{{ composes.confluence.images.app }}"
+    environment:
+      - "ATL_PROXY_NAME={{ composes.confluence.domain }}"
+      - ATL_TOMCAT_SCHEME=https
+      - ATL_TOMCAT_SECURE=true
+    volumes:
+      - "{{ composes.confluence.mounts.app.local }}:/var/atlassian/application-data/confluence"
+{% if splunk.hec_endpoint is defined %}
+    logging:
+      driver: splunk
+      options:
+        splunk-url: "{{ splunk.hec_endpoint }}"
+        splunk-token: "{{ splunk.hec_token }}"
+        splunk-insecureskipverify: "{{ splunk.hec_skip_verify }}"
+        splunk-format: "{{ splunk.hec_format }}"
+{% endif %}
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.confluence.rule=Host(`{{ composes.confluence.domain }}`)"
+      - "traefik.http.routers.confluence.tls=true"
+      - "traefik.http.routers.confluence.tls.certresolver=letsencrypt"
+      - "traefik.http.services.confluence.loadbalancer.server.port={{ composes.confluence.http_port }}"
+      - "traefik.docker.network={{ traefik_network }}"
+    networks:
+      - confluence
+      - traefik
+    depends_on:
+      - db

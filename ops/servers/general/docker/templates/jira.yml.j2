@@ -1,0 +1,59 @@
+version: "3.3"
+networks:
+  traefik:
+    external:
+      name: "{{ traefik_network }}"
+  jira:
+    external: false
+services:
+  db:
+    image: "{{ composes.jira.images.db }}"
+    user: "{{ composes.jira.user }}:{{ composes.jira.group }}"
+    restart: always
+    environment:
+      - "POSTGRES_USER={{ composes.jira.db_user }}"
+      - "POSTGRES_PASSWORD={{ composes.jira.db_pass }}"
+      - "POSTGRES_DB={{ composes.jira.db_name }}"
+    networks:
+      - jira
+    volumes:
+      - "{{ composes.jira.mounts.db.local }}:/var/lib/postgresql/data"
+{% if splunk.hec_endpoint is defined %}
+    logging:
+      driver: splunk
+      options:
+        splunk-url: "{{ splunk.hec_endpoint }}"
+        splunk-token: "{{ splunk.hec_token }}"
+        splunk-insecureskipverify: "{{ splunk.hec_skip_verify }}"
+        splunk-format: "{{ splunk.hec_format }}"
+{% endif %}
+  app:
+    image: "{{ composes.jira.images.app }}"
+    environment:
+      - "ATL_PROXY_NAME={{ composes.jira.domain }}"
+      - ATL_TOMCAT_SCHEME=https
+      - ATL_TOMCAT_SECURE=true
+    volumes:
+      - "{{ composes.jira.mounts.app.local }}:/var/atlassian/application-data/jira"
+{% if splunk.hec_endpoint is defined %}
+    logging:
+      driver: splunk
+      options:
+        splunk-url: "{{ splunk.hec_endpoint }}"
+        splunk-token: "{{ splunk.hec_token }}"
+        splunk-insecureskipverify: "{{ splunk.hec_skip_verify }}"
+        splunk-format: "{{ splunk.hec_format }}"
+{% endif %}
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jira.rule=Host(`{{ composes.jira.domain }}`)"
+      - "traefik.http.routers.jira.tls=true"
+      - "traefik.http.routers.jira.tls.certresolver=letsencrypt"
+      - "traefik.http.services.jira.loadbalancer.server.port={{ composes.jira.http_port }}"
+      - "traefik.docker.network={{ traefik_network }}"
+    networks:
+      - jira
+      - traefik
+    depends_on:
+      - db
