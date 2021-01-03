@@ -4,6 +4,8 @@ firewall_ports:
   - 647/tcp
   - 847/tcp
 
+isc_dhcp_ddns_updates: yes
+isc_dhcp_ddns_update_style: interim
 isc_dhcp_config_dhcp: yes
 isc_dhcp_authoritative: yes
 isc_dhcp_enable_dhcp_failover: yes
@@ -21,6 +23,8 @@ isc_dhcp_failover_info:
   secondary: "{{ groups['dhcp'][1] }}"
   secondary_port: "847"
 isc_dhcp_scopes:
+
+  # Management
   - subnet: 172.21.7.0
     default_lease_time: "{{ isc_dhcp_default_lease_time }}"
     max_lease_time: "{{ isc_dhcp_max_lease_time }}"
@@ -30,10 +34,39 @@ isc_dhcp_scopes:
         value: 172.21.7.1
       - name: subnet-mask
         value: 255.255.255.0
+      - name: domain-name
+        value: '"dynamic.balmerfamilyfarm.com"'
+      - name: domain-search
+        value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
+    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
+    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.7.101
     range_end: 172.21.7.200
+
+  # Wireless Management
+  - subnet: 172.21.8.0
+    default_lease_time: "{{ isc_dhcp_default_lease_time }}"
+    max_lease_time: "{{ isc_dhcp_max_lease_time }}"
+    netmask: 255.255.255.0
+    options:
+      - name: routers
+        value: 172.21.8.1
+      - name: subnet-mask
+        value: 255.255.255.0
+      - name: domain-name
+        value: '"dynamic.balmerfamilyfarm.com"'
+      - name: domain-search
+        value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
+      - name: domain-name-servers
+        value: "{{ isc_dhcp_name_servers|join (', ') }}"
+    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
+    ddns_rev_domainname: '"in-addr.arpa."'
+    range_start: 172.21.8.101
+    range_end: 172.21.8.200
+
+  # Endpoints
   - subnet: 172.21.21.0
     default_lease_time: "{{ isc_dhcp_default_lease_time }}"
     max_lease_time: "{{ isc_dhcp_max_lease_time }}"
@@ -43,10 +76,18 @@ isc_dhcp_scopes:
         value: 172.21.21.1
       - name: subnet-mask
         value: 255.255.255.0
+      - name: domain-name
+        value: '"dynamic.balmerfamilyfarm.com"'
+      - name: domain-search
+        value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
+    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
+    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.21.101
     range_end: 172.21.21.200
+
+  # IoT
   - subnet: 172.21.28.0
     default_lease_time: "{{ isc_dhcp_default_lease_time }}"
     max_lease_time: "{{ isc_dhcp_max_lease_time }}"
@@ -56,10 +97,18 @@ isc_dhcp_scopes:
         value: 172.21.28.1
       - name: subnet-mask
         value: 255.255.255.0
+      - name: domain-name
+        value: '"dynamic.balmerfamilyfarm.com"'
+      - name: domain-search
+        value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
+    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
+    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.28.101
     range_end: 172.21.28.200
+
+  # Identity
   - subnet: 172.21.128.0
     default_lease_time: "{{ isc_dhcp_default_lease_time }}"
     max_lease_time: "{{ isc_dhcp_max_lease_time }}"
@@ -69,10 +118,18 @@ isc_dhcp_scopes:
         value: 172.21.128.1
       - name: subnet-mask
         value: 255.255.255.0
+      - name: domain-name
+        value: '"dynamic.balmerfamilyfarm.com"'
+      - name: domain-search
+        value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
+    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
+    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.128.101
-    range_end: 172.21.128.200        
+    range_end: 172.21.128.200       
+
+  # Servers
   - subnet: 172.21.129.0
     default_lease_time: "{{ isc_dhcp_default_lease_time }}"
     max_lease_time: "{{ isc_dhcp_max_lease_time }}"
@@ -82,10 +139,18 @@ isc_dhcp_scopes:
         value: 172.21.129.1
       - name: subnet-mask
         value: 255.255.255.0
+      - name: domain-name
+        value: '"dynamic.balmerfamilyfarm.com"'
+      - name: domain-search
+        value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
+    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
+    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.129.11
     range_end: 172.21.129.200
+
+  # Guests
   - subnet: 172.23.2.0
     default_lease_time: "{{ isc_dhcp_default_lease_time }}"
     max_lease_time: "{{ isc_dhcp_max_lease_time }}"
@@ -95,7 +160,13 @@ isc_dhcp_scopes:
         value: 172.23.2.1
       - name: subnet-mask
         value: 255.255.255.0
+      - name: domain-name
+        value: '"dynamic.balmerfamilyfarm.com"'
+      - name: domain-search
+        value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
+    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
+    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.23.2.11
     range_end: 172.23.2.200
