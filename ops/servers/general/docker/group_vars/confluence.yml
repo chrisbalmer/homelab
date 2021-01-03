@@ -13,7 +13,7 @@ compose_confluence:
         remote: "{{ nfs_server }}:/mnt/POOL_A/docker/confluence_db"
     images:
       app: "{{ docker_registry }}/atlassian/confluence-server:7.3.5"
-      db: "{{ docker_registry }}/postgres:11.2"
+      db: "{{ docker_registry }}/postgres:11.10"
     user: 1012
     group: 1014
     postgres_version: 11.2

@@ -1,4 +1,30 @@
 ---
+docker_images:
+  - name: pihole/pihole
+    tag: "v5.3.4"
+  - name: cloudflare/cloudflared
+    tag: "2020.12.0"
+  - name: traefik
+    tag: "2.2.0"
+  - name: traefik
+    tag: "2.3.6"
+  - name: gitea/gitea
+    tag: "1.8.0"
+  - name: gitea/gitea
+    tag: "1.13.1"
+  - name: postgres
+    tag: "11.2"
+  - name: postgres
+    tag: "11.10"
+  - name: atlassian/confluence-server
+    tag: "7.3.5"
+  - name: atlassian/confluence-server
+    tag: "7.9.3"
+  - name: atlassian/jira-software
+    tag: "8.8.0"
+  - name: atlassian/jira-software
+    tag: "8.13.2"
+
 compose_docker_registry:
   docker_registry:
     name: docker-registry
