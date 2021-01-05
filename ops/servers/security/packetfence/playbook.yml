@@ -1,0 +1,20 @@
+- name: Install PacketFence Servers
+  hosts: pf
+  gather_facts: yes
+  become: yes
+  vars:
+    packetfence_rpm: http://packetfence.org/downloads/PacketFence/centos/7/packetfence-release-7.stable.noarch.rpm
+  roles:
+    - ../../../../roles/firewall
+    - ../../../../roles/yum-repos
+  tasks:
+    - name: Install PacketFence repo
+      package:
+        name: "{{ packetfence_rpm }}"
+        state: latest
+    - name: Install PacketFence
+      yum:
+        name: packetfence
+        enablerepo: packetfence
+        disablerepo: ansible_epel
+        state: latest

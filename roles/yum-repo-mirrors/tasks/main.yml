@@ -1,7 +1,7 @@
 ---
-- name: Install nginx to host mirror
+- name: Install packages for managing repos and mirrors
   package:
-    name: nginx
+    name: "{{ mirror_packages }}"
     state: latest
   
 - name: Turn on nginx

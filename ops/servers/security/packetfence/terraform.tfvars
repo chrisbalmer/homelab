@@ -10,7 +10,7 @@ vm = {
       interface    = "ens160"
       port_group   = "vlan128-identity"
       ipv4_address = "172.21.128.11/24"
-      nameservers  = "172.21.7.254,172.21.128.254"
+      nameservers  = "172.21.129.251,172.21.129.252,172.21.7.211"
     }
   ]
 
@@ -23,3 +23,10 @@ vm = {
 
   memory = 12288
 }
+
+ansible_groups = [
+  [
+    "pf"
+  ]
+]
+ansible_host_key_check = false

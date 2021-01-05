@@ -98,6 +98,18 @@ tags = [
   {
     name = "acme dns server"
     comment = "External DNS server used to solve ACME DNS challenges"
+  },
+  {
+    name = "packetfence server"
+    comment = "Server running PacketFence software"
+  },
+  {
+    name = "radius server"
+    comment = "Server running RADIUS software"
+  },
+  {
+    name = "radius client"
+    comment = "Client consuming a RADIUS service"
   }
 ]
 
@@ -311,6 +323,21 @@ addresses = [
       "docker system",
       "acme client"
     ]
+  },
+  {
+    name = "opspf1"
+    value = "172.21.128.11"
+    tags = [
+      "packetfence server",
+      "radius server"
+    ]
+  },
+  {
+    name = "opswlc2"
+    value = "172.21.8.3"
+    tags = [
+      "radius client"
+    ]
   }
 ]
 
@@ -412,6 +439,21 @@ address_groups = [
     name = "acme dns servers"
     dynamic_match = "'acme dns server'"
     description = "External DNS servers used to solve ACME DNS challenges"
+  },
+  {
+    name = "packetfence servers"
+    dynamic_match = "'packetfence server'"
+    description = "Servers running the PacketFence software"
+  },
+  {
+    name = "radius servers"
+    dynamic_match = "'radius server'"
+    description = "Servers running the RADIUS software"
+  },
+  {
+    name = "radius clients"
+    dynamic_match = "'radius client'"
+    description = "Clients consuming a RADIUS service"
   }
 ]
 

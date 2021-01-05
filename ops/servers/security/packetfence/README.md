@@ -1,0 +1,72 @@
+# PacketFence Configuration
+
+Eventually these configurations will be moved to a mix of Ansible and Terraform (long term goal is to write a Terraform provider for PacketFence).
+
+## Manual Steps
+
+- Open admin interface on port 1443
+- Add management service to network interface
+- Next
+- Set domain to balmerfamilyfarm.com
+- Set hostname to pf
+- Make sure a CNAME for pf.balmerfamilyfarm.com points to the server A record
+- Add a password, make sure it is in 1Password
+- Next
+- Login to fingerbank with github account
+- Copy API key from fingerbank to PF admin page
+- Validate
+- Next
+- Copy DB accounts to 1Password
+- Finish
+- Add DC1 via Configuration -> Policies and Access Control -> Domains -> Active Directory Domains -> New
+- Create an ID, i.e. farmad
+- Workgroup is the first part of the FQDN, i.d. ad in ad.balmerfamilyfarm.com
+- Set DNS name of domain, i.e. ad.balmerfamilyfarm.com
+- Set the directory server, i.e. opsad1.ad.balmerfamilyfarm.com
+- Set the DNS servers, use directory server IP first
+- Create and Join
+- Enter account creds to join it to the domain
+  - This requires these apps on the Palo Alto:
+    - "active-directory"
+    - "kerberos"
+    - "ldap"
+    - "ms-ds-smb-base"
+    - "ms-ds-smbv3"
+    - "msrpc-base"
+    - "ms-netlogon"
+- Once added go to the Realms tab
+- Click the default realm
+- Change domain to the AD domain just added, i.e. farmad
+- Click save then the X in upper right
+- Repeat for the null realm
+- Go to Configuration -> Policies and Access Control -> Authentication Sources
+- Click New Internal Source -> Active Directory
+  - Name: farm-active-directory
+  - Add a description
+  - Add the host information
+    - Return to add more hosts as more DCs are rolled out
+    - Return to switch to port 636 and TLS once configured on the domain
+  - Add the base DN: `DC=ad,DC=balmerfamilyfarm,DC=com`
+  - Add the Bind DN: `CN=PacketFence Service,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com`
+  - Add the Bind DN password from 1Password
+  - Click test and wait for a green check
+  - Associate with realm default
+  - Add a default authentication rule
+    - Name: default
+    - Role: default
+    - Add (plus after the role action) Access duration: 5d
+  - Click create
+  - Click X in upper right
+- Add WLC2 as a switch
+  - Policies and Access Control -> Network Devices -> Switches
+  - New Switch -> Group Default
+    - IP: 172.21.8.3
+    - Description: opswlc2
+    - Type: Cisco Wireless Controller (WLC)
+    - Tab Roles
+      - Make sure role by vlan id is on
+      - Isolation vlan: 255
+      - Default: 21
+    - RADIUS Tab
+      - Set passphrase to 1Password entry PacketFence RADIUS
+      

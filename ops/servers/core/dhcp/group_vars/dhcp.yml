@@ -4,17 +4,19 @@ firewall_ports:
   - 647/tcp
   - 847/tcp
 
-isc_dhcp_ddns_updates: yes
-isc_dhcp_ddns_update_style: interim
 isc_dhcp_config_dhcp: yes
 isc_dhcp_authoritative: yes
-isc_dhcp_enable_dhcp_failover: yes
+
 isc_dhcp_name_servers:
   - 172.21.129.251
   - 172.21.129.252
   - 172.21.7.211
+
 isc_dhcp_domain_name: ad.balmerfamilyfarm.com
 isc_dhcp_pri_domain_name: ad.balmerfamilyfarm.com
+
+isc_dhcp_enable_dhcp_failover: yes
+
 isc_dhcp_failover_info:
   failover_address: "{{ ansible_default_ipv4.address }}"
   failover_group: dhcp
@@ -22,8 +24,8 @@ isc_dhcp_failover_info:
   primary_port: "647"
   secondary: "{{ groups['dhcp'][1] }}"
   secondary_port: "847"
-isc_dhcp_scopes:
 
+isc_dhcp_scopes:
   # Management
   - subnet: 172.21.7.0
     default_lease_time: "{{ isc_dhcp_default_lease_time }}"
@@ -40,8 +42,6 @@ isc_dhcp_scopes:
         value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
-    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
-    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.7.101
     range_end: 172.21.7.200
 
@@ -61,8 +61,6 @@ isc_dhcp_scopes:
         value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
-    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
-    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.8.101
     range_end: 172.21.8.200
 
@@ -82,8 +80,6 @@ isc_dhcp_scopes:
         value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
-    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
-    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.21.101
     range_end: 172.21.21.200
 
@@ -103,8 +99,6 @@ isc_dhcp_scopes:
         value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
-    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
-    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.28.101
     range_end: 172.21.28.200
 
@@ -124,8 +118,6 @@ isc_dhcp_scopes:
         value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
-    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
-    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.128.101
     range_end: 172.21.128.200       
 
@@ -145,8 +137,6 @@ isc_dhcp_scopes:
         value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
-    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
-    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.21.129.11
     range_end: 172.21.129.200
 
@@ -166,7 +156,5 @@ isc_dhcp_scopes:
         value: '"balmerfamilyfarm.com", "ad.balmerfamilyfarm.com", "farm.oakops.io", "dynamic.balmerfamilyfarm.com"'
       - name: domain-name-servers
         value: "{{ isc_dhcp_name_servers|join (', ') }}"
-    ddns_domainname: '"dynamic.balmerfamilyfarm.com"'
-    ddns_rev_domainname: '"in-addr.arpa."'
     range_start: 172.23.2.11
     range_end: 172.23.2.200
