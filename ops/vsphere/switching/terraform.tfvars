@@ -48,6 +48,10 @@ port_groups = [
             {
                 min_vlan = 28
                 max_vlan = 28
+            },
+            {
+                min_vlan = 2302
+                max_vlan = 2302
             }
         ]
     },
@@ -109,6 +113,10 @@ port_groups = [
     {
         name = "vlan2050-dmz"
         vlan = 2050
+    },
+    {
+        name = "vlan2302-guest"
+        vlan = 2302
     }
 ]
 

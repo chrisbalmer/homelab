@@ -4,69 +4,120 @@ Eventually these configurations will be moved to a mix of Ansible and Terraform 
 
 ## Manual Steps
 
-- Open admin interface on port 1443
-- Add management service to network interface
-- Next
-- Set domain to balmerfamilyfarm.com
-- Set hostname to pf
-- Make sure a CNAME for pf.balmerfamilyfarm.com points to the server A record
-- Add a password, make sure it is in 1Password
-- Next
-- Login to fingerbank with github account
-- Copy API key from fingerbank to PF admin page
-- Validate
-- Next
-- Copy DB accounts to 1Password
-- Finish
-- Add DC1 via Configuration -> Policies and Access Control -> Domains -> Active Directory Domains -> New
-- Create an ID, i.e. farmad
-- Workgroup is the first part of the FQDN, i.d. ad in ad.balmerfamilyfarm.com
-- Set DNS name of domain, i.e. ad.balmerfamilyfarm.com
-- Set the directory server, i.e. opsad1.ad.balmerfamilyfarm.com
-- Set the DNS servers, use directory server IP first
-- Create and Join
-- Enter account creds to join it to the domain
-  - This requires these apps on the Palo Alto:
-    - "active-directory"
-    - "kerberos"
-    - "ldap"
-    - "ms-ds-smb-base"
-    - "ms-ds-smbv3"
-    - "msrpc-base"
-    - "ms-netlogon"
-- Once added go to the Realms tab
-- Click the default realm
-- Change domain to the AD domain just added, i.e. farmad
-- Click save then the X in upper right
-- Repeat for the null realm
-- Go to Configuration -> Policies and Access Control -> Authentication Sources
-- Click New Internal Source -> Active Directory
-  - Name: farm-active-directory
-  - Add a description
-  - Add the host information
-    - Return to add more hosts as more DCs are rolled out
-    - Return to switch to port 636 and TLS once configured on the domain
-  - Add the base DN: `DC=ad,DC=balmerfamilyfarm,DC=com`
-  - Add the Bind DN: `CN=PacketFence Service,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com`
-  - Add the Bind DN password from 1Password
-  - Click test and wait for a green check
-  - Associate with realm default
-  - Add a default authentication rule
-    - Name: default
-    - Role: default
-    - Add (plus after the role action) Access duration: 5d
-  - Click create
-  - Click X in upper right
-- Add WLC2 as a switch
-  - Policies and Access Control -> Network Devices -> Switches
-  - New Switch -> Group Default
-    - IP: 172.21.8.3
-    - Description: opswlc2
-    - Type: Cisco Wireless Controller (WLC)
-    - Tab Roles
-      - Make sure role by vlan id is on
-      - Isolation vlan: 255
-      - Default: 21
-    - RADIUS Tab
-      - Set passphrase to 1Password entry PacketFence RADIUS
-      
+- Initial Config
+  - Open https://pf.balmerfamilyfarm.com:1443
+  - Add management service to network interface
+  - Next
+  - Set domain to balmerfamilyfarm.com
+  - Set hostname to pf
+  - Make sure a CNAME for pf.balmerfamilyfarm.com points to the server A record
+  - Add a password, make sure it is in 1Password
+  - Next
+  - Login to fingerbank with github account
+  - Copy API key from fingerbank to PF admin page
+  - Validate
+  - Next
+  - Copy DB accounts to 1Password
+  - Finish
+- Add Active Directory Domain
+  - Add DC1 via Configuration -> Policies and Access Control -> Domains -> Active Directory Domains -> New
+  - Create an ID, i.e. farmad
+  - Workgroup is the first part of the FQDN, i.d. ad in ad.balmerfamilyfarm.com
+  - Set DNS name of domain, i.e. ad.balmerfamilyfarm.com
+  - Set the directory server, i.e. opsad1.ad.balmerfamilyfarm.com
+  - Set the DNS servers, use directory server IP first
+  - Create and Join
+  - Enter account creds to join it to the domain
+    - This requires these apps on the Palo Alto:
+      - "active-directory"
+      - "kerberos"
+      - "ldap"
+      - "ms-ds-smb-base"
+      - "ms-ds-smbv3"
+      - "msrpc-base"
+      - "ms-netlogon"
+- Configure Realms
+  - Go to the Realms tab
+  - Click the default realm
+  - Change domain to the AD domain just added, i.e. farmad
+  - Click save then the X in upper right
+  - Repeat for the null realm
+- Configure Roles
+  - Configuration -> Policies and Access Control -> Roles
+  - New Role
+    - trusted, Max Nodes 0
+    - guest, Max Nodes 2
+    - family, Max Nodes 4
+    - infrastructure, Max Nodes 0
+- Configure Sources
+  - Go to Configuration -> Policies and Access Control -> Authentication Sources
+  - Click New Internal Source -> Active Directory
+    - Name: farm-active-directory
+    - Add a description
+    - Add the host information
+      - Return to add more hosts as more DCs are rolled out
+      - Return to switch to port 636 and TLS once configured on the domain
+    - Add the base DN: `DC=ad,DC=balmerfamilyfarm,DC=com`
+    - Add the Bind DN: `CN=PacketFence Service,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com`
+    - Add the Bind DN password from 1Password
+    - Click test and wait for a green check
+    - Associate with realm default and null
+    - Clear any included auth rules
+    - Add New Auth Rule
+      - Name: ad_trusted_users
+      - Conditions:
+        - memberOf is member of `CN=PacketFence - RADIUS - Trusted Users,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com`
+      - Actions:
+        - Role: trusted
+        - Add (plus after the role action) Access duration: 1d
+    - Add New Auth Rule
+      - Name: ad_family_users
+      - Conditions:
+        - memberOf is member of `CN=PacketFence - RADIUS - Family Users,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com`
+      - Actions:
+        - Role: guest
+        - Add (plus after the role action) Access duration: 1d
+    - Add New Auth Rule
+      - Name: ad_guest_users
+      - Conditions:
+        - memberOf is member of `CN=PacketFence - RADIUS - Guest Users,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com`
+      - Actions:
+        - Role: guest
+        - Add (plus after the role action) Access duration: 1d
+    - Click create
+    - Click X in upper right
+- Configure Network Equipment
+  - Add WLC2 as a switch
+    - Policies and Access Control -> Network Devices -> Switches
+    - New Switch -> Group Default
+      - IP: 172.21.8.3
+      - Description: opswlc2
+      - Type: Cisco Wireless Controller (WLC)
+      - Tab Roles
+        - Make sure role by vlan id is on
+        - Isolation vlan: 255
+        - Default: 255
+        - trusted: 21
+        - family: 21
+        - guest: 21
+        - registration: 2302
+      - RADIUS Tab
+        - Set passphrase to 1Password entry PacketFence RADIUS
+- Connection Profile
+  - Configuration -> Policies And Access Control -> Connection Profiles
+  - New Connection Profile
+    - Name: 8021x
+    - Description: 8021x Wireless Access
+    - Automatically Register Devices Checked
+    - Automatically deregister devices checked
+    - Add Filter
+      - Connection Type: Wireless-802.11-EAP
+    - Sources: farm-active-directory (from the new internal source created above)
+
+## Notes
+- REALM is set by the login name in 802.1x. REALM\username or username@REALM. If none is specified, it is null.
+- If no catchall is setup to assign role REJECT, no role is assigned and device is left on network in default vlan. Sometimes it rejects as no role assigned but previously it left the device in limbo online with the default vlan. Not sure what changed. Best to have a catchall just in case.
+- Connection profile appears to assign the correct authentication source based on its criteria, the default doesn't do AD by default
+- The authentication source will auth a user but needs to match an assignment or is left in a limbo style state
+- When in limbo, vlan is based on wlan interface
+- Should probably assign wlan interface to a fake vlan 255

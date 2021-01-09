@@ -21,7 +21,9 @@ rules = [
       "ms-ds-smb-base", # Used by PacketFence
       "ms-ds-smbv3",    # Used by PacketFence
       "msrpc-base",     # Used by PacketFence
-      "ms-netlogon"     # Used by PacketFence
+      "ms-netlogon",    # Used by PacketFence
+      "icmp",           # Used by PacketFence
+      "ping"            # Used by PacketFence
     ]
 
     profile_group = "balmer family farm default"
@@ -39,6 +41,27 @@ rules = [
     destination_addresses = ["radius servers"]
     applications = [
       "radius"
+    ]
+
+    profile_group = "balmer family farm default"
+
+    log_setting = "Log Everything to Splunk Lab"
+    log_start   = true
+    log_end     = true
+  },
+  {
+    name        = "RADIUS Server to Internal Infrastructure Access"
+    action      = "allow"
+    description = "Allow RADIUS servers to access the infrastructure it supports."
+
+    source_addresses = ["radius servers"]
+    destination_addresses = [
+      "palo alto firewalls",
+      "wireless lan controllers"
+    ]
+    applications = [
+      "ssl",
+      "web-browsing"
     ]
 
     profile_group = "balmer family farm default"

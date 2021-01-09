@@ -110,6 +110,10 @@ tags = [
   {
     name = "radius client"
     comment = "Client consuming a RADIUS service"
+  },
+  {
+    name = "wireless lan controller"
+    comment = "Controller for the wireless networks"
   }
 ]
 
@@ -336,7 +340,8 @@ addresses = [
     name = "opswlc2"
     value = "172.21.8.3"
     tags = [
-      "radius client"
+      "radius client",
+      "wireless lan controller"
     ]
   }
 ]
@@ -454,6 +459,11 @@ address_groups = [
     name = "radius clients"
     dynamic_match = "'radius client'"
     description = "Clients consuming a RADIUS service"
+  },
+  {
+    name = "wireless lan controllers"
+    dynamic_match = "'wireless lan controller'"
+    description = "Controllers managing the wireless networks"
   }
 ]
 
