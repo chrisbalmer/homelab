@@ -48,6 +48,12 @@ zones = {
     ips       = ["172.21.21.1/24"]
     comment   = "endpoints"
     name      = "endpoints"
+  },
+  "iot" = {
+    interface = "ethernet1/9.28"
+    ips       = ["172.21.28.1/24"]
+    comment   = "iot"
+    name      = "iot"
   }
 }
 

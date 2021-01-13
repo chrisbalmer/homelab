@@ -64,56 +64,60 @@ tags = [
     comment = "Items part of the internal network"
   },
   {
-    name = "linux repo domain"
+    name    = "linux repo domain"
     comment = "Domains used for updating Linux systems"
   },
   {
-    name = "linux repo server"
+    name    = "linux repo server"
     comment = "Server used for updating Linux systems"
   },
   {
-    name = "pihole server"
+    name    = "pihole server"
     comment = "Server used for DNS with domain block lists"
   },
   {
-    name = "doh ip"
+    name    = "doh ip"
     comment = "IPs used for DNS over HTTPS"
   },
   {
-    name = "doh server"
+    name    = "doh server"
     comment = "Server used to communicate with DNS over HTTPS"
   },
   {
-    name = "acme client"
+    name    = "acme client"
     comment = "Client that reaches out to an ACME server like Let's Encrypt"
   },
   {
-    name = "docker registry"
+    name    = "docker registry"
     comment = "Server that provides docker images"
   },
   {
-    name = "docker system"
+    name    = "docker system"
     comment = "System running docker containers"
   },
   {
-    name = "acme dns server"
+    name    = "acme dns server"
     comment = "External DNS server used to solve ACME DNS challenges"
   },
   {
-    name = "packetfence server"
+    name    = "packetfence server"
     comment = "Server running PacketFence software"
   },
   {
-    name = "radius server"
+    name    = "radius server"
     comment = "Server running RADIUS software"
   },
   {
-    name = "radius client"
+    name    = "radius client"
     comment = "Client consuming a RADIUS service"
   },
   {
-    name = "wireless lan controller"
+    name    = "wireless lan controller"
     comment = "Controller for the wireless networks"
+  },
+  {
+    name    = "dhcp server"
+    comment = "DHCP server for the network"
   }
 ]
 
@@ -152,7 +156,7 @@ addresses = [
   {
     name  = "opsdns1"
     value = "172.21.129.251"
-    tags  = [
+    tags = [
       "dns server",
       "pihole server",
       "doh server",
@@ -162,7 +166,7 @@ addresses = [
   {
     name  = "opsdns2"
     value = "172.21.129.252"
-    tags  = [
+    tags = [
       "dns server",
       "pihole server",
       "doh server",
@@ -208,66 +212,66 @@ addresses = [
     tags  = ["internal network"]
   },
   {
-    name = "opsrepo1"
+    name  = "opsrepo1"
     value = "172.21.129.4"
-    tags = ["linux repo server"]
+    tags  = ["linux repo server"]
   },
   {
-    name = "mirror.liquidtelecom.com"
+    name  = "mirror.liquidtelecom.com"
     value = "mirror.liquidtelecom.com"
-    type = "fqdn"
-    tags = ["linux repo domain"]
+    type  = "fqdn"
+    tags  = ["linux repo domain"]
   },
   {
-    name = "mirrors.liquidweb.com"
+    name  = "mirrors.liquidweb.com"
     value = "mirrors.liquidweb.com"
-    type = "fqdn"
-    tags = ["linux repo domain"]
+    type  = "fqdn"
+    tags  = ["linux repo domain"]
   },
   {
-    name = "download.docker.com"
+    name  = "download.docker.com"
     value = "download.docker.com"
-    type = "fqdn"
-    tags = ["linux repo domain"]
+    type  = "fqdn"
+    tags  = ["linux repo domain"]
   },
   {
-    name = "registry-1.docker.io"
+    name  = "registry-1.docker.io"
     value = "registry-1.docker.io"
-    type = "fqdn"
-    tags = ["linux repo domain"]
+    type  = "fqdn"
+    tags  = ["linux repo domain"]
   },
   {
-    name = "production.cloudflare.docker.com"
+    name  = "production.cloudflare.docker.com"
     value = "production.cloudflare.docker.com"
-    type = "fqdn"
-    tags = ["linux repo domain"]
+    type  = "fqdn"
+    tags  = ["linux repo domain"]
   },
   {
-    name = "ubuntu.com"
+    name  = "ubuntu.com"
     value = "ubuntu.com"
-    type = "fqdn"
-    tags = ["linux repo domain"]
+    type  = "fqdn"
+    tags  = ["linux repo domain"]
   },
   {
-    name = "security.ubuntu.com"
+    name  = "security.ubuntu.com"
     value = "security.ubuntu.com"
-    type = "fqdn"
-    tags = ["linux repo domain"]
+    type  = "fqdn"
+    tags  = ["linux repo domain"]
   },
   {
-    name = "ca.archive.ubuntu.com"
+    name  = "ca.archive.ubuntu.com"
     value = "ca.archive.ubuntu.com"
-    type = "fqdn"
-    tags = ["linux repo domain"]
+    type  = "fqdn"
+    tags  = ["linux repo domain"]
   },
   {
-    name = "changelogs.ubuntu.com"
+    name  = "changelogs.ubuntu.com"
     value = "changelogs.ubuntu.com"
-    type = "fqdn"
-    tags = ["linux repo domain"]
+    type  = "fqdn"
+    tags  = ["linux repo domain"]
   },
   {
-    name = "1.1.1.3"
+    name  = "1.1.1.3"
     value = "1.1.1.3"
     tags = [
       "doh ip",
@@ -275,7 +279,7 @@ addresses = [
     ]
   },
   {
-    name = "1.0.0.3"
+    name  = "1.0.0.3"
     value = "1.0.0.3"
     tags = [
       "doh ip",
@@ -283,25 +287,25 @@ addresses = [
     ]
   },
   {
-    name = "ns1.digitalocean.com"
+    name  = "ns1.digitalocean.com"
     value = "ns1.digitalocean.com"
-    type = "fqdn"
-    tags = ["acme dns server"]
+    type  = "fqdn"
+    tags  = ["acme dns server"]
   },
   {
-    name = "ns2.digitalocean.com"
+    name  = "ns2.digitalocean.com"
     value = "ns2.digitalocean.com"
-    type = "fqdn"
-    tags = ["acme dns server"]
+    type  = "fqdn"
+    tags  = ["acme dns server"]
   },
   {
-    name = "ns3.digitalocean.com"
+    name  = "ns3.digitalocean.com"
     value = "ns3.digitalocean.com"
-    type = "fqdn"
-    tags = ["acme dns server"]
+    type  = "fqdn"
+    tags  = ["acme dns server"]
   },
   {
-    name = "bootstrap"
+    name  = "bootstrap"
     value = "172.21.7.211"
     tags = [
       "linux repo server",
@@ -313,7 +317,7 @@ addresses = [
     ]
   },
   {
-    name = "opsdocker1"
+    name  = "opsdocker1"
     value = "172.21.129.12"
     tags = [
       "docker system",
@@ -321,7 +325,7 @@ addresses = [
     ]
   },
   {
-    name = "opsdocker2"
+    name  = "opsdocker2"
     value = "172.21.129.13"
     tags = [
       "docker system",
@@ -329,7 +333,7 @@ addresses = [
     ]
   },
   {
-    name = "opspf1"
+    name  = "opspf1"
     value = "172.21.128.11"
     tags = [
       "packetfence server",
@@ -337,11 +341,25 @@ addresses = [
     ]
   },
   {
-    name = "opswlc2"
+    name  = "opswlc2"
     value = "172.21.8.3"
     tags = [
       "radius client",
       "wireless lan controller"
+    ]
+  },
+  {
+    name  = "opsdhcp1"
+    value = "172.21.129.2"
+    tags = [
+      "dhcp server"
+    ]
+  },
+  {
+    name  = "opsdhcp2"
+    value = "172.21.129.3"
+    tags = [
+      "dhcp server"
     ]
   }
 ]
@@ -401,69 +419,74 @@ address_groups = [
     description   = "Systems on the internal network"
   },
   {
-    name = "linux repo servers"
+    name          = "linux repo servers"
     dynamic_match = "'linux repo server'"
-    description = "Servers used to update Linux systems"
+    description   = "Servers used to update Linux systems"
   },
   {
-    name = "linux repo domains"
+    name          = "linux repo domains"
     dynamic_match = "'linux repo domain'"
-    description = "Domains used by the Linux repo servers to pull down updates for their repos"
+    description   = "Domains used by the Linux repo servers to pull down updates for their repos"
   },
   {
-    name = "pihole servers"
+    name          = "pihole servers"
     dynamic_match = "'pihole server'"
-    description = "DNS servers with blocklists"
+    description   = "DNS servers with blocklists"
   },
   {
-    name = "doh servers"
+    name          = "doh servers"
     dynamic_match = "'doh server'"
-    description = "DNS servers perfroming DNS over HTTPS"
+    description   = "DNS servers perfroming DNS over HTTPS"
   },
   {
-    name = "doh ips"
+    name          = "doh ips"
     dynamic_match = "'doh ip'"
-    description = "IPs used by the doh servers to perform DNS lookups"
+    description   = "IPs used by the doh servers to perform DNS lookups"
   },
   {
-    name = "acme clients"
+    name          = "acme clients"
     dynamic_match = "'acme client'"
-    description = "Clients that will connect to ACME servers to pull down certs"
+    description   = "Clients that will connect to ACME servers to pull down certs"
   },
   {
-    name = "docker registries"
+    name          = "docker registries"
     dynamic_match = "'docker registry'"
-    description = "Servers that provide docker images"
+    description   = "Servers that provide docker images"
   },
   {
-    name = "docker systems"
+    name          = "docker systems"
     dynamic_match = "'docker system'"
-    description = "Systems that run docker containers"
+    description   = "Systems that run docker containers"
   },
   {
-    name = "acme dns servers"
+    name          = "acme dns servers"
     dynamic_match = "'acme dns server'"
-    description = "External DNS servers used to solve ACME DNS challenges"
+    description   = "External DNS servers used to solve ACME DNS challenges"
   },
   {
-    name = "packetfence servers"
+    name          = "packetfence servers"
     dynamic_match = "'packetfence server'"
-    description = "Servers running the PacketFence software"
+    description   = "Servers running the PacketFence software"
   },
   {
-    name = "radius servers"
+    name          = "radius servers"
     dynamic_match = "'radius server'"
-    description = "Servers running the RADIUS software"
+    description   = "Servers running the RADIUS software"
   },
   {
-    name = "radius clients"
+    name          = "radius clients"
     dynamic_match = "'radius client'"
-    description = "Clients consuming a RADIUS service"
+    description   = "Clients consuming a RADIUS service"
   },
   {
-    name = "wireless lan controllers"
+    name          = "wireless lan controllers"
     dynamic_match = "'wireless lan controller'"
-    description = "Controllers managing the wireless networks"
+    description   = "Controllers managing the wireless networks"
+  },
+  {
+    name          = "dhcp servers"
+    dynamic_match = "'dhcp server'"
+    description   = "DHCP servers for the network"
   }
 ]
 

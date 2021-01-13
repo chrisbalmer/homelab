@@ -61,7 +61,9 @@ rules = [
     ]
     applications = [
       "ssl",
-      "web-browsing"
+      "web-browsing",
+      "radius-dynamic-authorization",
+      "snmp"
     ]
 
     profile_group = "balmer family farm default"

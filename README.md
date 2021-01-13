@@ -5,18 +5,6 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
 ## Tasks
 
 - Ansible
-  - [X] Setup docker registry on ~~mirror~~bootstrap system with ansible role
-  - [X] Move Yum Repo ansible setup to role
-  - [X] Move yum mirror ansible setup to role
-  - [X] Move pihole to docker-compose role
-  - [X] Update docker registry password name to be docker-registry.balmerfamilyfarm.com
-  - [X] Fix docker-compose image version issue in the template for traefik. Set it specific for now, check old copy and compare.
-  - [X] ~~Expand docker-compose role to work with config files~~ Using separate roles for now to perform further configuration
-  - [X] Move remaining pihole configs to variables from the compose yaml file
-  - [X] Adapt pihole/docker roles for CentOS (bootstrap server is Ubuntu)
-  - [X] Add docker registry proxy to pull through - option added but not in use due to how this works (can't do both proxy and private registry)
-  - [ ] Enable bootstrap firewall
-  - [ ] Change traefik setup to use dynamic toml files so the docker socket mount can be removed along with privileged mode on SELinux systems
   - [ ] Change traefik containers to use non root user
   - [ ] Change pihole containers to use non root user
   - [ ] Move all http/https services on bootstrap to traefik
@@ -28,26 +16,38 @@ This is meant to be a start to finish deployment of my homelab using only IAC an
   - [ ] Clean up docker-compose role firewall
   - [ ] Block private IP lookups forwarding to upstream servers on pihole
 - Terraform
-  - [X] Write PanOS rule module
-    - [X] Base module
-    - [X] Add address groups to base module
-    - [X] ~~Add tags to base module~~ Add tags to an objects module
-    - [X] `ops/panos/rules/deny_all` which builds the bottom deny all rule
-    - [X] `ops/panos/rules/$purpose` which builds a rule around the specified purpose, including tags and address groups
-  - [X] Rewrite vSphere VM module
-    - [X] Add tags for PanOS (added to objects module)
-    - [X] Add IPs from servers to PanOS with tags
-  - [X] Build new DHCP server
-    - [X] ~~Write~~Find Ansible role for isc-dhcp-server
-  - [X] ~~Determine how to handle relay on PanOS~~ DHCP relay is not available in terraform yet, continuing to configure manually
   - [ ] Finish DNS server setups
   - [ ] Move PanOS object creation for server IPs to the server creation, avoids placing IP info into multiple spots
   - [ ] Add VM affinity rules to keep specific VMs separate (like dns1 and dns2)
   - [ ] Rebuild the vsphere server module to support better inheritance
+  - [ ] Allow DHCP servers to ping clients
+  - [ ] Allow Firewall access to DHCP servers via rule
 - Misc
   - [ ] Figure out pypi mirroring or method to maintain needed packages locally
   - [ ] Move in Zeek build to this repo
   - [ ] Clean up url lists in PanOS. One for bootstrap and one for DNS servers.
+  - [ ] Fix bootstrap power loss issue, the LattePanda does not automatically start up after a power loss
+  - [ ] Determine why opsesxi2 sometimes does not boot ESXi
+  - [ ] Determine why mgmtesxi1 does not power up after a power loss
+  - [ ] Determine why edgefw1 sometimes has ports not connected after a power loss
+  - [ ] Move issues to GitHub issues and out of README.md
+
+## Power loss checks
+
+These are the manual steps/checks that need to be performed after a power loss.
+
+1.  Check bootstrap is booted
+2.  Check mgmtesxi1 is booted
+3.  Check ops hosts are booted
+4.  Check switch 1 and 2 for power and full boot up
+5.  Check edgefw1 network ports are all connected
+6.  Check HA status of VMs
+7.  Check vSAN status
+8.  Check WLC status
+9.  Check DHCP status
+10. Check DNS status
+11. Check wireless APs status
+12. Check PacketFence status
 
 ## Setup
 
