@@ -8,17 +8,17 @@ compose_pihole:
   pihole:
     names: 
       dns: "{{ pihole_name }}"
-      doh: cloudflared
+      doh: "cloudflared"
     versions:
-      dns: v5.3.4
+      dns: v5.5.1
       doh: 2020.12.0
     mounts:
       dns:
         local: "{{ pihole_path }}"
     selinux: ":Z"
     images:
-      dns: docker-registry.balmerfamilyfarm.com/pihole/pihole
-      doh: docker-registry.balmerfamilyfarm.com/cloudflare/cloudflared
+      dns: "{{ docker_registry }}/pihole/pihole"
+      doh: "{{ docker_registry }}/cloudflare/cloudflared"
     ports:
       dns_tcp:
         protocol: tcp
@@ -36,8 +36,8 @@ compose_pihole:
     password: "{{ lookup('community.general.onepassword', 'pihole login') }}"
     domain: "{{ pihole_domain }}"
     http_port: 80
-    upstream_1: https://1.0.0.3/dns-query
-    upstream_2: https://1.1.1.3/dns-query
+    upstream_1: https://family.cloudflare-dns.com/dns-query
+    upstream_2: https://family.cloudflare-dns.com/dns-query
     bootstrap_dns_1: 1.1.1.3
     bootstrap_dns_2: 1.0.0.3
     dns_network:

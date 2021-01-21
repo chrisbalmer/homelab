@@ -8,7 +8,7 @@ compose_traefik:
         container: /etc/traefik
     selinux: ":Z"
     images:
-      app: docker-registry.balmerfamilyfarm.com/traefik:2.2.0
+      app: "{{ docker_registry }}/traefik:2.2.0"
     ports:
       https:
         protocol: tcp

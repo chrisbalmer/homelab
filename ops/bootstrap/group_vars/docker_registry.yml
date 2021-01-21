@@ -1,7 +1,7 @@
 ---
 docker_images:
   - name: pihole/pihole
-    tag: "v5.3.4"
+    tag: "v5.5.1"
   - name: cloudflare/cloudflared
     tag: "2020.12.0"
   - name: traefik

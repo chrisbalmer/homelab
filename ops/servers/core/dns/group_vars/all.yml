@@ -3,3 +3,4 @@ firewall_services:
   - dns
   - http
   - https
+docker_registry: docker-registry.balmerfamilyfarm.com

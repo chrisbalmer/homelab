@@ -10,6 +10,6 @@
   roles:
     - ../../../../roles/yum-repos
     - ../../../../roles/firewall
-    - geerlingguy.nfs
+    - chrisbalmer.nfs
     - ../../../../roles/docker
     - chrisbalmer.docker-compose
