@@ -10,7 +10,7 @@ networks = [
       port_group   = "vlan129-servers"
       ipv4_address = "172.21.129.2/24"
       gateway      = "172.21.129.1"
-      nameservers  = "172.21.7.254,172.21.128.254"
+      nameservers  = "172.21.129.251,172.21.129.252,172.21.7.211"
     }
   ],
   [
@@ -19,7 +19,7 @@ networks = [
       port_group   = "vlan129-servers"
       ipv4_address = "172.21.129.3/24"
       gateway      = "172.21.129.1"
-      nameservers  = "172.21.7.254,172.21.128.254"
+      nameservers  = "172.21.129.251,172.21.129.252,172.21.7.211"
     }
   ]
 ]
