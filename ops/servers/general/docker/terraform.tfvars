@@ -25,8 +25,9 @@ networks = [
 ]
 
 vm = {
-  disks   = [{ template = true }]
-  memory = 8192
+  disks    = [{ template = true }]
+  memory   = 8192
+  template = "centos7-2021-01-27"
 }
 
 ansible_groups = [

@@ -28,6 +28,7 @@ vm = {
   gateway = "172.21.129.1"
   disks   = [{ template = true }]
   memory  = 2048
+  template = "centos7-2021-01-27"
 }
 
 ansible_groups = [

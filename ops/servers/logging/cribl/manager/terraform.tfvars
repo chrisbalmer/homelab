@@ -16,9 +16,10 @@ networks = [
 ]
 
 vm = {
-  gateway = "172.21.129.1"
-  disks   = [{ template = true }]
-  memory  = 4096
+  gateway  = "172.21.129.1"
+  disks    = [{ template = true }]
+  memory   = 4096
+  template = "centos7-2021-01-27"
 }
 
 ansible_groups = [
