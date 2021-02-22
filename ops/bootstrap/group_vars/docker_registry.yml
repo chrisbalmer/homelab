@@ -24,6 +24,14 @@ docker_images:
     tag: "8.8.0"
   - name: atlassian/jira-software
     tag: "8.13.2"
+  - name: ansible/awx
+    tag: "17.0.1"
+  - name: redis
+    tag: "6.0.10"
+  - name: postgres
+    tag: "12"
+  - name: centos
+    tag: "8"
 
 compose_docker_registry:
   docker_registry:

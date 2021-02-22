@@ -118,6 +118,10 @@ tags = [
   {
     name    = "dhcp server"
     comment = "DHCP server for the network"
+  },
+  {
+    name    = "awx server"
+    comment = "Server running AWX for managing systems with Ansible"
   }
 ]
 
@@ -360,6 +364,15 @@ addresses = [
     value = "172.21.129.3"
     tags = [
       "dhcp server"
+    ]
+  },
+  {
+    name  = "opsawx1"
+    value = "172.21.129.11"
+    tags = [
+      "docker system",
+      "acme client",
+      "awx server"
     ]
   }
 ]
