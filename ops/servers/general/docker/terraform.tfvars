@@ -34,6 +34,7 @@ ansible_groups = [
   [
     "docker",
     "gitea",
+    "wikijs",
     "traefik"
   ],
   [

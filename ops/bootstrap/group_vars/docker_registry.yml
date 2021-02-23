@@ -12,10 +12,6 @@ docker_images:
     tag: "1.8.0"
   - name: gitea/gitea
     tag: "1.13.1"
-  - name: postgres
-    tag: "11.2"
-  - name: postgres
-    tag: "11.10"
   - name: atlassian/confluence-server
     tag: "7.3.5"
   - name: atlassian/confluence-server
@@ -29,9 +25,17 @@ docker_images:
   - name: redis
     tag: "6.0.10"
   - name: postgres
+    tag: "11.2"
+  - name: postgres
+    tag: "11.10"
+  - name: postgres
     tag: "12"
+  - name: postgres
+    tag: "13.2"
   - name: centos
     tag: "8"
+  - name: requarks/wiki
+    tag: "2.5.170"
 
 compose_docker_registry:
   docker_registry:

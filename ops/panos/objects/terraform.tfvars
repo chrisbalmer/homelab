@@ -370,7 +370,6 @@ addresses = [
     name  = "opsawx1"
     value = "172.21.129.11"
     tags = [
-      "docker system",
       "acme client",
       "awx server"
     ]
@@ -500,6 +499,11 @@ address_groups = [
     name          = "dhcp servers"
     dynamic_match = "'dhcp server'"
     description   = "DHCP servers for the network"
+  },
+  {
+    name          = "awx servers"
+    dynamic_match = "'awx server'"
+    description   = "AWX servers for the network"
   }
 ]
 

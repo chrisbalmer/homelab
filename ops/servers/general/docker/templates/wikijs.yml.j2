@@ -1,0 +1,63 @@
+version: '3.3'
+networks:
+    traefik:
+        external:
+            name: "{{ traefik_network }}"
+    wikijs:
+        external: false
+services:
+    db:
+        image: "{{ composes.wikijs.images.db }}"
+        user: "{{ composes.wikijs.user }}:{{ composes.wikijs.group }}"
+        restart: always
+        environment:
+            - "POSTGRES_USER={{ composes.wikijs.db_user }}"
+            - "POSTGRES_PASSWORD={{ composes.wikijs.db_pass }}"
+            - "POSTGRES_DB={{ composes.wikijs.db_name }}"
+        networks:
+            - wikijs
+        volumes:
+            - "{{ composes.wikijs.mounts.db.local }}:/var/lib/postgresql/data"
+{% if splunk.hec_endpoint is defined %}
+        logging:
+            driver: splunk
+            options:
+                splunk-url: "{{ splunk.hec_endpoint }}"
+                splunk-token: "{{ splunk.hec_token }}"
+                splunk-insecureskipverify: "{{ splunk.hec_skip_verify }}"
+                splunk-format: "{{ splunk.hec_format }}"
+{% endif %}
+    app:
+        image: "{{ composes.wikijs.images.app }}"
+        environment:
+            - OFFLINE=true
+            - DB_TYPE=postgres
+            - DB_HOST=db
+            - DB_PORT=5432
+            - "DB_NAME={{ composes.wikijs.db_name }}"
+            - "DB_USER={{ composes.wikijs.db_user }}"
+            - "DB_PASS={{ composes.wikijs.db_pass }}"
+        restart: always
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.wikijs.rule=Host(`{{ composes.wikijs.domain }}`)"
+            - "traefik.http.routers.wikijs.tls=true"
+            - "traefik.http.routers.wikijs.tls.certresolver=letsencrypt"
+            - "traefik.http.services.wikijs.loadbalancer.server.port={{ composes.wikijs.http_port }}"
+            - "traefik.docker.network={{ traefik_network }}"
+        networks:
+            - wikijs
+            - traefik
+        volumes:
+            - "{{ composes.wikijs.mounts.app.local }}:/data"
+{% if splunk.hec_endpoint is defined %}
+        logging:
+            driver: splunk
+            options:
+                splunk-url: "{{ splunk.hec_endpoint }}"
+                splunk-token: "{{ splunk.hec_token }}"
+                splunk-insecureskipverify: "{{ splunk.hec_skip_verify }}"
+                splunk-format: "{{ splunk.hec_format }}"
+{% endif %}
+        depends_on:
+            - db

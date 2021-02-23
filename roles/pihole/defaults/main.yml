@@ -5,6 +5,8 @@ pihole_path: /var/pihole
 conditional_forwards:
   - domain: oakops.io
     server: 172.21.7.254
+  - domain: oakops.com
+    server: 172.21.7.254
   - domain: balmerfamilyfarm.com
     server: 172.21.7.254
   - domain: family.cloudflare-dns.com
