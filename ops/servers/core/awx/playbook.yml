@@ -24,6 +24,7 @@
       template:
         src: tower_cli.cfg.j2
         dest: ~/.tower_cli.cfg
+        mode: 0600
 
     - name: Create tower organization
       awx.awx.tower_organization:
