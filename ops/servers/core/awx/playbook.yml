@@ -65,13 +65,13 @@
             op_key: "{{ '{{' }} op_key {{ '}}' }}"
             op_password: "{{ '{{' }} op_password {{ '}}' }}"
 
-    - name: Add credentials for each organization
+    - name: Add credentials
       awx.awx.tower_credential:
         credential_type: "{{ item.1.type }}"
         name: "{{ item.1.name }}"
         inputs: "{{ item.1.inputs }}"
         organization: "{{ item.0.name }}"
-      loop: "{{ awx_organizations|subelements('credentials') }}"
+      loop: "{{ q('subelements', awx_organizations, 'credentials', {'skip_missing': True}) }}"
       loop_control:
         label: "{{ item.0.name }} - {{ item.1.name }}"
 
@@ -81,10 +81,37 @@
         description: "{{ item.1.description }}"
         organization: "{{ item.0.name }}"
         state: present
-        variables: "{{ item.1.variables }}"
-      loop: "{{ awx_organizations|subelements('inventories') }}"
+        variables: "{{ item.1.variables | default({}) }}"
+      loop: "{{ q('subelements', awx_organizations, 'inventories', {'skip_missing': True}) }}"
       loop_control:
         label: "{{ item.0.name }} - {{ item.1.name }}"
+
+    - name: Combine all inventories
+      set_fact:
+        awx_all_inventories: >
+          {{ awx_all_inventories|d([])
+            + [ {} | combine({'org': item.0.name}) | combine(item.1) ]
+          }}
+      loop: "{{ q('subelements', awx_organizations, 'inventories', {'skip_missing': True}) }}"
+      loop_control:
+        label: "{{ item.0.name }} - {{ item.1.name }}"
+
+    - name: Add inventory sources
+      awx.awx.tower_inventory_source:
+        name: "{{ item.1.name }}"
+        description: "{{ item.1.description }}"
+        inventory: "{{ item.0.name }}"
+        credential: "{{ item.1.credential }}"
+        overwrite: "{{ item.1.overwrite }}"
+        update_on_launch: "{{ item.1.update_on_launch }}"
+        organization: "{{ item.0.org }}"
+        source: "{{ item.1.source }}"
+        source_vars: "{{ item.1.vars }}"
+      loop: "{{ q('subelements', awx_all_inventories, 'sources', {'skip_missing': True}) }}"
+      loop_control:
+        label: "{{ item.0.org }} - {{ item.0.name }} - {{ item.1.name }}"
+      
+
 
     - name: Add hosts
       awx.awx.tower_host:
@@ -105,7 +132,7 @@
         scm_branch: "{{ item.1.branch }}"
         scm_update_on_launch: False
         scm_url: "{{ item.1.git }}"
-      loop: "{{ awx_organizations|subelements('projects') }}"
+      loop: "{{ q('subelements', awx_organizations, 'projects', {'skip_missing': True}) }}"
       loop_control:
         label: "{{ item.0.name }} - {{ item.1.name }}"
 
@@ -118,7 +145,7 @@
         project: "{{ item.1.project }}"
         playbook: "{{ item.1.playbook }}"
         state: "present"
-      loop: "{{ awx_organizations|subelements('templates') }}"
+      loop: "{{ q('subelements', awx_organizations, 'templates', {'skip_missing': True}) }}"
       loop_control:
         label: "{{ item.0.name }} - {{ item.1.name }}"
 
@@ -136,6 +163,7 @@
       set_fact:
         awx_org_map: "{{ awx_org_map|default({}) | combine({item.name: item.map}) }}"
       loop: "{{ awx_organizations }}"
+      when: item.map is not undefined
       loop_control:
         label: "{{ item.name }}"
 

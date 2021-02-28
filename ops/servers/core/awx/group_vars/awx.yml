@@ -59,6 +59,26 @@ awx_organizations:
         variables:
           ansible_connection: local
           op_version: 1.8.0
+      - name: "vCenter"
+        description: "VMs from vCenter"
+        sources:
+          - name: vCenter Plugin
+            description: Pulls inventory from vCenter
+            credential: vcenter.balmerfamilyfarm.com
+            overwrite: True
+            update_on_launch: True
+            source: vmware
+            vars:
+              with_tags: True
+              keyed_groups:
+                - key: tag_category.ansible_groups
+                  prefix: "vmware_tag_ansible_groups_"
+                  separator: ""
+              filters:
+                - config.template == false
+                - summary.runtime.powerState == "poweredOn"
+      - name: "Bootstrap"
+        description: "Systems used to bootstrap the homelab"
     projects:
       - name: 1Password AWX Setup
         description: Install the 1Password Binary on the AWX Container
@@ -70,6 +90,7 @@ awx_organizations:
         inventory: Local Inventory
         project: 1Password AWX Setup
         playbook: setup.yml
+  - name: Org2
 
 
 # Non organization specific configs
