@@ -1,4 +1,5 @@
 ---
+# General settings
 dockerhub_base: "{{ docker_registry }}/ansible"
 awx_task_hostname: awx
 awx_web_hostname: awxweb
@@ -7,18 +8,21 @@ host_port: 80
 host_port_ssl: 443
 docker_compose_dir: "~/.awx/awxcompose"
 
+# DBMS settings
 pg_username: "{{ lookup('onepassword', 'AWX Balmer Family Farm DBMS - admin', field='username', vault='homelab') }}"
 pg_password: "{{ lookup('onepassword', 'AWX Balmer Family Farm DBMS - admin', field='password', vault='homelab') }}"
 pg_database: awx
 pg_port: 5432
 
+# AWX local admin settings
 admin_user: "{{ lookup('onepassword', 'AWX Balmer Family Farm - admin', field='username', vault='homelab') }}"
 admin_password: "{{ lookup('onepassword', 'AWX Balmer Family Farm - admin', field='password', vault='homelab') }}"
 secret_key: "{{ lookup('onepassword', 'AWX Balmer Family Farm - admin', field='key', vault='homelab') }}"
+
+
+# Container settings
 project_data_dir: /var/lib/awx/projects
-
 awx_domain: awx.balmerfamilyfarm.com
-
 awx_web_container_labels:
   - "traefik.enable=true"
   - "traefik.http.routers.awx.rule=Host(`{{ awx_domain }}`)"
@@ -27,15 +31,58 @@ awx_web_container_labels:
   - "traefik.http.services.awx.loadbalancer.server.port=8052"
   - "traefik.docker.network={{ traefik_network }}"
 
-awx_organization: Balmer Family Farm
+# Organization specific configs
+awx_organizations:
+  - name: Balmer Family Farm
+    map:
+      admins: "CN=AWX Admins,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com"
+      remove_users: false
+      remove_admins: false
+      users: true
+    credentials:
+      - name: vcenter.balmerfamilyfarm.com
+        type: VMware vCenter
+        inputs:
+          host: "vcenter.balmerfamilyfarm.com"
+          username: "svc_awx@ad.balmerfamilyfarm.com"
+          password: "{{ lookup('onepassword', 'AWX Balmer Family Farm - ldap', field='password', vault='homelab') }}"
+      - name: 1Password
+        type: 1Password Login 
+        inputs:
+          op_email: "{{ lookup('onepassword', '1Password - Automation', field='username', vault='homelab') }}"
+          op_domain: "my"
+          op_key: "{{ lookup('onepassword', '1Password Account - automation', field='secret key', vault='homelab') }}"
+          op_password: "{{ lookup('onepassword', '1Password - Automation', field='password', vault='homelab') }}"
+    inventories:
+      - name: "Local Inventory"
+        description: "AWX Container"
+        variables:
+          ansible_connection: local
+          op_version: 1.8.0
+    projects:
+      - name: 1Password AWX Setup
+        description: Install the 1Password Binary on the AWX Container
+        git: https://github.com/chrisbalmer/ansible-playbook-onepassword-setup.git
+        branch: v1.0.1
+    templates:
+      - name: 1Password on AWX
+        job_type: run
+        inventory: Local Inventory
+        project: 1Password AWX Setup
+        playbook: setup.yml
 
-awx_projects:
-  - name: 1Password AWX Setup
-    description: Install the 1Password Binary on the AWX Container
-    git: https://github.com/chrisbalmer/ansible-playbook-onepassword-setup.git
-    branch: v1.0.1
 
+# Non organization specific configs
+awx_schedules:
+  - name: Keep 1Password on AWX Container
+    job_template: 1Password on AWX
+    rrule: "DTSTART:20191219T130551Z RRULE:FREQ=MINUTELY;INTERVAL=30"
+awx_hosts:
+  - name: localhost
+    description: "AWX Container"
+    inventory: "Local Inventory"
 
+# Global LDAP Settings
 awx_ldap_uri: "ldap://opsad1.ad.balmerfamilyfarm.com:389"
 awx_ldap_bind_dn: "{{ lookup('onepassword', 'AWX Balmer Family Farm - ldap', field='username', vault='homelab') }}"
 awx_ldap_bind_password: "{{ lookup('onepassword', 'AWX Balmer Family Farm - ldap', field='password', vault='homelab') }}"
@@ -55,9 +102,3 @@ awx_ldap_attribute_map:
   email: "mail"
 awx_ldap_user_flags_by_group:
   is_superuser: "CN=AWX Admins,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com"
-awx_ldap_org_map:
-  "Balmer Family Farm":
-    admins: "CN=AWX Admins,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com"
-    remove_users: false
-    remove_admins: false
-    users: true

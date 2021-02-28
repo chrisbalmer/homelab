@@ -8,6 +8,24 @@ position_reference = "Block High Risk Applications"
 
 rules = [
   {
+    name        = "AWX Access to vCenter"
+    action      = "allow"
+    description = "Allow awx systems to access vCenter for inventory."
+
+    source_addresses = ["awx servers"]
+    destination_addresses     = ["vcenter servers"]
+    applications = [
+      "ssl",
+      "web-browsing"
+    ]
+
+    profile_group = "awx"
+
+    log_setting = "Log Everything to Splunk Lab"
+    log_start   = true
+    log_end     = true
+  },
+  {
     name        = "Outbound Web Access AWX Systems"
     action      = "allow"
     description = "Allow awx systems outbound access for a few URLs."

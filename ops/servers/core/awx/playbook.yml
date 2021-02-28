@@ -15,14 +15,24 @@
     - chrisbalmer.docker-compose
     - ../../../../../ansible-role-awx/
   tasks:
+
+    - name: Wait for traefik to create required certs
+      pause:
+        minutes: 1
+
     - name: Setup Tower CLI
       template:
         src: tower_cli.cfg.j2
         dest: ~/.tower_cli.cfg
+
     - name: Create tower organization
       awx.awx.tower_organization:
-        name: "{{ awx_organization }}"
+        name: "{{ item.name }}"
         state: present
+      loop: "{{ awx_organizations }}"
+      loop_control:
+        label: "{{ item.name }}"
+
     - name: Add 1Password Credential Type
       awx.awx.tower_credential_type:
         name: 1Password Login
@@ -54,65 +64,81 @@
             op_email: "{{ '{{' }} op_email {{ '}}' }}"
             op_key: "{{ '{{' }} op_key {{ '}}' }}"
             op_password: "{{ '{{' }} op_password {{ '}}' }}"
-    - name: Add 1Password Credential
+
+    - name: Add credentials for each organization
       awx.awx.tower_credential:
-        credential_type: 1Password Login
-        name: 1Password
-        inputs:
-          op_email: "{{ lookup('onepassword', '1Password - Automation', field='username', vault='homelab') }}"
-          op_domain: "my"
-          op_key: "{{ lookup('onepassword', '1Password Account - automation', field='secret key', vault='homelab') }}"
-          op_password: "{{ lookup('onepassword', '1Password - Automation', field='password', vault='homelab') }}"
-        organization: "{{ awx_organization }}"
-    - name: Setup Local Inventory
+        credential_type: "{{ item.1.type }}"
+        name: "{{ item.1.name }}"
+        inputs: "{{ item.1.inputs }}"
+        organization: "{{ item.0.name }}"
+      loop: "{{ awx_organizations|subelements('credentials') }}"
+      loop_control:
+        label: "{{ item.0.name }} - {{ item.1.name }}"
+
+    - name: Add inventories
       awx.awx.tower_inventory:
-        name: "Local Inventory"
-        description: "AWX Container"
-        organization: "{{ awx_organization }}"
+        name: "{{ item.1.name }}"
+        description: "{{ item.1.description }}"
+        organization: "{{ item.0.name }}"
         state: present
-        variables:
-          ansible_connection: local
-          op_version: 1.8.0
-    - name: Add AWX Container
+        variables: "{{ item.1.variables }}"
+      loop: "{{ awx_organizations|subelements('inventories') }}"
+      loop_control:
+        label: "{{ item.0.name }} - {{ item.1.name }}"
+
+    - name: Add hosts
       awx.awx.tower_host:
-        name: localhost
-        description: "AWX Container"
-        inventory: "Local Inventory"
-        state: present
-    - name: Add projects
-      awx.awx.tower_project:
         name: "{{ item.name }}"
         description: "{{ item.description }}"
-        organization: "{{ awx_organization }}"
-        scm_type: git
-        scm_branch: "{{ item.branch }}"
-        scm_update_on_launch: False
-        scm_url: "{{ item.git }}"
-#        scm_update_cache_timeout: 60
-      loop: "{{ awx_projects }}"
+        inventory: "{{ item.inventory }}"
+        state: present
+      loop: "{{ awx_hosts }}"
       loop_control:
         label: "{{ item.name }}"
-    - name: Create 1Password Template
-      awx.awx.tower_job_template:
-        name: "1Password on AWX"
-        job_type: "run"
-        organization: "{{ awx_organization }}"
-        inventory: "Local Inventory"
-        project: "1Password AWX Setup"
-        playbook: "setup.yml"
-        state: "present"
-    - name: Schedule 1Password on AWX Template
-      awx.awx.tower_schedule:
-        name: "Keep 1Password on AWX Container"
-        state: present
-        unified_job_template: "1Password on AWX"
-        rrule: "DTSTART:20191219T130551Z RRULE:FREQ=MINUTELY;INTERVAL=30"
 
-    # Help from:
-    # - https://github.com/ansible/awx/issues/1040
-    # - https://django-auth-ldap.readthedocs.io/en/stable/example.html
-    # - https://www.markiiisys.com/blog/ansible-tower-integration-with-active-directory/
-    # Get LDAP setting names: `tower-cli setting list | grep LDAP`
+    - name: Add projects
+      awx.awx.tower_project:
+        name: "{{ item.1.name }}"
+        description: "{{ item.1.description }}"
+        organization: "{{ item.0.name }}"
+        scm_type: git
+        scm_branch: "{{ item.1.branch }}"
+        scm_update_on_launch: False
+        scm_url: "{{ item.1.git }}"
+      loop: "{{ awx_organizations|subelements('projects') }}"
+      loop_control:
+        label: "{{ item.0.name }} - {{ item.1.name }}"
+
+    - name: Add templates
+      awx.awx.tower_job_template:
+        name: "{{ item.1.name }}"
+        job_type: "{{ item.1.job_type }}"
+        organization: "{{ item.0.name }}"
+        inventory: "{{ item.1.inventory }}"
+        project: "{{ item.1.project }}"
+        playbook: "{{ item.1.playbook }}"
+        state: "present"
+      loop: "{{ awx_organizations|subelements('templates') }}"
+      loop_control:
+        label: "{{ item.0.name }} - {{ item.1.name }}"
+
+    - name: Add schedules
+      awx.awx.tower_schedule:
+        name: "{{ item.name }}"
+        state: present
+        unified_job_template: "{{ item.job_template }}"
+        rrule: "{{ item.rrule }}"
+      loop: "{{ awx_schedules }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Build organization mappings
+      set_fact:
+        awx_org_map: "{{ awx_org_map|default({}) | combine({item.name: item.map}) }}"
+      loop: "{{ awx_organizations }}"
+      loop_control:
+        label: "{{ item.name }}"
+
     - name: Configure LDAP
       awx.awx.tower_settings:
         settings:
@@ -125,15 +151,4 @@
           AUTH_LDAP_USER_SEARCH: "{{ awx_ldap_user_search }}"
           AUTH_LDAP_USER_ATTR_MAP: "{{ awx_ldap_attribute_map }}"
           AUTH_LDAP_USER_FLAGS_BY_GROUP: "{{ awx_ldap_user_flags_by_group }}"
-          AUTH_LDAP_ORGANIZATION_MAP: "{{ awx_ldap_org_map }}"
-
-# TODO: Move org mappings to its own task and move org mappings under an org
-# list with the name moved to a value in the dictionary of the org list
-# awx_orgs:
-#   - name: Balmer Family Farm
-#     map:
-#       admins: ...
-#       more keys: more values
-# Then change the org creation to a loop using the item.name
-# and move the LDAP org map to its own task and possibly preconfigure
-# a variable using set_fact to populate the LDAP mapping
+          AUTH_LDAP_ORGANIZATION_MAP: "{{ awx_org_map }}"
