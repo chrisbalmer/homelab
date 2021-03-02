@@ -1,5 +1,5 @@
 ---
-compose_confluence:
+compose_vmware_tag_ansible_groups_confluence:
   confluence:
     version: 7.3.5
     domain: confluence.balmerfamilyfarm.com

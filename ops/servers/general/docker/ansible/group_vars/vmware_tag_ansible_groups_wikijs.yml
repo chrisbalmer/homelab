@@ -1,5 +1,5 @@
 ---
-compose_wikijs:
+compose_vmware_tag_ansible_groups_wikijs:
   wikijs:
     mounts:
       app:

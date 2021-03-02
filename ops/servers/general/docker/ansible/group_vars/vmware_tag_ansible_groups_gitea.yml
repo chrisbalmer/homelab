@@ -1,5 +1,5 @@
 ---
-compose_gitea:
+compose_vmware_tag_ansible_groups_gitea:
   gitea:
     mounts:
       app:

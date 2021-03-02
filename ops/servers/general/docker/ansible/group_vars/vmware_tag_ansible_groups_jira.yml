@@ -1,5 +1,5 @@
 ---
-compose_jira:
+compose_vmware_tag_ansible_groups_jira:
   jira:
     version: 8.8.0
     domain: jira.balmerfamilyfarm.com

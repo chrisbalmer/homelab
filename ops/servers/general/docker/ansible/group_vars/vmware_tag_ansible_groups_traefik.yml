@@ -1,5 +1,5 @@
 ---
-compose_traefik:
+compose_vmware_tag_ansible_groups_traefik:
   traefik:
     version: 2.2.0
     mounts:
