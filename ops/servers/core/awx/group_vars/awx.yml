@@ -1,6 +1,6 @@
 ---
 # General settings
-dockerhub_base: "{{ docker_registry }}/ansible"
+dockerhub_base: "{{ docker_registry }}/chrisbalmer"
 awx_task_hostname: awx
 awx_web_hostname: awxweb
 postgres_data_dir: "~/.awx/pgdocker"
@@ -59,6 +59,8 @@ awx_organizations:
         variables:
           ansible_connection: local
           op_version: 1.8.0
+          python3_libraries:
+            - name: git+https://github.com/vmware/vsphere-automation-sdk-python.git
       - name: "vCenter"
         description: "VMs from vCenter"
         sources:
@@ -80,18 +82,22 @@ awx_organizations:
       - name: "Bootstrap"
         description: "Systems used to bootstrap the homelab"
     projects:
-      - name: 1Password AWX Setup
-        description: Install the 1Password Binary on the AWX Container
-        git: https://github.com/chrisbalmer/ansible-playbook-onepassword-setup.git
-        branch: v1.0.1
+      - name: AWX Configuration
+        description: For configuring AWX
+        git: https://github.com/chrisbalmer/ansible-playbooks-awx.git
+        branch: v1.0.0
     templates:
       - name: 1Password on AWX
         job_type: run
         inventory: Local Inventory
-        project: 1Password AWX Setup
-        playbook: setup.yml
+        project: AWX Configuration
+        playbook: 1password.yml
+      - name: Install Python3 Libraries on AWX
+        job_type: run
+        inventory: Local Inventory
+        project: AWX Configuration
+        playbook: python3-libraries.yml
   - name: Org2
-
 
 # Non organization specific configs
 awx_schedules:

@@ -1,5 +1,5 @@
 - name: Setup Docker Composes
-  hosts: docker
+  hosts: vmware_tag_ansible_groups_docker
   gather_facts: yes
   become: yes
   pre_tasks:

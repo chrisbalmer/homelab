@@ -111,8 +111,6 @@
       loop: "{{ q('subelements', awx_all_inventories, 'sources', {'skip_missing': True}) }}"
       loop_control:
         label: "{{ item.0.org }} - {{ item.0.name }} - {{ item.1.name }}"
-      
-
 
     - name: Add hosts
       awx.awx.tower_host:
@@ -120,6 +118,7 @@
         description: "{{ item.description }}"
         inventory: "{{ item.inventory }}"
         state: present
+        variables: "{{ item.vars|default({}) }}"
       loop: "{{ awx_hosts }}"
       loop_control:
         label: "{{ item.name }}"

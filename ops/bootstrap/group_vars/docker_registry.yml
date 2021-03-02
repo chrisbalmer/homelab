@@ -22,6 +22,8 @@ docker_images:
     tag: "8.13.2"
   - name: ansible/awx
     tag: "17.0.1"
+  - name: chrisbalmer/awx
+    tag: "17.0.1"
   - name: redis
     tag: "6.0.10"
   - name: postgres
