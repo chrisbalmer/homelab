@@ -8,10 +8,10 @@
         composes: "{{ composes|default({}) | combine(hostvars[inventory_hostname]['compose_' + item]|default({})) }}"
       loop: "{{ group_names }}"
   roles:
-    - ../../../../roles/firewall
-    - ../../../../roles/yum-repos
+    - chrisbalmer.firewall
+    - chrisbalmer.yum-repos
     - chrisbalmer.nfs
-    - ../../../../roles/docker
+    - chrisbalmer.simple-docker
     - chrisbalmer.docker-compose
     - ../../../../../ansible-role-awx/
   tasks:
@@ -76,6 +76,15 @@
       loop_control:
         label: "{{ item.0.name }} - {{ item.1.name }}"
 
+    - name: Associate Galaxy Credentials to Orgs
+      awx.awx.tower_organization:
+        name: "{{ item.name }}"
+        galaxy_credentials: "{{ item.galaxy_credential }}"
+      loop: "{{ awx_organizations }}"
+      loop_control:
+        label: "{{ item.name }}"
+      when: item.galaxy_credential is defined
+
     - name: Add inventories
       awx.awx.tower_inventory:
         name: "{{ item.1.name }}"
@@ -130,7 +139,7 @@
         organization: "{{ item.0.name }}"
         scm_type: git
         scm_branch: "{{ item.1.branch }}"
-        scm_update_on_launch: False
+        scm_update_on_launch: "{{ item.1.update_on_launch | d() | bool }}"
         scm_url: "{{ item.1.git }}"
       loop: "{{ q('subelements', awx_organizations, 'projects', {'skip_missing': True}) }}"
       loop_control:
@@ -144,6 +153,9 @@
         inventory: "{{ item.1.inventory }}"
         project: "{{ item.1.project }}"
         playbook: "{{ item.1.playbook }}"
+        become_enabled: "{{ item.1.become | d() | bool }}"
+        use_fact_cache: "{{ item.1.store_facts | d() | bool }}"
+        credentials: "{{ item.1.credentials | d([]) }}"
         state: "present"
       loop: "{{ q('subelements', awx_organizations, 'templates', {'skip_missing': True}) }}"
       loop_control:
@@ -180,3 +192,8 @@
           AUTH_LDAP_USER_ATTR_MAP: "{{ awx_ldap_attribute_map }}"
           AUTH_LDAP_USER_FLAGS_BY_GROUP: "{{ awx_ldap_user_flags_by_group }}"
           AUTH_LDAP_ORGANIZATION_MAP: "{{ awx_org_map }}"
+
+    - name: Configure Job Settings
+      awx.awx.tower_settings:
+        settings:
+          AWX_TASK_ENV: "{{ awx_task_env }}"

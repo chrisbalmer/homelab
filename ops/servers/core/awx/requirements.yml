@@ -13,4 +13,15 @@ roles:
     scm: git
     src: git+https://github.com/chrisbalmer/ansible-role-nfs.git
     version: 2.1.1
-    
+  - name: chrisbalmer.yum-repos
+    scm: git
+    src: git+https://github.com/chrisbalmer/ansible-role-yum-repos.git
+    version: v0.0.1
+  - name: chrisbalmer.firewall
+    scm: git
+    src: git+https://github.com/chrisbalmer/ansible-role-firewall.git
+    version: v0.0.1
+  - name: chrisbalmer.simple-docker
+    scm: git
+    src: git+https://github.com/chrisbalmer/ansible-role-simple-docker.git
+    version: v0.0.1

@@ -39,6 +39,7 @@ awx_organizations:
       remove_users: false
       remove_admins: false
       users: true
+    galaxy_credential: Galaxy Default Credential
     credentials:
       - name: vcenter.balmerfamilyfarm.com
         type: VMware vCenter
@@ -53,6 +54,10 @@ awx_organizations:
           op_domain: "my"
           op_key: "{{ lookup('onepassword', '1Password Account - automation', field='secret key', vault='homelab') }}"
           op_password: "{{ lookup('onepassword', '1Password - Automation', field='password', vault='homelab') }}"
+      - name: Galaxy Default Credential
+        type: Ansible Galaxy/Automation Hub API Token
+        inputs:
+          url: https://galaxy.ansible.com
     inventories:
       - name: "Local Inventory"
         description: "AWX Container"
@@ -86,6 +91,11 @@ awx_organizations:
         description: For configuring AWX
         git: https://github.com/chrisbalmer/ansible-playbooks-awx.git
         branch: v1.0.0
+      - name: homelab-docker
+        description: For setting up docker hosts
+        git: https://github.com/chrisbalmer/ansible-playbook-homelab-docker.git
+        branch: master
+        update_on_launch: True
     templates:
       - name: 1Password on AWX
         job_type: run
@@ -97,6 +107,16 @@ awx_organizations:
         inventory: Local Inventory
         project: AWX Configuration
         playbook: python3-libraries.yml
+      - name: Configure Docker Hosts
+        job_type: run
+        inventory: vCenter
+        project: homelab-docker
+        playbook: playbook.yml
+        become: true
+        store_facts: true
+        credentials:
+          - 1Password
+          - Test
   - name: Org2
 
 # Non organization specific configs
@@ -129,3 +149,8 @@ awx_ldap_attribute_map:
   email: "mail"
 awx_ldap_user_flags_by_group:
   is_superuser: "CN=AWX Admins,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com"
+
+# Device ID can be generated via https://1password.community/discussion/comment/563411/#Comment_563411
+awx_task_env:
+  HOME: /var/lib/awx
+  OP_DEVICE: "{{ lookup('onepassword', '1Password - Automation', field='device_id', vault='homelab') }}"
