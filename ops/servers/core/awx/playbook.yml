@@ -13,7 +13,7 @@
     - chrisbalmer.nfs
     - chrisbalmer.simple-docker
     - chrisbalmer.docker-compose
-    - ../../../../../ansible-role-awx/
+    - chrisbalmer.awx
   tasks:
 
     - name: Wait for traefik to create required certs
@@ -120,6 +120,28 @@
       loop: "{{ q('subelements', awx_all_inventories, 'sources', {'skip_missing': True}) }}"
       loop_control:
         label: "{{ item.0.org }} - {{ item.0.name }} - {{ item.1.name }}"
+
+    - name: Add VMware tagged groups
+      awx.awx.tower_group:
+        name: "{{ item.name }}"
+        description: "{{ item.description }}"
+        inventory: "{{ item.inventory }}"
+        state: present
+      loop: "{{ awx_vmware_groups }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Add groups
+      awx.awx.tower_group:
+        name: "{{ item.name }}"
+        description: "{{ item.description }}"
+        inventory: "{{ item.inventory }}"
+        children: "{{ item.children }}"
+        variables: "{{ item.variables | default({}) }}"
+        state: present
+      loop: "{{ awx_groups }}"
+      loop_control:
+        label: "{{ item.name }}"
 
     - name: Add hosts
       awx.awx.tower_host:

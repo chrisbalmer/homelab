@@ -40,10 +40,7 @@ vm = {
   template = "centos7-2021-01-27"
 }
 
-ansible_groups = [
-  [
-    "splunk",
-    "splunk_sh"
-  ]
+ssh_keys = [
+  "~/.ssh/id_rsa.pub",
+  "~/.ssh/awx.pub",
 ]
-ansible_host_key_check = false

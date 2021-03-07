@@ -2,7 +2,8 @@
 collections:
   - ansible.posix
   - community.general
-  - awx.awx
+  - name: awx.awx
+    version: 17.0.1
 
 roles:
   - name: chrisbalmer.docker-compose
@@ -25,3 +26,7 @@ roles:
     scm: git
     src: git+https://github.com/chrisbalmer/ansible-role-simple-docker.git
     version: v0.0.1
+  - name: chrisbalmer.awx
+    scm: git
+    src: git+https://github.com/chrisbalmer/ansible-role-awx.git
+    version: 17.0.1-0001

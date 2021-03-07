@@ -30,7 +30,8 @@ awx_web_container_labels:
   - "traefik.http.routers.awx.tls.certresolver=letsencrypt"
   - "traefik.http.services.awx.loadbalancer.server.port=8052"
   - "traefik.docker.network={{ traefik_network }}"
-
+docker_compose_extra_hosts:
+  - "nas.balmerfamilyfarm.com:172.21.129.36"
 # Organization specific configs
 awx_organizations:
   - name: Balmer Family Farm
@@ -91,9 +92,18 @@ awx_organizations:
         description: For configuring AWX
         git: https://github.com/chrisbalmer/ansible-playbooks-awx.git
         branch: v1.0.0
+      - name: homelab-linux
+        description: Standard Linux Configuration
+        git: https://github.com/chrisbalmer/ansible-playbook-homelab-linux.git
+        branch: v0.0.1
       - name: homelab-docker
         description: For setting up docker hosts
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-docker.git
+        branch: master
+        update_on_launch: True
+      - name: homelab-splunk
+        description: For setting up Splunk hosts
+        git: https://github.com/chrisbalmer/ansible-playbook-homelab-splunk.git
         branch: master
         update_on_launch: True
     templates:
@@ -117,6 +127,25 @@ awx_organizations:
         credentials:
           - 1Password
           - Test
+      - name: Standard Linux Configuration
+        job_type: run
+        inventory: vCenter
+        project: homelab-linux
+        playbook: playbook.yml
+        become: true
+        store_facts: true
+        credentials:
+          - Test
+      - name: Install/Upgrade Splunk
+        job_type: run
+        inventory: vCenter
+        project: homelab-splunk
+        playbook: install_splunk.yml
+        become: true
+        store_facts: true
+        credentials:
+          - 1Password
+          - Test
   - name: Org2
 
 # Non organization specific configs
@@ -128,6 +157,168 @@ awx_hosts:
   - name: localhost
     description: "AWX Container"
     inventory: "Local Inventory"
+awx_vmware_groups:
+  - name: vmware_tag_ansible_groups_dhcp
+    description: "VMware tagged group"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_jira
+    description: "VMware tagged group"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_confluence
+    description: "VMware tagged group"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_linux
+    description: "VMware tagged group"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_windows
+    description: "VMware tagged group"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_wikijs
+    description: "VMware tagged group"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_gitea
+    description: "VMware tagged group"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_traefik
+    description: "VMware tagged group"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_full
+    description: "Splunk Full Install"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_uf
+    description: "Splunk Universal Forwarder"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_clustermaster
+    description: "Splunk Cluster Master"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_deploymentserver
+    description: "Splunk Deployment Server"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_indexer
+    description: "Splunk Indexer"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_licensemaster
+    description: "Splunk License Master"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_search
+    description: "Splunk Search Head"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_shdeployer
+    description: "Splunk Search Head Deployer"
+    inventory: vCenter
+
+awx_groups:
+  - name: dhcp
+    description: "DHCP servers"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_dhcp
+  - name: linux
+    description: "Linux servers"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_linux
+  - name: windows
+    description: "Windows systems"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_windows
+    variables:
+      ansible_connection: winrm
+  - name: jira
+    description: "Jira servers"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_jira
+  - name: confluence
+    description: "Confluence servers"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_confluence
+  - name: wikijs
+    description: "WikiJS servers"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_wikijs
+  - name: gitea
+    description: "Gitea servers"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_gitea
+  - name: traefik
+    description: "Traefik servers"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_traefik
+  - name: full
+    description: "Splunk"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_full
+  - name: uf
+    description: "Splunk"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_uf
+  - name: clustermaster
+    description: "Splunk"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_clustermaster
+    variables:
+      firewall_ports:
+        - 8000/tcp
+        - 8089/tcp
+  - name: deploymentserver
+    description: "Splunk"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_deploymentserver
+    variables:
+      firewall_ports:
+        - 8000/tcp
+        - 8089/tcp    
+  - name: indexer
+    description: "Splunk"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_indexer
+    variables:
+      firewall_ports:
+        - 8000/tcp
+        - 8089/tcp
+        - 9997/tcp
+        - 9887/tcp
+  - name: licensemaster
+    description: "Splunk"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_licensemaster
+    variables:
+      firewall_ports:
+        - 8000/tcp
+        - 8089/tcp
+  - name: search
+    description: "Splunk"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_search
+    variables:
+      firewall_ports:
+        - 8000/tcp
+        - 8089/tcp
+        - 9777/tcp
+        - 8191/tcp
+  - name: shdeployer
+    description: "Splunk"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_shdeployer
+    variables:
+      firewall_ports:
+        - 8000/tcp
+        - 8089/tcp
+
 
 # Global LDAP Settings
 awx_ldap_uri: "ldap://opsad1.ad.balmerfamilyfarm.com:389"

@@ -122,6 +122,18 @@ tags = [
   {
     name    = "awx server"
     comment = "Server running AWX for managing systems with Ansible"
+  },
+  {
+    name    = "splunk server"
+    comment = "Server running Splunk"
+  },
+  {
+    name    = "splunk indexer"
+    comment = "Server running Splunk as an indexer"
+  },
+  {
+    name    = "splunk search head"
+    comment = "Server running Splunk as a search head"
   }
 ]
 
@@ -373,6 +385,82 @@ addresses = [
       "acme client",
       "awx server"
     ]
+  },
+  {
+    name  = "opssplunklm1"
+    value = "172.21.129.21"
+    tags = [
+      "splunk server"
+    ]
+  },
+  {
+    name  = "opssplunkcm1"
+    value = "172.21.129.22"
+    tags = [
+      "splunk server"
+    ]
+  },
+  {
+    name  = "opssplunkdep1"
+    value = "172.21.129.23"
+    tags = [
+      "splunk server"
+    ]
+  },
+  {
+    name  = "opssplunkds1"
+    value = "172.21.129.24"
+    tags = [
+      "splunk server"
+    ]
+  },
+  {
+    name  = "opssplunkidx1"
+    value = "172.21.129.25"
+    tags = [
+      "splunk indexer",
+      "splunk server"
+    ]
+  },
+  {
+    name  = "opssplunkidx2"
+    value = "172.21.129.26"
+    tags = [
+      "splunk indexer",
+      "splunk server"
+    ]
+  },
+  {
+    name  = "opssplunkidx3"
+    value = "172.21.129.27"
+    tags = [
+      "splunk indexer",
+      "splunk server"
+    ]
+  },
+  {
+    name  = "opssplunksh1"
+    value = "172.21.129.28"
+    tags = [
+      "splunk search head",
+      "splunk server"
+    ]
+  },
+  {
+    name  = "opssplunksh2"
+    value = "172.21.129.29"
+    tags = [
+      "splunk search head",
+      "splunk server"
+    ]
+  },
+  {
+    name  = "opssplunksh3"
+    value = "172.21.129.30"
+    tags = [
+      "splunk search head",
+      "splunk server"
+    ]
   }
 ]
 
@@ -504,6 +592,21 @@ address_groups = [
     name          = "awx servers"
     dynamic_match = "'awx server'"
     description   = "AWX servers for the network"
+  },
+  {
+    name          = "splunk servers"
+    dynamic_match = "'splunk server'"
+    description   = "Splunk serverss"
+  },
+  {
+    name          = "splunk indexers"
+    dynamic_match = "'splunk indexer'"
+    description   = "Splunk indexers"
+  },
+  {
+    name          = "splunk search heads"
+    dynamic_match = "'splunk search head'"
+    description   = "Splunk search heads"
   }
 ]
 
@@ -522,6 +625,11 @@ services = [
     name             = "docker-registry-tcp-5000"
     protocol         = "tcp"
     destination_port = "5000"
+  },
+  {
+    name             = "minio-9000"
+    protocol         = "tcp"
+    destination_port = "9000"
   }
 ]
 
