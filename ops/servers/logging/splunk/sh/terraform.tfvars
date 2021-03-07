@@ -37,7 +37,15 @@ vm = {
   gateway  = "172.21.129.1"
   disks    = [{ template = true }]
   memory   = 12288
-  template = "centos7-2021-01-27"
+  template = "centos7-2021-02-20"
+  tags = {
+    "ansible_groups": [
+      "splunk",
+      "full",
+      "linux",
+      "search"
+    ]
+  }
 }
 
 ssh_keys = [

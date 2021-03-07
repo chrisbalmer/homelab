@@ -43,7 +43,15 @@ vm = {
   ]
   memory   = 16384
   cpus     = 3
-  template = "centos7-2021-01-27"
+  template = "centos7-2021-02-20"
+  tags = {
+    "ansible_groups": [
+      "splunk",
+      "full",
+      "linux",
+      "indexer"
+    ]
+  }
 }
 
 ssh_keys = [
