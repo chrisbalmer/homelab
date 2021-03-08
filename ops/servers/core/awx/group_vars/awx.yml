@@ -106,6 +106,14 @@ awx_organizations:
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-splunk.git
         branch: master
         update_on_launch: True
+      - name: homelab-dns
+        description: For setting up DNS hosts
+        git: https://github.com/chrisbalmer/ansible-playbook-homelab-dns.git
+        branch: v0.1.3
+      - name: homelab-dhcp
+        description: For setting up DHCP hosts
+        git: https://github.com/chrisbalmer/ansible-playbook-homelab-dhcp.git
+        branch: v0.0.2
     templates:
       - name: 1Password on AWX
         job_type: run
@@ -145,6 +153,25 @@ awx_organizations:
         store_facts: true
         credentials:
           - 1Password
+          - Test
+      - name: Configure DNS Servers
+        job_type: run
+        inventory: vCenter
+        project: homelab-dns
+        playbook: playbook.yml
+        become: true
+        store_facts: true
+        credentials:
+          - 1Password
+          - Test
+      - name: Configure DHCP Servers
+        job_type: run
+        inventory: vCenter
+        project: homelab-dhcp
+        playbook: playbook.yml
+        become: true
+        store_facts: true
+        credentials:
           - Test
   - name: Org2
 
@@ -206,6 +233,12 @@ awx_vmware_groups:
   - name: vmware_tag_ansible_groups_shdeployer
     description: "Splunk Search Head Deployer"
     inventory: vCenter
+  - name: vmware_tag_ansible_groups_pihole
+    description: "PiHole Server"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_dns
+    description: "DNS Server"
+    inventory: vCenter
 
 awx_groups:
   - name: dhcp
@@ -213,11 +246,19 @@ awx_groups:
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_dhcp
+    variables:
+      firewall_services:
+        - dhcp
+      firewall_ports:
+        - 647/tcp
+        - 847/tcp
+
   - name: linux
     description: "Linux servers"
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_linux
+
   - name: windows
     description: "Windows systems"
     inventory: vCenter
@@ -318,7 +359,21 @@ awx_groups:
       firewall_ports:
         - 8000/tcp
         - 8089/tcp
-
+  - name: pihole
+    description: "PiHole Server"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_pihole
+    variables:
+      firewall_services:
+        - dns
+        - http
+        - https
+  - name: dns
+    description: "DNS Server"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_dns
 
 # Global LDAP Settings
 awx_ldap_uri: "ldap://opsad1.ad.balmerfamilyfarm.com:389"

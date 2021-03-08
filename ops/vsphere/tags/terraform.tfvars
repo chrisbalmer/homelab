@@ -26,7 +26,8 @@ categories = {
       "packetfence",
       "xsoar",
       "windows",
-      "wlc"
+      "wlc",
+      "traefik"
     ]
     types = [
       "VirtualMachine"

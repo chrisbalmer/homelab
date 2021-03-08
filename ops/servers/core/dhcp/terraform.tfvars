@@ -28,12 +28,16 @@ vm = {
   gateway = "172.21.129.1"
   disks   = [{ template = true }]
   memory  = 2048
-  template = "centos7-2021-01-27"
+  template = "centos7-2021-03-07"
+  tags = {
+    "ansible_groups": [
+      "linux",
+      "dhcp"
+    ]
+  }
 }
 
-ansible_groups = [
-  [
-    "dhcp"
-  ]
+ssh_keys = [
+  "~/.ssh/id_rsa.pub",
+  "~/.ssh/awx.pub",
 ]
-ansible_host_key_check = false

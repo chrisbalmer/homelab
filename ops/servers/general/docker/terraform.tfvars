@@ -24,24 +24,30 @@ networks = [
   ]
 ]
 
+tags = [
+  {
+    "ansible_groups": [
+      "linux",
+      "docker",
+      "gitea",
+      "wikijs",
+      "traefik"
+    ]
+  },
+  {
+    "ansible_groups": [
+      "linux",
+      "docker",
+      "confluence",
+      "jira",
+      "traefik"
+    ]
+  }
+
+]
+
 vm = {
   disks    = [{ template = true }]
   memory   = 8192
-  template = "centos7-2021-01-27"
+  template = "centos7-2021-03-07"
 }
-
-ansible_groups = [
-  [
-    "docker",
-    "gitea",
-    "wikijs",
-    "traefik"
-  ],
-  [
-    "docker",
-    "confluence",
-    "jira",
-    "traefik"
-  ]
-]
-ansible_host_key_check = false

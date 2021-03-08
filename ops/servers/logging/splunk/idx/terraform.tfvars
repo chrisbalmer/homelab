@@ -43,7 +43,7 @@ vm = {
   ]
   memory   = 16384
   cpus     = 3
-  template = "centos7-2021-02-20"
+  template = "centos7-2021-03-07"
   tags = {
     "ansible_groups": [
       "splunk",

@@ -1,5 +1,0 @@
----
-- name: chrisbalmer.ansible-isc-dhcp
-  scm: git
-  src: git+https://github.com/chrisbalmer/ansible-isc-dhcp.git
-  version: v0.2.3

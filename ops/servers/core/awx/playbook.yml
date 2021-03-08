@@ -14,8 +14,14 @@
     - chrisbalmer.simple-docker
     - chrisbalmer.docker-compose
     - chrisbalmer.awx
-  tasks:
 
+- name: Configure AWX Server
+  hosts: awx
+  gather_facts: yes
+  become: yes
+  tags: 
+    - awx_config
+  tasks:
     - name: Wait for traefik to create required certs
       pause:
         minutes: 1
@@ -130,6 +136,8 @@
       loop: "{{ awx_vmware_groups }}"
       loop_control:
         label: "{{ item.name }}"
+      tags:
+        - awx_groups
 
     - name: Add groups
       awx.awx.tower_group:
@@ -142,6 +150,8 @@
       loop: "{{ awx_groups }}"
       loop_control:
         label: "{{ item.name }}"
+      tags:
+        - awx_groups
 
     - name: Add hosts
       awx.awx.tower_host:
@@ -166,6 +176,8 @@
       loop: "{{ q('subelements', awx_organizations, 'projects', {'skip_missing': True}) }}"
       loop_control:
         label: "{{ item.0.name }} - {{ item.1.name }}"
+      tags:
+        - awx_projects
 
     - name: Add templates
       awx.awx.tower_job_template:
@@ -182,6 +194,8 @@
       loop: "{{ q('subelements', awx_organizations, 'templates', {'skip_missing': True}) }}"
       loop_control:
         label: "{{ item.0.name }} - {{ item.1.name }}"
+      tags:
+        - awx_templates
 
     - name: Add schedules
       awx.awx.tower_schedule:

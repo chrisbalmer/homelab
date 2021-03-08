@@ -4,7 +4,7 @@ prefix      = "ops"
 op_vm_login = "AWX Instances"
 
 vm = {
-  template = "centos7-2021-02-20"
+  template = "centos7-2021-03-07"
   gateway = "172.21.129.1"
   networks = [
     {

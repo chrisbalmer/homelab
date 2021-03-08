@@ -630,6 +630,11 @@ services = [
     name             = "minio-9000"
     protocol         = "tcp"
     destination_port = "9000"
+  },
+  {
+    name             = "splunkweb-8000"
+    protocol         = "tcp"
+    destination_port = "8000"
   }
 ]
 
