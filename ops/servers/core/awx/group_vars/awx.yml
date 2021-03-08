@@ -188,6 +188,9 @@ awx_vmware_groups:
   - name: vmware_tag_ansible_groups_dhcp
     description: "VMware tagged group"
     inventory: vCenter
+  - name: vmware_tag_ansible_groups_docker
+    description: "VMware tagged group"
+    inventory: vCenter
   - name: vmware_tag_ansible_groups_jira
     description: "VMware tagged group"
     inventory: vCenter
@@ -266,41 +269,59 @@ awx_groups:
       - vmware_tag_ansible_groups_windows
     variables:
       ansible_connection: winrm
+
+  - name: docker_hosts
+    description: "Docker hosts"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_docker
+    variables:
+      firewall_services:
+        - http
+        - https
+
   - name: jira
     description: "Jira servers"
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_jira
+
   - name: confluence
     description: "Confluence servers"
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_confluence
+
   - name: wikijs
     description: "WikiJS servers"
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_wikijs
+
   - name: gitea
     description: "Gitea servers"
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_gitea
+
   - name: traefik
     description: "Traefik servers"
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_traefik
+
   - name: full
     description: "Splunk"
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_full
+
   - name: uf
     description: "Splunk"
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_uf
+
   - name: clustermaster
     description: "Splunk"
     inventory: vCenter
@@ -310,6 +331,7 @@ awx_groups:
       firewall_ports:
         - 8000/tcp
         - 8089/tcp
+
   - name: deploymentserver
     description: "Splunk"
     inventory: vCenter
@@ -319,6 +341,7 @@ awx_groups:
       firewall_ports:
         - 8000/tcp
         - 8089/tcp    
+
   - name: indexer
     description: "Splunk"
     inventory: vCenter
@@ -330,6 +353,7 @@ awx_groups:
         - 8089/tcp
         - 9997/tcp
         - 9887/tcp
+
   - name: licensemaster
     description: "Splunk"
     inventory: vCenter
@@ -339,6 +363,7 @@ awx_groups:
       firewall_ports:
         - 8000/tcp
         - 8089/tcp
+
   - name: search
     description: "Splunk"
     inventory: vCenter
@@ -350,6 +375,7 @@ awx_groups:
         - 8089/tcp
         - 9777/tcp
         - 8191/tcp
+
   - name: shdeployer
     description: "Splunk"
     inventory: vCenter
@@ -359,6 +385,7 @@ awx_groups:
       firewall_ports:
         - 8000/tcp
         - 8089/tcp
+
   - name: pihole
     description: "PiHole Server"
     inventory: vCenter
@@ -369,6 +396,7 @@ awx_groups:
         - dns
         - http
         - https
+
   - name: dns
     description: "DNS Server"
     inventory: vCenter
