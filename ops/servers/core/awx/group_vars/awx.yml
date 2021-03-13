@@ -1,5 +1,6 @@
 ---
 # General settings
+dockerhub_version: 17.1.0
 dockerhub_base: "{{ docker_registry }}/chrisbalmer"
 awx_task_hostname: awx
 awx_web_hostname: awxweb
@@ -99,7 +100,7 @@ awx_organizations:
       - name: homelab-docker
         description: For setting up docker hosts
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-docker.git
-        branch: master
+        branch: netbox_build
         update_on_launch: True
       - name: homelab-splunk
         description: For setting up Splunk hosts
@@ -209,6 +210,9 @@ awx_vmware_groups:
   - name: vmware_tag_ansible_groups_gitea
     description: "VMware tagged group"
     inventory: vCenter
+  - name: vmware_tag_ansible_groups_netbox
+    description: "VMware tagged group"
+    inventory: vCenter
   - name: vmware_tag_ansible_groups_traefik
     description: "VMware tagged group"
     inventory: vCenter
@@ -303,6 +307,12 @@ awx_groups:
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_gitea
+
+  - name: netbox
+    description: "Netbox servers"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_netbox
 
   - name: traefik
     description: "Traefik servers"

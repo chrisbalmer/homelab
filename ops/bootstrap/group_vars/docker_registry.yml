@@ -38,6 +38,8 @@ docker_images:
     tag: "8"
   - name: requarks/wiki
     tag: "2.5.170"
+  - name: linuxserver/netbox
+    tag: "version-v2.10.5"
 
 compose_docker_registry:
   docker_registry:

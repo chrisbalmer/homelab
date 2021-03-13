@@ -10,5 +10,5 @@
   roles:
     - ../../roles/yum-repo-mirrors
     - chrisbalmer.docker-compose
-    - ../../roles/pihole
+    - chrisbalmer.pihole
     - ../../roles/docker-registry-mirrors

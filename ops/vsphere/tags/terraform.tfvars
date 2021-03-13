@@ -27,7 +27,12 @@ categories = {
       "xsoar",
       "windows",
       "wlc",
-      "traefik"
+      "traefik",
+      "netbox",
+      "codeserver",
+      "wireshark",
+      "ffmpeg",
+      "nextcloud"
     ]
     types = [
       "VirtualMachine"

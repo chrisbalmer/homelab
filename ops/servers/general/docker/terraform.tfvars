@@ -31,7 +31,8 @@ tags = [
       "docker",
       "gitea",
       "wikijs",
-      "traefik"
+      "traefik",
+      "netbox"
     ]
   },
   {
