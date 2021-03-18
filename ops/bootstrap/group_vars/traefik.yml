@@ -1,13 +1,13 @@
 ---
 compose_traefik:
   traefik:
-    version: 2.2.0
+    version: 2.4.7
     mounts:
       app:
         local: /mnt/traefik
         container: /etc/traefik
     images:
-      app: traefik:2.2.0
+      app: traefik:2.4.7
     ports:
       https:
         protocol: tcp

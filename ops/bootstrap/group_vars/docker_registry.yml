@@ -1,45 +1,57 @@
 ---
 docker_images:
   - name: pihole/pihole
-    tag: "v5.5.1"
+    tags:
+      - "v5.5.1"
+      - "v5.7"
   - name: cloudflare/cloudflared
-    tag: "2020.12.0"
+    tags:
+      - "2020.12.0"
+      - "2021.3.1"
   - name: traefik
-    tag: "2.2.0"
-  - name: traefik
-    tag: "2.3.6"
+    tags:
+      - "2.2.0"
+      - "2.3.6"
+      - "2.4.7"
   - name: gitea/gitea
-    tag: "1.8.0"
-  - name: gitea/gitea
-    tag: "1.13.1"
+    tags:
+      - "1.8.0"
+      - "1.13.1"
   - name: atlassian/confluence-server
-    tag: "7.3.5"
+    tags:
+      - "7.3.5"
   - name: atlassian/confluence-server
-    tag: "7.9.3"
+    tags:
+      - "7.9.3"
   - name: atlassian/jira-software
-    tag: "8.8.0"
-  - name: atlassian/jira-software
-    tag: "8.13.2"
-  - name: ansible/awx
-    tag: "17.0.1"
+    tags:
+      - "8.8.0"
+      - "8.13.2"
   - name: chrisbalmer/awx
-    tag: "17.0.1"
+    tags:
+      - "17.0.1"
+      - "17.1.0"
   - name: redis
-    tag: "6.0.10"
+    tags:
+      - "6.0.10"
   - name: postgres
-    tag: "11.2"
-  - name: postgres
-    tag: "11.10"
-  - name: postgres
-    tag: "12"
-  - name: postgres
-    tag: "13.2"
+    tags:
+      - "11.2"
+      - "11.10"
+      - "12"
+      - "13.2"
   - name: centos
-    tag: "8"
+    tags:
+      - "8"
   - name: requarks/wiki
-    tag: "2.5.170"
+    tags:
+      - "2.5.170"
   - name: linuxserver/netbox
-    tag: "version-v2.10.5"
+    tags:
+      - "version-v2.10.5"
+  - name: quay.io/keycloak/keycloak
+    tags:
+      - "12.0.4"
 
 compose_docker_registry:
   docker_registry:

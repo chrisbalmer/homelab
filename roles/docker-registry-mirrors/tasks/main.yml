@@ -24,19 +24,19 @@
 
 - name: Pull needed images
   community.general.docker_image:
-    name: "{{ item.name }}:{{ item.tag }}"
+    name: "{{ item.0.name }}:{{ item.1 }}"
     source: pull
-  with_items: "{{ docker_images }}"
+  loop: "{{ q('subelements', docker_images, 'tags', {'skip_missing': True}) }}"
   loop_control:
-    label: "{{ item.name }}:{{ item.tag }}"
+    label: "{{ item.0.name }}:{{ item.1 }}"
 
 - name: Tag and push images to local registry
   community.general.docker_image:
-    name: "{{ item.name }}"
-    repository: "{{ repository_name }}/{{ item.name }}"
-    tag: "{{ item.tag }}"
+    name: "{{ item.0.name }}"
+    repository: "{{ repository_name }}/{{ item.0.name }}"
+    tag: "{{ item.1 }}"
     push: yes
     source: local
-  with_items: "{{ docker_images }}"
+  loop: "{{ q('subelements', docker_images, 'tags', {'skip_missing': True}) }}"
   loop_control:
-    label: "{{ item.name }}:{{ item.tag }}"
+    label: "{{ item.0.name }}:{{ item.1 }}"

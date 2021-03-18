@@ -263,6 +263,12 @@ addresses = [
     tags  = ["linux repo domain"]
   },
   {
+    name  = "quay.io"
+    value = "quay.io"
+    type  = "fqdn"
+    tags  = ["linux repo domain"]
+  },
+  {
     name  = "ubuntu.com"
     value = "ubuntu.com"
     type  = "fqdn"
