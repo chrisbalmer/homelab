@@ -32,7 +32,9 @@ categories = {
       "codeserver",
       "wireshark",
       "ffmpeg",
-      "nextcloud"
+      "nextcloud",
+      "sso",
+      "xsoar_engine"
     ]
     types = [
       "VirtualMachine"

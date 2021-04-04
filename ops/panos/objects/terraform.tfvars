@@ -124,6 +124,14 @@ tags = [
     comment = "Server running AWX for managing systems with Ansible"
   },
   {
+    name    = "sso server"
+    comment = "Single Sign On Server"
+  },
+  {
+    name    = "sso client"
+    comment = "Client of an SSO server"
+  },
+  {
     name    = "splunk server"
     comment = "Server running Splunk"
   },
@@ -134,6 +142,30 @@ tags = [
   {
     name    = "splunk search head"
     comment = "Server running Splunk as a search head"
+  },
+  {
+    name    = "nfs client"
+    comment = "System accessing NFS servers"
+  },
+  {
+    name    = "xsoar server"
+    comment = "XSOAR automation server"
+  },
+  {
+    name    = "gitea server"
+    comment = "Gitea server"
+  },
+  {
+    name    = "github api"
+    comment = "API for GitHub"
+  },
+  {
+    name    = "office 365 client"
+    comment = "Client for Office 365"
+  },
+  {
+    name    = "wiki"
+    comment = "One of the wiki servers"
   }
 ]
 
@@ -209,6 +241,11 @@ addresses = [
   {
     name  = "opsnas1 legacy address"
     value = "172.21.14.36"
+    tags  = ["nas", "truenas server"]
+  },
+  {
+    name  = "opsnas1"
+    value = "172.21.129.36"
     tags  = ["nas", "truenas server"]
   },
   {
@@ -327,6 +364,12 @@ addresses = [
     tags  = ["acme dns server"]
   },
   {
+    name  = "api.github.com"
+    value = "api.github.com"
+    type  = "fqdn"
+    tags  = ["github api"]
+  },
+  {
     name  = "bootstrap"
     value = "172.21.7.211"
     tags = [
@@ -339,11 +382,31 @@ addresses = [
     ]
   },
   {
+    name  = "opssso1"
+    value = "172.21.128.12"
+    tags = [
+      "acme client",
+      "sso server",
+      "nfs client"
+    ]
+  },
+  {
     name  = "opsdocker1"
     value = "172.21.129.12"
     tags = [
       "docker system",
-      "acme client"
+      "acme client",
+      "gitea server",
+      "wiki"
+    ]
+  },
+  {
+    name  = "opsdocker1-endpoint"
+    value = "172.21.21.12"
+    tags = [
+      "docker system",
+      "gitea server",
+      "wiki"
     ]
   },
   {
@@ -467,6 +530,32 @@ addresses = [
       "splunk search head",
       "splunk server"
     ]
+  },
+  {
+    name  = "opsxsoar1"
+    value = "172.21.129.31"
+    tags = [
+      "acme client",
+      "xsoar server",
+      "sso client",
+      "office 365 client"
+    ]
+  },
+  {
+    name  = "opsxsoareng1"
+    value = "172.21.129.32"
+    tags = [
+      "xsoar server",
+      "office 365 client"
+    ]
+  },
+  {
+    name  = "opsxsoareng2"
+    value = "172.21.129.33"
+    tags = [
+      "xsoar server",
+      "office 365 client"
+    ]
   }
 ]
 
@@ -570,6 +659,11 @@ address_groups = [
     description   = "External DNS servers used to solve ACME DNS challenges"
   },
   {
+    name          = "github servers"
+    dynamic_match = "'github api'"
+    description   = "GitHub servers"
+  },
+  {
     name          = "packetfence servers"
     dynamic_match = "'packetfence server'"
     description   = "Servers running the PacketFence software"
@@ -600,6 +694,16 @@ address_groups = [
     description   = "AWX servers for the network"
   },
   {
+    name          = "sso servers"
+    dynamic_match = "'sso server'"
+    description   = "SSO servers for the network"
+  },
+  {
+    name          = "sso clients"
+    dynamic_match = "'sso client'"
+    description   = "SSO clients"
+  },
+  {
     name          = "splunk servers"
     dynamic_match = "'splunk server'"
     description   = "Splunk serverss"
@@ -613,6 +717,26 @@ address_groups = [
     name          = "splunk search heads"
     dynamic_match = "'splunk search head'"
     description   = "Splunk search heads"
+  },
+  {
+    name          = "nfs clients"
+    dynamic_match = "'nfs client'"
+    description   = "Clients mounting NFS shares"
+  },
+  {
+    name          = "xsoar servers"
+    dynamic_match = "'xsoar server'"
+    description   = "XSOAR automation systems"
+  },
+  {
+    name          = "gitea servers"
+    dynamic_match = "'gitea server'"
+    description   = "Gitea servers"
+  },
+  {
+    name          = "office 365 clients"
+    dynamic_match = "'office 365 client'"
+    description   = "Clients of Office 365"
   }
 ]
 

@@ -31,6 +31,7 @@ docker_images:
     tags:
       - "17.0.1"
       - "17.1.0"
+      - "18.0.0"
   - name: redis
     tags:
       - "6.0.10"
@@ -49,7 +50,7 @@ docker_images:
   - name: linuxserver/netbox
     tags:
       - "version-v2.10.5"
-  - name: quay.io/keycloak/keycloak
+  - name: chrisbalmer/keycloak
     tags:
       - "12.0.4"
 

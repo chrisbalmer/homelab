@@ -3,7 +3,7 @@ collections:
   - ansible.posix
   - community.general
   - name: awx.awx
-    version: 17.0.1
+    version: 17.1.0
 
 roles:
   - name: chrisbalmer.docker-compose

@@ -8,7 +8,9 @@
         composes: "{{ composes|default({}) | combine(hostvars[inventory_hostname]['compose_' + item]|default({})) }}"
       loop: "{{ group_names }}"
   roles:
-    - ../../roles/yum-repo-mirrors
-    - chrisbalmer.docker-compose
-    - chrisbalmer.pihole
-    - ../../roles/docker-registry-mirrors
+    - name: ../../roles/yum-repo-mirrors
+    - name: chrisbalmer.docker-compose
+    - name: chrisbalmer.pihole
+    - name: ../../roles/docker-registry-mirrors
+      tags:
+        - docker_registry

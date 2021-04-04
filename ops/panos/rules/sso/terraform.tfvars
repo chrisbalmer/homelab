@@ -8,30 +8,30 @@ position_reference = "Block High Risk Applications"
 
 rules = [
   {
-    name        = "Outbound Web Access for Docker Systems"
+    name        = "Outbound Web Access SSO Systems"
     action      = "allow"
-    description = "Allow docker systems outbound access for a few URLs."
+    description = "Allow SSO systems outbound access for a few URLs."
 
-    source_addresses = ["docker systems"]
-    destination_zones     = ["edge"]
+    source_addresses  = ["sso servers"]
+    destination_zones = ["edge"]
     applications = [
       "ssl",
       "web-browsing"
     ]
 
-    profile_group = "docker systems"
+    profile_group = "sso"
 
     log_setting = "Log Everything to Splunk Lab"
     log_start   = true
     log_end     = true
   },
   {
-    name        = "Inbound Access for Docker Systems"
+    name        = "SSO clients access to SSO servers"
     action      = "allow"
-    description = "Allow endpoints access to docker systems over http and https."
+    description = "Allow SSO clients to access SSO servers."
 
-    source_zones = ["endpoints"]
-    destination_addresses     = ["docker systems"]
+    source_addresses  = ["sso clients"]
+    destination_addresses  = ["sso servers"]
     applications = [
       "ssl",
       "web-browsing"

@@ -110,11 +110,15 @@ awx_organizations:
       - name: homelab-dns
         description: For setting up DNS hosts
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-dns.git
-        branch: v0.1.3
+        branch: v0.2.0
       - name: homelab-dhcp
         description: For setting up DHCP hosts
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-dhcp.git
         branch: v0.0.2
+      - name: homelab-sso
+        description: For setting up SSO hosts
+        git: https://github.com/chrisbalmer/ansible-playbook-homelab-sso.git
+        branch: master
     templates:
       - name: 1Password on AWX
         job_type: run
@@ -173,6 +177,16 @@ awx_organizations:
         become: true
         store_facts: true
         credentials:
+          - Test
+      - name: Configure SSO Servers
+        job_type: run
+        inventory: vCenter
+        project: homelab-sso
+        playbook: playbook.yml
+        become: true
+        store_facts: true
+        credentials:
+          - 1Password
           - Test
   - name: Org2
 
@@ -245,6 +259,12 @@ awx_vmware_groups:
     inventory: vCenter
   - name: vmware_tag_ansible_groups_dns
     description: "DNS Server"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_sso
+    description: "SSO Server"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_xsoar
+    description: "XSOAR Server"
     inventory: vCenter
 
 awx_groups:
@@ -412,6 +432,26 @@ awx_groups:
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_dns
+  
+  - name: sso
+    description: "SSO Server"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_sso
+    variables:
+      firewall_services:
+        - http
+        - https
+
+  - name: xsoar
+    description: "XSOAR Server"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_xsoar
+    variables:
+      firewall_services:
+        - http
+        - https
 
 # Global LDAP Settings
 awx_ldap_uri: "ldap://opsad1.ad.balmerfamilyfarm.com:389"
