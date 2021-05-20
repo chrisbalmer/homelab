@@ -60,6 +60,14 @@ awx_organizations:
         type: Ansible Galaxy/Automation Hub API Token
         inputs:
           url: https://galaxy.ansible.com
+      - name: Linux SSH
+        type: Machine
+        inputs:
+          username: "{{ lookup('onepassword', 'awx.balmerfamilyfarm.com ssh key', field='username', vault='homelab') }}"
+          ssh_key_data: "-----BEGIN OPENSSH PRIVATE KEY-----\n{{ lookup('onepassword', 'awx.balmerfamilyfarm.com ssh key', field='ssh key', vault='homelab') }}\n-----END OPENSSH PRIVATE KEY-----"
+          become_method: "sudo"
+          ssh_key_unlock: "{{ lookup('onepassword', 'awx.balmerfamilyfarm.com ssh key', field='password', vault='homelab') }}"
+          become_username: ""
     inventories:
       - name: "Local Inventory"
         description: "AWX Container"
@@ -100,7 +108,7 @@ awx_organizations:
       - name: homelab-docker
         description: For setting up docker hosts
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-docker.git
-        branch: netbox_build
+        branch: master
         update_on_launch: True
       - name: homelab-splunk
         description: For setting up Splunk hosts
@@ -139,7 +147,7 @@ awx_organizations:
         store_facts: true
         credentials:
           - 1Password
-          - Test
+          - Linux SSH
       - name: Standard Linux Configuration
         job_type: run
         inventory: vCenter
@@ -148,7 +156,7 @@ awx_organizations:
         become: true
         store_facts: true
         credentials:
-          - Test
+          - Linux SSH
       - name: Install/Upgrade Splunk
         job_type: run
         inventory: vCenter
@@ -158,7 +166,7 @@ awx_organizations:
         store_facts: true
         credentials:
           - 1Password
-          - Test
+          - Linux SSH
       - name: Configure DNS Servers
         job_type: run
         inventory: vCenter
@@ -168,7 +176,7 @@ awx_organizations:
         store_facts: true
         credentials:
           - 1Password
-          - Test
+          - Linux SSH
       - name: Configure DHCP Servers
         job_type: run
         inventory: vCenter
@@ -177,7 +185,7 @@ awx_organizations:
         become: true
         store_facts: true
         credentials:
-          - Test
+          - Linux SSH
       - name: Configure SSO Servers
         job_type: run
         inventory: vCenter
@@ -187,7 +195,7 @@ awx_organizations:
         store_facts: true
         credentials:
           - 1Password
-          - Test
+          - Linux SSH
   - name: Org2
 
 # Non organization specific configs
