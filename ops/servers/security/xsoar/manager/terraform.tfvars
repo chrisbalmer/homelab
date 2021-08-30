@@ -23,7 +23,7 @@ vm = {
     }
   ]
   memory   = 8192
-  template = "centos7-2021-03-07"
+  template = "centos7-2021-07-08"
   tags = {
     "ansible_groups": [
       "xsoar",

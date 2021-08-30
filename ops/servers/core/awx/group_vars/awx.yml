@@ -127,6 +127,10 @@ awx_organizations:
         description: For setting up SSO hosts
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-sso.git
         branch: master
+      - name: homelab-xsoar
+        description: For setting up XSOAR hosts
+        git: https://github.com/chrisbalmer/ansible-playbook-homelab-xsoar.git
+        branch: master
     templates:
       - name: 1Password on AWX
         job_type: run
@@ -190,6 +194,16 @@ awx_organizations:
         job_type: run
         inventory: vCenter
         project: homelab-sso
+        playbook: playbook.yml
+        become: true
+        store_facts: true
+        credentials:
+          - 1Password
+          - Linux SSH
+      - name: Configure XSOAR Servers
+        job_type: run
+        inventory: vCenter
+        project: homelab-xsoar
         playbook: playbook.yml
         become: true
         store_facts: true

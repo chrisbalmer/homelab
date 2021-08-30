@@ -34,7 +34,10 @@ categories = {
       "ffmpeg",
       "nextcloud",
       "sso",
-      "xsoar_engine"
+      "xsoar_engine",
+      "vpn",
+      "cribl_worker",
+      "cribl_manager"
     ]
     types = [
       "VirtualMachine"
