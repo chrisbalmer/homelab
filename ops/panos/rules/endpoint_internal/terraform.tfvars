@@ -12,7 +12,10 @@ rules = [
     action      = "allow"
     description = "Allow endpoints to ping internal systems."
 
-    source_zones = ["endpoints"]
+    source_zones = [
+      "endpoints",
+      "globalprotect"
+    ]
     destination_zones = [
       "dmz",
       "guest",
@@ -37,7 +40,10 @@ rules = [
     action      = "allow"
     description = "Allow endpoints to SSH to internal systems."
 
-    source_zones = ["endpoints"]
+    source_zones = [
+      "endpoints",
+      "globalprotect"
+    ]
     destination_zones = [
       "dmz",
       "guest",

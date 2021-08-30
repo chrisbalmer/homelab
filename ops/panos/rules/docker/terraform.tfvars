@@ -30,7 +30,10 @@ rules = [
     action      = "allow"
     description = "Allow endpoints access to docker systems over http and https."
 
-    source_zones = ["endpoints"]
+    source_zones = [
+      "endpoints",
+      "globalprotect"
+    ]
     destination_addresses     = ["docker systems"]
     applications = [
       "ssl",

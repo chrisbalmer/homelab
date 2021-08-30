@@ -12,7 +12,10 @@ rules = [
     action      = "allow"
     description = "Allow internal systems access to the DNS servers."
 
-    source_addresses = ["internal network systems"]
+    source_addresses = [
+      "internal network systems",
+      "dmz systems"
+    ]
     destination_addresses = ["dns servers"]
     applications = [
       "dns"

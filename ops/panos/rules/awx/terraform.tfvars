@@ -50,7 +50,10 @@ rules = [
     description = "Allow AWX systems to access other servers via SSH and WinRM."
 
     source_addresses      = ["awx servers"]
-    destination_addresses = ["internal network systems"]
+    destination_addresses = [
+      "internal network systems",
+      "dmz systems"
+    ]
     applications = [
       "ssh",
       "windows-remote-management"

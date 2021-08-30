@@ -34,7 +34,10 @@ rules = [
     action      = "allow"
     description = "Allow Linux servers access to internal repo servers."
 
-    source_addresses = ["internal network systems"]
+    source_addresses = [
+      "internal network systems",
+      "dmz systems"
+    ]
     destination_zones     = ["management"]
     destination_addresses = ["linux repo servers"]
     applications = [

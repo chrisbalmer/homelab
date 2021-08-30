@@ -64,6 +64,10 @@ tags = [
     comment = "Items part of the internal network"
   },
   {
+    name    = "dmz network"
+    comment = "Items part of the dmz network"
+  },
+  {
     name    = "linux repo domain"
     comment = "Domains used for updating Linux systems"
   },
@@ -263,6 +267,11 @@ addresses = [
     name  = "internal network"
     value = "172.21.0.0/16"
     tags  = ["internal network"]
+  },
+  {
+    name  = "dmz network"
+    value = "172.20.50.0/24"
+    tags  = ["dmz network"]
   },
   {
     name  = "opsrepo1"
@@ -612,6 +621,11 @@ address_groups = [
     name          = "internal network systems"
     dynamic_match = "'internal network'"
     description   = "Systems on the internal network"
+  },
+  {
+    name          = "dmz systems"
+    dynamic_match = "'dmz network'"
+    description   = "Systems on the dmz network"
   },
   {
     name          = "linux repo servers"
