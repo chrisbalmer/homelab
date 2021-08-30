@@ -15,6 +15,7 @@ rules = [
     source_addresses = ["packetfence servers"]
     destination_zones     = ["edge"]
     applications = [
+      "github-base",
       "web-browsing",
       "ssl",
       "yum"
