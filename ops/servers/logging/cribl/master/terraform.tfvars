@@ -19,12 +19,12 @@ vm = {
   gateway  = "172.21.129.1"
   disks    = [{ template = true }]
   memory   = 4096
-  template = "centos7-2021-03-07"
+  template = "centos7-2021-08-28"
+  tags = {
+    "ansible_groups": [
+      "linux",
+      "cribl",
+      "cribl_manager"
+    ]
+  }
 }
-
-ansible_groups = [
-  [
-    "cribl"
-  ]
-]
-ansible_host_key_check = false
