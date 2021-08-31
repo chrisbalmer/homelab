@@ -24,7 +24,8 @@ vm = {
     "ansible_groups": [
       "linux",
       "cribl",
-      "cribl_manager"
+      "cribl_manager",
+      "traefik"
     ]
   }
 }

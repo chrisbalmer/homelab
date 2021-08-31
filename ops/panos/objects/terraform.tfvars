@@ -28,6 +28,18 @@ tags = [
     comment = "Sites that Cribl may need to connect to"
   },
   {
+    name    = "cribl server"
+    comment = "Servers running Cribl"
+  },
+  {
+    name    = "cribl manager"
+    comment = "Server acting as Cribl manager"
+  },
+  {
+    name    = "cribl worker"
+    comment = "Server acting as a Cribl worker"
+  },
+  {
     name    = "edge"
     comment = "Devices in the edge network"
   },
@@ -191,8 +203,39 @@ addresses = [
   },
   {
     name  = "opscriblmgr1"
-    value = "172.21.14.161"
-    tags  = ["syslog server", "centos server"]
+    value = "172.21.129.14"
+    tags  = [
+      "acme client",
+      "cribl server",
+      "cribl manager"
+    ]
+  },
+  {
+    name  = "opscriblwkr1"
+    value = "172.21.129.15"
+    tags  = [
+      "syslog server",
+      "cribl server",
+      "cribl worker"
+    ]
+  },
+  {
+    name  = "opscriblwkr2"
+    value = "172.21.129.16"
+    tags  = [
+      "syslog server",
+      "cribl server",
+      "cribl worker"
+    ]
+  },
+  {
+    name  = "opscriblwkr3"
+    value = "172.21.129.17"
+    tags  = [
+      "syslog server",
+      "cribl server",
+      "cribl worker"
+    ]
   },
   {
     name  = "cdn.cribl.io"
@@ -741,6 +784,21 @@ address_groups = [
     name          = "xsoar servers"
     dynamic_match = "'xsoar server'"
     description   = "XSOAR automation systems"
+  },
+  {
+    name          = "cribl servers"
+    dynamic_match = "'cribl server'"
+    description   = "Cribl systems"
+  },
+  {
+    name          = "cribl managers"
+    dynamic_match = "'cribl manager'"
+    description   = "Cribl manager systems"
+  },
+  {
+    name          = "cribl workers"
+    dynamic_match = "'cribl worker'"
+    description   = "Cribl worker systems"
   },
   {
     name          = "gitea servers"

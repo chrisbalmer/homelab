@@ -131,6 +131,10 @@ awx_organizations:
         description: For setting up XSOAR hosts
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-xsoar.git
         branch: master
+      - name: homelab-cribl
+        description: For setting up Cribl hosts
+        git: https://github.com/chrisbalmer/ansible-playbook-homelab-cribl.git
+        branch: alpha
     templates:
       - name: 1Password on AWX
         job_type: run
@@ -204,6 +208,16 @@ awx_organizations:
         job_type: run
         inventory: vCenter
         project: homelab-xsoar
+        playbook: playbook.yml
+        become: true
+        store_facts: true
+        credentials:
+          - 1Password
+          - Linux SSH
+      - name: Configure Cribl Servers
+        job_type: run
+        inventory: vCenter
+        project: homelab-cribl
         playbook: playbook.yml
         become: true
         store_facts: true
@@ -287,6 +301,15 @@ awx_vmware_groups:
     inventory: vCenter
   - name: vmware_tag_ansible_groups_xsoar
     description: "XSOAR Server"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_cribl
+    description: "Cribl Server"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_cribl_manager
+    description: "Cribl Manager Server"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_cribl_worker
+    description: "Cribl Worker Server"
     inventory: vCenter
 
 awx_groups:
@@ -470,6 +493,36 @@ awx_groups:
     inventory: vCenter
     children:
       - vmware_tag_ansible_groups_xsoar
+    variables:
+      firewall_services:
+        - http
+        - https
+
+  - name: cribl
+    description: "Cribl Server"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_cribl
+    variables:
+      firewall_services:
+        - http
+        - https
+
+  - name: cribl_manager
+    description: "Cribl Manager Server"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_cribl_manager
+    variables:
+      firewall_services:
+        - http
+        - https
+
+  - name: cribl_worker
+    description: "Cribl Worker Server"
+    inventory: vCenter
+    children:
+      - vmware_tag_ansible_groups_cribl_worker
     variables:
       firewall_services:
         - http

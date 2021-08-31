@@ -235,3 +235,5 @@
       awx.awx.tower_settings:
         settings:
           AWX_TASK_ENV: "{{ awx_task_env }}"
+
+# Find a way to run AWX jobs after completion here
