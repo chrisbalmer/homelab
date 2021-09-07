@@ -16,7 +16,8 @@ rules = [
     destination_zones     = ["edge"]
     applications = [
       "ssl",
-      "web-browsing"
+      "web-browsing",
+      "github-base"
     ]
 
     profile_group = "docker systems"
