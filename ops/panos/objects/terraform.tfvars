@@ -214,6 +214,7 @@ addresses = [
     name  = "opscriblwkr1"
     value = "172.21.129.15"
     tags  = [
+      "acme client",
       "syslog server",
       "cribl server",
       "cribl worker"
@@ -223,6 +224,7 @@ addresses = [
     name  = "opscriblwkr2"
     value = "172.21.129.16"
     tags  = [
+      "acme client",
       "syslog server",
       "cribl server",
       "cribl worker"
@@ -232,6 +234,7 @@ addresses = [
     name  = "opscriblwkr3"
     value = "172.21.129.17"
     tags  = [
+      "acme client",
       "syslog server",
       "cribl server",
       "cribl worker"
