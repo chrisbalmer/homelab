@@ -511,6 +511,13 @@ addresses = [
     ]
   },
   {
+    name  = "opssplunk1"
+    value = "172.21.129.18"
+    tags = [
+      "splunk server"
+    ]
+  },
+  {
     name  = "opssplunklm1"
     value = "172.21.129.21"
     tags = [

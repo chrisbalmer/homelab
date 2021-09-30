@@ -29,5 +29,25 @@ rules = [
     log_setting = "Log Everything to Splunk Lab"
     log_start   = true
     log_end     = true
+  },
+  {
+    name        = "Splunk Outbound Internet"
+    action      = "allow"
+    description = "Allow access to the Splunk Web UI for management."
+
+    source_zones          = ["servers"]
+    source_addresses      = ["splunk servers"]
+    destination_zones     = ["edge"]
+    applications = [
+      "ssl",
+      "web-browsing",
+      "apt-get"
+    ]
+
+    profile_group = "splunk"
+
+    log_setting = "Log Everything to Splunk Lab"
+    log_start   = true
+    log_end     = true
   }
 ]
