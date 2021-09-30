@@ -33,7 +33,7 @@ data "onepassword_item_login" "vcenter" {
 }
 
 module "switches" {
-  source = "github.com/chrisbalmer/terraform-vsphere-switching?ref=v0.3.0"
+  source = "github.com/chrisbalmer/terraform-vsphere-switching?ref=v0.4.0"
 
   datacenter  = var.datacenter
   name        = var.name

@@ -63,6 +63,7 @@ port_groups = [
                 max_vlan = 4094
             }
         ]
+        allow_promiscuous = true
     },
     {
         name = "vlan7-management"

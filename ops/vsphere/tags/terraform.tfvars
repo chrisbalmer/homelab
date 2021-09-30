@@ -37,7 +37,10 @@ categories = {
       "xsoar_engine",
       "vpn",
       "cribl_worker",
-      "cribl_manager"
+      "cribl_manager",
+      "zeek_worker",
+      "zeek_manager",
+      "zeek"
     ]
     types = [
       "VirtualMachine"
