@@ -16,7 +16,8 @@ rules = [
     destination_zones = ["edge"]
     applications = [
       "outlook-web-online",
-      "ms-office365-base"
+      "ms-office365-base",
+      "windows-defender-atp-portal"
     ]
 
     profile_group = "balmer family farm default"
