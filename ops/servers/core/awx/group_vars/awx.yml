@@ -108,7 +108,7 @@ awx_organizations:
       - name: homelab-docker
         description: For setting up docker hosts
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-docker.git
-        branch: master
+        branch: gitea_env
         update_on_launch: True
       - name: homelab-splunk
         description: For setting up Splunk hosts
@@ -118,7 +118,7 @@ awx_organizations:
       - name: homelab-dns
         description: For setting up DNS hosts
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-dns.git
-        branch: v0.2.0
+        branch: v0.4.0
       - name: homelab-dhcp
         description: For setting up DHCP hosts
         git: https://github.com/chrisbalmer/ansible-playbook-homelab-dhcp.git
