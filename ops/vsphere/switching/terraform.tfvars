@@ -1,4 +1,5 @@
 name = "farm-switch-1"
+ds_version = "6.5.0"
 
 hosts = [
     {

@@ -39,3 +39,7 @@ variable "ldo" {
   type    = string
   default = "both"
 }
+
+variable "ds_version" {
+  type    = string
+}
