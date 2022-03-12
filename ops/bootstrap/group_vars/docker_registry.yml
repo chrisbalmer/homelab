@@ -1,5 +1,13 @@
 ---
 docker_images:
+  - name: docker.elastic.co/elasticsearch/elasticsearch
+    tags:
+      - "8.0.1"
+      - "7.16.2"
+  - name: docker.elastic.co/kibana/kibana
+    tags:
+      - "8.0.1"
+      - "7.16.2"
   - name: cribl/cribl
     tags:
       - "3.1.0"
