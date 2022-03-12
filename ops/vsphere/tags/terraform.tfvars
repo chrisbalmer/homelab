@@ -40,7 +40,9 @@ categories = {
       "cribl_manager",
       "zeek_worker",
       "zeek_manager",
-      "zeek"
+      "zeek",
+      "lab",
+      "elastic"
     ]
     types = [
       "VirtualMachine"
