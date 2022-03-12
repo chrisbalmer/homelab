@@ -41,7 +41,8 @@ rules = [
     applications = [
       "ssl",
       "web-browsing",
-      "apt-get"
+      "apt-get",
+      "ms-office365-base"
     ]
 
     profile_group = "splunk"

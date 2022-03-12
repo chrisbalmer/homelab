@@ -20,6 +20,10 @@ tags = [
     comment = "System that runs a black box operating system (i.e. we don't control it)"
   },
   {
+    name    = "octoprint"
+    comment = "System that runs OctoPrint"
+  },
+  {
     name    = "service group"
     comment = "PanOS provider may have a bug requiring a tag for a service group"
   },
@@ -182,6 +186,10 @@ tags = [
   {
     name    = "wiki"
     comment = "One of the wiki servers"
+  },
+  {
+    name    = "panw autofocus"
+    comment = "PANW Autofocus"
   }
 ]
 
@@ -190,6 +198,11 @@ addresses = [
     name  = "edge network"
     value = "172.20.20.0/24"
     tags  = ["edge"]
+  },
+  {
+    name  = "octoprint pi server"
+    value = "172.21.21.198"
+    tags  = ["octoprint"]
   },
   {
     name  = "edgefw1"
@@ -425,6 +438,12 @@ addresses = [
     tags  = ["github api"]
   },
   {
+    name  = "autofocus.paloaltonetworks.com"
+    value = "autofocus.paloaltonetworks.com"
+    type  = "fqdn"
+    tags  = ["panw autofocus"]
+  },
+  {
     name  = "bootstrap"
     value = "172.21.7.211"
     tags = [
@@ -452,7 +471,8 @@ addresses = [
       "docker system",
       "acme client",
       "gitea server",
-      "wiki"
+      "wiki",
+      "sso client"
     ]
   },
   {
@@ -627,6 +647,10 @@ address_groups = [
     dynamic_match = "'palo alto firewall'"
   },
   {
+    name          = "octoprint servers"
+    dynamic_match = "'octoprint'"
+  },
+  {
     name          = "external syslog sources"
     dynamic_match = "'external syslog source'"
   },
@@ -729,6 +753,11 @@ address_groups = [
     name          = "github servers"
     dynamic_match = "'github api'"
     description   = "GitHub servers"
+  },
+  {
+    name          = "panw autofocus servers"
+    dynamic_match = "'panw autofocus'"
+    description   = "PANW Autofocus servers"
   },
   {
     name          = "packetfence servers"
