@@ -216,8 +216,33 @@
       when: item.map is not undefined
       loop_control:
         label: "{{ item.name }}"
+      tags:
+        - awx_settings
 
-    - name: Configure LDAP
+    - name: Configure Server Base Settings
+      awx.awx.tower_settings:
+        settings:
+          TOWER_URL_BASE: "https://{{ awx_domain }}"
+      tags:
+        - awx_settings
+
+    - name: Configure Server SAML Settings
+      awx.awx.tower_settings:
+        settings:
+          LOGIN_REDIRECT_OVERRIDE: "{{ awx_saml_redirect }}" # Manually go to /#/login for normal login
+          SOCIAL_AUTH_SAML_SP_ENTITY_ID: "{{ awx_saml_entity_id }}"
+          SOCIAL_AUTH_SAML_SP_PUBLIC_CERT: "{{ awx_saml_cert }}"
+          SOCIAL_AUTH_SAML_SP_PRIVATE_KEY: "{{ awx_saml_key }}"
+          SOCIAL_AUTH_SAML_ORG_INFO: "{{ awx_saml_org_info }}"
+          SOCIAL_AUTH_SAML_TECHNICAL_CONTACT: "{{ awx_saml_contact }}"
+          SOCIAL_AUTH_SAML_SUPPORT_CONTACT: "{{ awx_saml_contact }}"
+          SOCIAL_AUTH_SAML_ENABLED_IDPS: "{{ awx_saml_idp }}"
+          SOCIAL_AUTH_SAML_ORGANIZATION_MAP: "{{ awx_saml_map }}"
+      when: awx_saml_enabled | default(False)
+      tags:
+        - awx_settings
+
+    - name: Configure Server LDAP Settings
       awx.awx.tower_settings:
         settings:
           AUTH_LDAP_SERVER_URI: "{{ awx_ldap_uri }}"
@@ -230,6 +255,9 @@
           AUTH_LDAP_USER_ATTR_MAP: "{{ awx_ldap_attribute_map }}"
           AUTH_LDAP_USER_FLAGS_BY_GROUP: "{{ awx_ldap_user_flags_by_group }}"
           AUTH_LDAP_ORGANIZATION_MAP: "{{ awx_org_map }}"
+      when: awx_ldap_enabled | default(False)
+      tags:
+        - awx_settings
 
     - name: Configure Job Settings
       awx.awx.tower_settings:

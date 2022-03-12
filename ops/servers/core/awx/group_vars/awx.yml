@@ -311,6 +311,15 @@ awx_vmware_groups:
   - name: vmware_tag_ansible_groups_cribl_worker
     description: "Cribl Worker Server"
     inventory: vCenter
+  - name: vmware_tag_ansible_groups_zeek
+    description: "Zeek Server"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_zeek_manager
+    description: "Zeek Manager Server"
+    inventory: vCenter
+  - name: vmware_tag_ansible_groups_zeek_worker
+    description: "Zeek Worker Server"
+    inventory: vCenter
 
 awx_groups:
   - name: dhcp
@@ -528,26 +537,53 @@ awx_groups:
         - http
         - https
 
+# Global SAML Settings
+awx_saml_enabled: true
+awx_saml_name: keycloak
+awx_saml_redirect: "https://{{ awx_domain }}/sso/login/saml/?idp={{ awx_saml_name }}"
+awx_saml_entity_id: awx
+awx_saml_cert: "{{ lookup('onepassword', 'AWX Balmer Family Farm - certificate', field='public', vault='homelab') }}"
+awx_saml_key: "{{ lookup('onepassword', 'AWX Balmer Family Farm - certificate', field='password', vault='homelab') }}"
+awx_saml_org_info:
+  en-US:
+    url: "https://sso.balmerfamilyfarm.com"
+    displayname: "Balmer Family Farm SSO"
+    name: "{{ awx_saml_name }}"
+awx_saml_contact:
+  givenName: Chris Balmer
+  emailAddress: chris@balmerfamilyfarm.com
+awx_saml_idp:
+  keycloak:
+    attr_last_name: "urn:oid:2.5.4.4"
+    attr_username: "urn:oid:1.2.840.113549.1.9.1"
+    entity_id: "https://sso.balmerfamilyfarm.com/auth/realms/balmerfamilyfarm.com"
+    attr_user_permanent_id: "urn:oid:1.2.840.113549.1.9.1"
+    url: "https://sso.balmerfamilyfarm.com/auth/realms/balmerfamilyfarm.com/protocol/saml"
+    attr_email: "urn:oid:1.2.840.113549.1.9.1"
+    x509cert: "MIICtzCCAZ8CBgF4UBfukzANBgkqhkiG9w0BAQsFADAfMR0wGwYDVQQDDBRiYWxtZXJmYW1pbHlmYXJtLmNvbTAeFw0yMTAzMjAxNDQyMjhaFw0zMTAzMjAxNDQ0MDhaMB8xHTAbBgNVBAMMFGJhbG1lcmZhbWlseWZhcm0uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgBjx60gTpL+f/k20chPJ8bIDeq7N5d6OPoOQ7x7RGFqKyri7arjx329WGy1byHkw9ZsAPutC4zwk5BjNrPzIc8bfwLEr3QuQX38Njyeup1KY9mVUS5P3sB7NFlpEaFX756vDQ/LfuXkwd0ppvVRK5D4kiUcD3ppOABjoP6znw6vw1rYX+msSBEYSUqcVd1xIo+C9u1TQEYG2jgD1EGQghMovg1e6OpCAuFrNyovWgGOrb8NUHDM4aAiT3dfs9ajOaZEk0+qJ5Durzao7wlFXqSbT6Ur+/bj6XktNF/Xb3e3BovPzOjJeW5C+V9y5KKr/8iOpC25jP+zHh2Ucf4Qi+wIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAunQd+/yThqAcm/d7fFVakwSScF1AVvXW6tGgCTHoge1v4SPwXZbK2V75guu2CDwuPCyDe7v0tEH8kDymyPBaM5C/AZvV3ovQvYss/0nszTXwPtDkiqP0wRd1t673Remm4sv7k0qSrXzireMy+E032ULLBXozKW8Hb2tFkW7VdHHnasTpVJG7aM57X1LLgfYUJWNKJF2Vk3bCqEtxD85C86QoYJjCaSRzDHs8BHUuiNBOW9wZRL1x3e2Hd7xjFz0kD73JlyHiOAG1rZuObyrHePTargDoz/6b7RRi7tiFV1E4ckUDyEcjKtltyZnp5rGnBrUF1G06U8zf/RVd5XD95"
+    attr_first_name: "urn:oid:2.5.4.42"
+    attr_groups: "memberOf"
+awx_saml_map:
+  Balmer Family Farm:
+    admins:
+      - AWX Admins
+    remove_admins: false
+    remove_users: false
+    users: true
+
+
+
 # Global LDAP Settings
-awx_ldap_uri: "ldap://opsad1.ad.balmerfamilyfarm.com:389"
-awx_ldap_bind_dn: "{{ lookup('onepassword', 'AWX Balmer Family Farm - ldap', field='username', vault='homelab') }}"
-awx_ldap_bind_password: "{{ lookup('onepassword', 'AWX Balmer Family Farm - ldap', field='password', vault='homelab') }}"
-awx_ldap_require_group: "CN=AWX Users,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com"
+awx_ldap_enabled: false
+awx_ldap_uri: ""
+awx_ldap_bind_dn: ""
+awx_ldap_bind_password: ""
+awx_ldap_require_group: ""
 awx_ldap_group_type: "GroupOfNamesType"
-awx_ldap_group_search:
-  - "CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com"
-  - "SCOPE_SUBTREE"
-  - "(objectClass=groupOfNames)"
-awx_ldap_user_search:
-  - "CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com"
-  - "SCOPE_SUBTREE"
-  - "(sAMAccountName=%(user)s)"
-awx_ldap_attribute_map:
-  first_name: "givenName"
-  last_name: "sn"
-  email: "mail"
-awx_ldap_user_flags_by_group:
-  is_superuser: "CN=AWX Admins,CN=Users,DC=ad,DC=balmerfamilyfarm,DC=com"
+awx_ldap_group_search: []
+awx_ldap_user_search: []
+awx_ldap_attribute_map: {}
+awx_ldap_user_flags_by_group: {}
 
 # Device ID can be generated via https://1password.community/discussion/comment/563411/#Comment_563411
 awx_task_env:
