@@ -2,7 +2,7 @@ name        = "pf"
 vm_count    = 1
 prefix      = "ops"
 op_vm_login = "PacketFence Instances"
-
+op_vcenter_login = "vcenter.balmerfamilyfarm.com - sso"
 vm = {
   gateway = "172.21.128.1"
   networks = [

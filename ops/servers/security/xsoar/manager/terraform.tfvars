@@ -2,7 +2,7 @@ name        = "xsoar"
 vm_count    = 1
 prefix      = "ops"
 op_vm_login = "XSOAR Instances"
-
+op_vcenter_login = "vcenter.balmerfamilyfarm.com - sso"
 networks = [
   [
     {

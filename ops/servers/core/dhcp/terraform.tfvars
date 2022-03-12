@@ -2,7 +2,7 @@ name        = "dhcp"
 vm_count    = 2
 prefix      = "ops"
 op_vm_login = "DHCP Instances"
-
+op_vcenter_login = "vcenter.balmerfamilyfarm.com - sso"
 networks = [
   [
     {

@@ -2,7 +2,7 @@ name        = "dns"
 vm_count    = 2
 prefix      = "ops"
 op_vm_login = "DNS Instances"
-
+op_vcenter_login = "vcenter.balmerfamilyfarm.com - sso"
 networks = [
   [
     {
