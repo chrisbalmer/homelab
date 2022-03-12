@@ -14,5 +14,5 @@ inputs = {
 }
 
 terraform {
-  source = "/Users/chrisbalmer/code/terraform-vsphere-server"
+  source = "github.com/chrisbalmer/terraform-vsphere-server//?ref=v1.0.0"
 }
