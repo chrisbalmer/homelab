@@ -62,9 +62,30 @@ docker_images:
   - name: linuxserver/netbox
     tags:
       - "version-v2.10.5"
+  - name: netboxcommunity/netbox
+    tags:
+      - "v3.1.10-1.6.0"
   - name: chrisbalmer/keycloak
     tags:
       - "12.0.4"
+  - name: "demisto/sane-doc-reports"
+    tags:
+      - "1.0.0.24118"
+  - name: "demisto/python3-deb"
+    tags:
+      - "3.9.7.24076"
+  - name: "demisto/powershell"
+    tags:
+      - "7.1.4.24032"
+  - name: "demisto/sane-pdf-reports"
+    tags:
+      - "1.0.0.22268"
+  - name: "demisto/python"
+    tags:
+      - "1.3-alpine"
+  - name: "demisto/stix"
+    tags:
+      - "latest"
 
 compose_docker_registry:
   docker_registry:

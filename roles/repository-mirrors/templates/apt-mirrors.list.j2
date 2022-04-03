@@ -1,0 +1,7 @@
+{% for update_set in apt.update_sets %}
+# {{ update_set.name }}
+{% for repository in update_set.repositories %}
+{{ repository.type }} {{ repository.url }} {{ repository.release }}
+{% endfor %}
+
+{% endfor %}

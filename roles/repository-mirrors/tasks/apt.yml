@@ -1,0 +1,25 @@
+---
+- name: "apt: Clone mirror tool"
+  ansible.builtin.git:
+    repo: "{{ apt.mirror_tool.git }}"
+    dest: "{{ apt.mirror_tool.src }}"
+
+- name: "apt: Link mirror tool"
+  ansible.builtin.file:
+  
+
+- name: "apt: Mirror list"
+  template:
+    src: apt-mirrors.list.j2
+    dest: /etc/apt/mirror.list
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: "apt: Cronjob to run apt sync"
+  cron:
+    name: "sync apt repos"
+    minute: "00"
+    hour: "02"
+    job: "/usr/bin/apt-mirror > /tmp/apt-sync.log"
+    user: "root"

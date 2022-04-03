@@ -1,0 +1,107 @@
+---
+mirror_packages:
+  - nginx
+  - apt-mirror
+  - git
+
+nginx_user: www-data
+nginx_group: www-data
+mirror_root: /var/www/html
+
+yum:
+  repositories:
+    - name: ansible_base
+      description: CentOS-7 - Base
+      protocol: https
+      url: "mirror.liquidtelecom.com/centos/7/os/x86_64/"
+      directory: centos/7/os/x86_64
+    - name: ansible_updates
+      description: CentOS-7 - Updates
+      protocol: https
+      url: "mirror.liquidtelecom.com/centos/7/updates/x86_64/"
+      directory: centos/7/updates/x86_64
+    - name: ansible_extras
+      description: CentOS-7 - Extras
+      protocol: https
+      url: "mirror.liquidtelecom.com/centos/7/extras/x86_64/"
+      directory: centos/7/extras/x86_64
+    - name: ansible_centosplus
+      description: CentOS-7 - Plus
+      protocol: https
+      url: "mirror.liquidtelecom.com/centos/7/centosplus/x86_64/"
+      directory: centos/7/centosplus/x86_64
+    - name: ansible_epel
+      description: Extra Packages for Enterprise Linux 7 - x86_64
+      protocol: http
+      url: "mirrors.liquidweb.com/fedora-epel/7/x86_64/"
+      directory: epel/7/x86_64
+  repository_keys:
+    - url: "mirror.liquidtelecom.com/centos/RPM-GPG-KEY-CentOS-7"
+      directory: centos
+    - url: "mirrors.liquidweb.com/fedora-epel/RPM-GPG-KEY-EPEL-7"
+      directory: epel
+apt:
+  mirror_tool:
+    git: https://github.com/Stifler6996/apt-mirror.git
+    src: /usr/local/src/apt-mirror
+    path: /usr/bin
+    name: apt-mirror
+  update_sets:
+    - name: arm64 Ubuntu 20.04
+      repositories:
+        - type: deb-arm64
+          url: http://ports.ubuntu.com/ubuntu-ports
+          release: focal main restricted
+        - type: deb-arm64
+          url: http://ports.ubuntu.com/ubuntu-ports
+          release: focal-updates main restricted
+        - type: deb-arm64
+          url: http://ports.ubuntu.com/ubuntu-ports
+          release: focal universe
+        - type: deb-arm64
+          url: http://ports.ubuntu.com/ubuntu-ports
+          release: focal-updates universe
+        - type: deb-arm64
+          url: http://ports.ubuntu.com/ubuntu-ports
+          release: focal multiverse
+        - type: deb-arm64
+          url: http://ports.ubuntu.com/ubuntu-ports
+          release: focal-updates multiverse
+        - type: deb-arm64
+          url: http://ports.ubuntu.com/ubuntu-ports
+          release: focal-backports main restricted universe multiverse
+        - type: deb-arm64
+          url: http://ports.ubuntu.com/ubuntu-ports
+          release: focal-security main restricted
+        - type: deb-arm64
+          url: http://ports.ubuntu.com/ubuntu-ports
+          release: focal-security universe
+        - type: deb-arm64
+          url: http://ports.ubuntu.com/ubuntu-ports
+          release: focal-security multiverse
+    - name: x86_64 Ubuntu 20.04
+      repositories:
+        - type: deb-amd64
+          url: http://archive.ubuntu.com/ubuntu
+          release: focal-security main restricted universe multiverse
+        - type: deb-amd64
+          url: http://archive.ubuntu.com/ubuntu
+          release: focal-updates main restricted universe multiverse
+        - type: deb-amd64
+          url: http://archive.ubuntu.com/ubuntu
+          release: focal-proposed main restricted universe multiverse
+        - type: deb-amd64
+          url: http://archive.ubuntu.com/ubuntu
+          release: focal-backports main restricted universe multiverse
+        - type: deb-src
+          url: http://archive.ubuntu.com/ubuntu
+          release: focal-security main restricted universe multiverse
+        - type: deb-src
+          url: http://archive.ubuntu.com/ubuntu
+          release: focal-updates main restricted universe multiverse
+        - type: deb-src
+          url: http://archive.ubuntu.com/ubuntu
+          release: focal-proposed main restricted universe multiverse
+        - type: deb-src
+          url: http://archive.ubuntu.com/ubuntu
+          release: focal-backports main restricted universe multiverse

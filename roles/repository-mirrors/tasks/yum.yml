@@ -1,0 +1,28 @@
+---
+# Setup directory for files
+- name: "yum: Mirror directories"
+  file:
+    path: "{{ mirror_root }}/{{ item.directory }}"
+    state: directory
+    recurse: yes
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
+  with_items: "{{ yum.repositories }}"
+  loop_control:
+    label: "{{ item.description }}"
+
+- name: "yum: Sync script"
+  template:
+    src: templates/yum-sync.sh.j2
+    dest: "{{ mirror_root }}/yum-sync.sh"
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
+    mode: 0500
+
+- name: "yum: Cronjob to run yum sync"
+  cron:
+    name: "sync yum repos"
+    minute: "00"
+    hour: "01"
+    job: "{{ mirror_root }}/yum-sync.sh > /tmp/yum-sync.log"
+    user: "{{ nginx_user }}"

@@ -1,16 +1,22 @@
 - name: Install bootstrap configs
   hosts: bootstrap
-  gather_facts: yes
-  become: yes
+  gather_facts: true
+  become: true
   pre_tasks:
     - name: Combine composes
       set_fact:
         composes: "{{ composes|default({}) | combine(hostvars[inventory_hostname]['compose_' + item]|default({})) }}"
       loop: "{{ group_names }}"
   roles:
-    - name: ../../roles/yum-repo-mirrors
-    - name: chrisbalmer.docker-compose
-    - name: chrisbalmer.pihole
-    - name: ../../roles/docker-registry-mirrors
+    - name: Configure repository mirrors
+      role: ../../roles/repository-mirrors
+      tags:
+        - repo_mirroring
+    - name: Configure docker containers via compose
+      role: chrisbalmer.docker-compose
+    - name: Configure pihole
+      role: chrisbalmer.pihole
+    - name: Configure docker registry mirrors
+      role: ../../roles/docker-registry-mirrors
       tags:
         - docker_registry
