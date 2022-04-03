@@ -40,6 +40,30 @@
       loop_control:
         label: "{{ item.name }}"
 
+    - name: Add Teams
+      awx.awx.tower_team:
+        name: "{{ item.1.name }}"
+        description: "{{ item.1.description }}"
+        organization: "{{ item.0.name }}"
+        state: "{{ item.1.state }}"
+      loop: "{{ q('subelements', awx_organizations, 'teams', {'skip_missing': True}) }}"
+      loop_control:
+        label: "{{ item.0.name }} - {{ item.1.name }}"
+      tags:
+        - awx_teams
+
+    - name: Configure Team Roles
+      awx.awx.tower_role:
+        organizations: "{{ item.orgs }}"
+        team: "{{ item.team }}"
+        role: "{{ item.role }}"
+        state: "{{ item.state | default('present') }}"
+      loop: "{{ awx_team_roles }}"
+      loop_control:
+        label: "{{ item.orgs | join(', ') }}:{{ item.role }} assigned to {{ item.team }}"
+      tags:
+        - awx_teams
+
     - name: Add 1Password Credential Type
       awx.awx.tower_credential_type:
         name: 1Password Login
@@ -238,6 +262,7 @@
           SOCIAL_AUTH_SAML_SUPPORT_CONTACT: "{{ awx_saml_contact }}"
           SOCIAL_AUTH_SAML_ENABLED_IDPS: "{{ awx_saml_idp }}"
           SOCIAL_AUTH_SAML_ORGANIZATION_MAP: "{{ awx_saml_map }}"
+          SOCIAL_AUTH_SAML_TEAM_ATTR: "{{ awx_saml_team_attr }}"
       when: awx_saml_enabled | default(False)
       tags:
         - awx_settings

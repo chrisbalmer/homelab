@@ -42,6 +42,10 @@ awx_organizations:
       remove_admins: false
       users: true
     galaxy_credential: Galaxy Default Credential
+    teams:
+      - name: "AWX-Farm-Engineers"
+        description: "Main management for AWX"
+        state: "present"
     credentials:
       - name: vcenter.balmerfamilyfarm.com
         type: VMware vCenter
@@ -537,6 +541,22 @@ awx_groups:
         - http
         - https
 
+awx_team_roles:
+  - role: approval
+    team: AWX-Farm-Engineers
+    orgs:
+      - Balmer Family Farm
+  - role: execute
+    team: AWX-Farm-Engineers
+    orgs:
+      - Balmer Family Farm
+  - role: auditor
+    team: AWX-Farm-Engineers
+    orgs:
+      - Balmer Family Farm
+
+
+
 # Global SAML Settings
 awx_saml_enabled: true
 awx_saml_name: keycloak
@@ -565,12 +585,15 @@ awx_saml_idp:
     attr_groups: "memberOf"
 awx_saml_map:
   Balmer Family Farm:
-    admins:
-      - AWX Admins
     remove_admins: false
     remove_users: false
     users: true
-
+awx_saml_team_attr:
+  saml_attr: "memberOf"
+  remove: true
+  team_org_map:
+    - team: "AWX-Farm-Engineers"
+      organization: "Balmer Family Farm"
 
 
 # Global LDAP Settings
