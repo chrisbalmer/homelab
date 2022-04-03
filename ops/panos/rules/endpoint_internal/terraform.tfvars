@@ -1,11 +1,6 @@
-panos_host      = "firewall.balmerfamilyfarm.com"
-op_subdomain    = "my"
-op_vault        = "homelab"
-op_edgefw_login = "firewall.balmerfamilyfarm.com - terraform"
-
 position_keyword   = "before"
 position_reference = "Outbound Critical App Access"
-
+# TODO: Reduce this access for both rules
 rules = [
   {
     name        = "Endpoint Internal Access - Ping"

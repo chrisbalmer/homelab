@@ -1,8 +1,3 @@
-panos_host      = "firewall.balmerfamilyfarm.com"
-op_subdomain    = "my"
-op_vault        = "homelab"
-op_edgefw_login = "firewall.balmerfamilyfarm.com - terraform"
-
 position_keyword   = "before"
 position_reference = "Block High Risk Applications"
 
@@ -18,7 +13,7 @@ rules = [
       "icmp",
       "ping",
       "whois",
-      "ssh"
+      "ssh" # TODO: Remove this and make more restricted
     ]
 
     profile_group = "balmer family farm default"
