@@ -21,9 +21,9 @@ zones = {
   },
   "guest" = {
     interface = "ethernet1/4"
-    ips       = ["172.23.2.1/24"]
-    comment   = "guest"
-    name      = "guest"
+    ips       = ["172.21.127.1/24"]
+    comment   = "picluster"
+    name      = "picluster"
   },
   "identity" = {
     interface = "ethernet1/5"

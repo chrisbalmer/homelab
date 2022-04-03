@@ -93,6 +93,10 @@ port_groups = [
         vlan = 63
     },
     {
+        name = "vlan127-picluster"
+        vlan = 127
+    },
+    {
         name = "vlan128-identity"
         vlan = 128
     },

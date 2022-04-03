@@ -18,7 +18,7 @@ rules = [
     ]
     destination_zones = [
       "dmz",
-      "guest",
+      "picluster",
       "identity",
       "loadbalancers",
       "management",
@@ -46,7 +46,7 @@ rules = [
     ]
     destination_zones = [
       "dmz",
-      "guest",
+      "picluster",
       "identity",
       "loadbalancers",
       "management",

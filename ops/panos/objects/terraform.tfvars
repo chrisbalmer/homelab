@@ -180,6 +180,14 @@ tags = [
     comment = "API for GitHub"
   },
   {
+    name    = "github"
+    comment = "GitHub sites"
+  },
+  {
+    name    = "external git client"
+    comment = "Client for external git platforms"
+  },
+  {
     name    = "office 365 client"
     comment = "Client for Office 365"
   },
@@ -435,7 +443,16 @@ addresses = [
     name  = "api.github.com"
     value = "api.github.com"
     type  = "fqdn"
-    tags  = ["github api"]
+    tags  = [
+      "github api",
+      "github"
+    ]
+  },
+  {
+    name  = "github.com"
+    value = "github.com"
+    type  = "fqdn"
+    tags  = ["github"]
   },
   {
     name  = "autofocus.paloaltonetworks.com"
@@ -452,7 +469,8 @@ addresses = [
       "pihole server",
       "doh server",
       "acme client",
-      "docker registry"
+      "docker registry",
+      "external git client"
     ]
   },
   {
@@ -751,8 +769,18 @@ address_groups = [
   },
   {
     name          = "github servers"
-    dynamic_match = "'github api'"
+    dynamic_match = "'github api' or 'github'"
     description   = "GitHub servers"
+  },
+  {
+    name          = "github api endpoints"
+    dynamic_match = "'github api'"
+    description   = "GitHub api servers"
+  },
+  {
+    name          = "external git clients"
+    dynamic_match = "'external git client'"
+    description   = "Clients of external git platforms"
   },
   {
     name          = "panw autofocus servers"
