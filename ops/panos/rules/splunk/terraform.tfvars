@@ -1,8 +1,3 @@
-panos_host      = "firewall.balmerfamilyfarm.com"
-op_subdomain    = "my"
-op_vault        = "homelab"
-op_edgefw_login = "firewall.balmerfamilyfarm.com - terraform"
-
 position_keyword   = "before"
 position_reference = "Block High Risk Applications"
 
@@ -33,7 +28,7 @@ rules = [
   {
     name        = "Splunk Outbound Internet"
     action      = "allow"
-    description = "Allow access to the Splunk Web UI for management."
+    description = "Allow Splunk access to specific websites on the internet."
 
     source_zones          = ["servers"]
     source_addresses      = ["splunk servers"]

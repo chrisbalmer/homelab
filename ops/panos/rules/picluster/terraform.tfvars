@@ -3,17 +3,15 @@ position_reference = "Outbound Critical App Access"
 
 rules = [
   {
-    name        = "Inbound Edge Syslog"
+    name        = "Pi Cluster TFTP Access to NAS"
     action      = "allow"
-    description = "Allow syslog traffic from devices on the edge network."
+    description = "Allow pi cluster nodes to access boot files over TFTP on the NAS."
 
-    source_zones = ["edge"]
-    source_addresses = ["edge-network"]
-    destination_zones = ["virtual-edge"]
+    source_zones  = ["picluster"]
+    destination_zones = ["servers"]
     applications = [
-      "syslog"
+      "tftp"
     ]
-    services = ["syslog"]
 
     profile_group = "balmer family farm default"
 

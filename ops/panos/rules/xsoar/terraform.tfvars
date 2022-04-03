@@ -1,8 +1,3 @@
-panos_host      = "firewall.balmerfamilyfarm.com"
-op_subdomain    = "my"
-op_vault        = "homelab"
-op_edgefw_login = "firewall.balmerfamilyfarm.com - terraform"
-
 position_keyword   = "before"
 position_reference = "Block High Risk Applications"
 
@@ -22,7 +17,8 @@ rules = [
       "paloalto-wildfire-cloud",
       "google-base",
       "service-now-base",
-      "shodan"
+      "shodan",
+      "whois"
     ]
 
     profile_group = "xsoar"

@@ -3,15 +3,18 @@ position_reference = "Outbound Critical App Access"
 
 rules = [
   {
-    name        = "Outbound TrueNAS Updates"
+    name        = "External Git Access"
     action      = "allow"
-    description = "Allow vCenter access to update sites."
+    description = "Allow systems to access different external git platforms."
 
-    source_addresses = ["truenas servers"]
+    source_addresses = ["external git clients"]
     destination_zones     = ["edge"]
-    destination_addresses = ["truenas update domains"]
+    destination_addresses = ["github servers"]
     applications = [
-      "ssl"
+      "ssl",
+      "web-browsing",
+      "github-base",
+      "ssh"
     ]
 
     profile_group = "balmer family farm default"

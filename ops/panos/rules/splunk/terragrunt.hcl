@@ -4,10 +4,17 @@ include {
 terraform {
   source = "../../../../modules/panos/applied_rules"
 
-  after_hook "commit" {
-    commands     = ["destroy", "apply"]
-    execute      = ["bash", "${get_parent_terragrunt_dir()}/scripts/commit.sh"]
-    run_on_error = false
+  extra_arguments "custom_vars" {
+    commands = [
+      "apply",
+      "plan",
+      "import",
+      "push",
+      "refresh",
+      "destroy"
+    ]
+
+    required_var_files = ["${find_in_parent_folders("common.tfvars")}"]
   }
 }
 
